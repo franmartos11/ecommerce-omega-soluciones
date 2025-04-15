@@ -8,15 +8,18 @@ interface BadgeProps {
 }
 
 export interface ProductCardProps {
-  imageUrl: string;
-  category: string;
-  title: string;
-  rating: number;
-  seller: string;
-  currentPrice: number;
-  oldPrice: number;
+    imageUrl: string;
+    title: string;
+    category?: string;
+    color?: string; // ✅ nueva
+    condition?: string; // ✅ nueva
+    rating: number;
+    seller: string;
+    currentPrice: number;
+    oldPrice: number;
   badge?: BadgeProps; // Opcional: si no se envía, se autogenera si hay descuento
 }
+
 
 const ProductCard: FC<ProductCardProps> = ({
   imageUrl,
