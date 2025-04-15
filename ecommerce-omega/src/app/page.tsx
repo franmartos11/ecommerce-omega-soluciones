@@ -8,7 +8,7 @@ export default function Home() {
   const mockProducts: Product[] = [
     {
       id: "1",
-      imageUrl: "/mattress.png",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       category: "Categoria",
       title: "Seeds of Change Organic Quinoa",
       rating: 4.0,
@@ -21,7 +21,7 @@ export default function Home() {
     },
     {
       id: "2",
-      imageUrl: "/scooter.png",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       category: "Categoria",
       title: "Foster Farms Takeout Crispy Classic",
       rating: 4.0,
@@ -33,7 +33,7 @@ export default function Home() {
     },
     {
       id: "3",
-      imageUrl: "/bed.png",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       category: "Categoria",
       title: "Blue Diamond Almonds Lightly",
       rating: 4.0,
@@ -45,7 +45,7 @@ export default function Home() {
     },
     {
       id: "4",
-      imageUrl: "/bed.png",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       category: "Categoria",
       title: "Blue Diamond Almonds Lightly",
       rating: 4.0,
@@ -57,7 +57,7 @@ export default function Home() {
     },
     {
       id: "5",
-      imageUrl: "/bed.png",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       category: "Categoria",
       title: "Blue Diamond Almonds Lightly",
       rating: 4.0,
@@ -69,7 +69,7 @@ export default function Home() {
     },
     {
       id: "6",
-      imageUrl: "/bed.png",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       category: "Categoria",
       title: "Blue Diamond Almonds Lightly",
       rating: 4.0,
@@ -81,7 +81,7 @@ export default function Home() {
     },
     {
       id: "7",
-      imageUrl: "/bed.png",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       category: "Categoria",
       title: "Blue Diamond Almonds Lightly",
       rating: 4.0,
@@ -93,7 +93,7 @@ export default function Home() {
     },
     {
       id: "8",
-      imageUrl: "/bed.png",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       category: "Categoria",
       title: "Blue Diamond Almonds Lightly",
       rating: 4.0,
