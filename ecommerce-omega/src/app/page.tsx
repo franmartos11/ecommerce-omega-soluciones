@@ -1,6 +1,5 @@
 import Image from "next/image";
-import ProductCard from "./Components/ProductCard/ProductCard";
-import ProductCardGrid, { Product } from "./Components/ProductCardGrid/ProductCardGrid";
+import  { Product } from "./Components/ProductCardGrid/ProductCardGrid";
 import ProductListSection from "./Components/ProductListSection/ProductListSection";
 
 export default function Home() {
