@@ -40,7 +40,7 @@ export default function Home() {
       seller: "NestFood",
       currentPrice: 23.85,
       oldPrice: 25.8,
-      color: "Blue",
+      color: "Green",
       condition: "Refurbished",
     },
     {
@@ -96,7 +96,7 @@ export default function Home() {
       imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       category: "Categoria",
       title: "Blue Diamond Almonds Lightly",
-      rating: 4.0,
+      rating: 5.0,
       seller: "NestFood",
       currentPrice: 23.85,
       oldPrice: 25.8,
