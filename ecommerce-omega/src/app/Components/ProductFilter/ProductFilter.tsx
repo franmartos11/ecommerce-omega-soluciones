@@ -1,3 +1,4 @@
+'use client'
 import { FC, useState } from "react";
 import { Range, getTrackBackground } from "react-range";
 import { Funnel } from "lucide-react";
