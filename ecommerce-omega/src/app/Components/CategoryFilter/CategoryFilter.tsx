@@ -44,5 +44,4 @@ const CategoryFilter: FC<CategoryFilterProps> = ({ categories, selected, onSelec
     </div>
   );
 };
-
 export default CategoryFilter;
