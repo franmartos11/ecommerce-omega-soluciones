@@ -1,10 +1,11 @@
 import Image from "next/image";
 import  { Product } from "./Components/ProductCardGrid/ProductCardGrid";
 import ProductListSection from "./Components/ProductListSection/ProductListSection";
+import { Suspense } from "react";
 
 export default function Home() {
 
-  const productos: Product[] = [
+  const mockProducts: Product[] = [
     {
       id: "1",
       imageUrl: "/mattress.png",
@@ -108,11 +109,13 @@ export default function Home() {
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         
+      <Suspense fallback={<div className="p-6">Cargando productos...</div>}>
       <ProductListSection
-      title="Ofertas destacadas"
-      products={productos}
-      showFilter={true}
-    />
+        title="Ofertas destacadas"
+        products={mockProducts}
+        showFilter
+      />
+    </Suspense>
 
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
