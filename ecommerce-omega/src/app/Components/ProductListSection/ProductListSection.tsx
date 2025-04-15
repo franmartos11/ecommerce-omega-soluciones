@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import ProductCardGrid, { Product } from "../ProductCardGrid/ProductCardGrid";
 import CategoryFilter, { Category } from "../CategoryFilter/CategoryFilter";
 import ProductFilterSidebar from "../ProductFilter/ProductFilter";
+import CarouselBanner from "../CarrouselImgs/CarrouselBanner";
 
 interface ProductListSectionProps {
   title?: string;
@@ -138,6 +139,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
         )}
 
         <main className="flex-1 min-w-0">
+          <CarouselBanner />
           <h2 className="text-2xl font-semibold mb-4 text-black">{title}</h2>
           <ProductCardGrid products={productosFiltrados} />
         </main>
