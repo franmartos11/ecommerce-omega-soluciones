@@ -116,7 +116,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
             {/* Mobile */}
             <div
               className={`md:hidden flex-col gap-4 transition-all duration-300 ease-in-out overflow-hidden ${
-                mobileFiltersOpen ? "flex max-h-[2000px] opacity-100" : "max-h-0 opacity-0 hidden"
+                mobileFiltersOpen ? "flex align-middle justify-center max-h-[2000px] opacity-100" : "max-h-0 opacity-0 hidden"
               }`}
             >
               <CategoryFilter
