@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ProductCardGrid, { Product } from "../ProductCardGrid/ProductCardGrid";
@@ -23,16 +24,25 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
   const [categories, setCategories] = useState<Category[]>([]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  // Obtener filtros desde la URL
+  // 🔍 Obtener filtros desde la URL
   const filters = {
     category: searchParams.get("categoria") || null,
     colors: searchParams.getAll("color"),
     conditions: searchParams.getAll("condicion"),
     priceRange: [
-      Number(searchParams.get("precio_min") || 0),
-      Number(searchParams.get("precio_max") || 2000),
+      Number(searchParams.get("precio_min")) || 0,
+      Number(searchParams.get("precio_max")) || 20000,
     ] as [number, number],
   };
+
+  // ✅ Mostrar filtros actuales en consola
+  useEffect(() => {
+    console.log("🔎 Filtros desde URL:");
+    console.log("precio_min:", searchParams.get("precio_min"));
+    console.log("precio_max:", searchParams.get("precio_max"));
+    console.log("colores:", searchParams.getAll("color"));
+    console.log("condiciones:", searchParams.getAll("condicion"));
+  }, [searchParams]);
 
   // Mock de categorías
   useEffect(() => {
@@ -47,24 +57,30 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
     return () => clearTimeout(timeout);
   }, []);
 
-  // Actualizar URL con filtros
-  const updateFilterParam = (key: string, value: string | null | string[]) => {
+  // ✅ NUEVO - Aplicar todos los filtros de una sola vez
+  const applyAllFilters = (f: {
+    priceRange: number[];
+    colors: string[];
+    conditions: string[];
+  }) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (Array.isArray(value)) {
-      params.delete(key);
-      value.forEach((v) => params.append(key, v));
-    } else {
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-    }
+    // Limpiar valores anteriores
+    params.delete("precio_min");
+    params.delete("precio_max");
+    params.delete("color");
+    params.delete("condicion");
+
+    // Agregar nuevos
+    params.set("precio_min", String(f.priceRange[0]));
+    params.set("precio_max", String(f.priceRange[1]));
+    f.colors.forEach((c) => params.append("color", c));
+    f.conditions.forEach((c) => params.append("condicion", c));
 
     router.push(`?${params.toString()}`);
   };
 
+  // 🧮 Aplicar filtros a la lista de productos
   const filtrarProductos = (productos: Product[]) =>
     productos.filter((p) => {
       const matchesCategory =
@@ -84,7 +100,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
 
   return (
     <section className="px-4 py-6">
-      {/* Botón para mobile */}
+      {/* 📱 Botón para abrir filtros en mobile */}
       <div className="md:hidden mb-4">
         <button
           onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
@@ -97,47 +113,46 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
       <div className="flex flex-col md:flex-row gap-6 w-full">
         {showFilter && (
           <aside className="w-full md:w-[260px] shrink-0">
-            {/* Desktop */}
+            {/* 🖥 Desktop */}
             <div className="hidden md:flex flex-col gap-4 sticky top-6">
               <CategoryFilter
                 categories={categories}
                 selected={filters.category}
-                onSelect={(cat) => updateFilterParam("categoria", cat)}
+                onSelect={(cat) => applyAllFilters({ priceRange: filters.priceRange, colors: filters.colors, conditions: filters.conditions })}
               />
               <ProductFilterSidebar
                 onFilter={(f) => {
-                  updateFilterParam("precio_min", String(f.priceRange[0]));
-                  updateFilterParam("precio_max", String(f.priceRange[1]));
-                  updateFilterParam("color", f.colors);
-                  updateFilterParam("condicion", f.conditions);
+                  console.log("📤 Filtros aplicados desde sidebar:", f);
+                  applyAllFilters(f);
                 }}
               />
             </div>
 
-            {/* Mobile */}
+            {/* 📱 Mobile */}
             <div
               className={`md:hidden flex-col gap-4 transition-all duration-300 ease-in-out overflow-hidden ${
-                mobileFiltersOpen ? "flex align-middle justify-center max-h-[2000px] opacity-100" : "max-h-0 opacity-0 hidden"
+                mobileFiltersOpen
+                  ? "flex align-middle justify-center max-h-[2000px] opacity-100"
+                  : "max-h-0 opacity-0 hidden"
               }`}
             >
               <CategoryFilter
                 categories={categories}
                 selected={filters.category}
-                onSelect={(cat) => updateFilterParam("categoria", cat)}
+                onSelect={(cat) => applyAllFilters({ priceRange: filters.priceRange, colors: filters.colors, conditions: filters.conditions })}
               />
               <ProductFilterSidebar
                 onFilter={(f) => {
-                  updateFilterParam("precio_min", String(f.priceRange[0]));
-                  updateFilterParam("precio_max", String(f.priceRange[1]));
-                  updateFilterParam("color", f.colors);
-                  updateFilterParam("condicion", f.conditions);
-                  setMobileFiltersOpen(false); // Cierra filtros en mobile
+                  console.log("📤 Filtros aplicados desde sidebar (mobile):", f);
+                  applyAllFilters(f);
+                  setMobileFiltersOpen(false); // ✅ Cierra filtros al aplicar
                 }}
               />
             </div>
           </aside>
         )}
 
+        {/* 🛒 Listado de productos */}
         <main className="flex-1 min-w-0">
           <CarouselBanner />
           <h2 className="text-2xl font-semibold mb-4 text-black">{title}</h2>

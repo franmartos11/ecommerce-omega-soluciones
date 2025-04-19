@@ -1,20 +1,24 @@
-'use client'
+'use client';
+
 import { FC, useState } from "react";
 import { Range, getTrackBackground } from "react-range";
 import { Funnel } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+
+// Tipado para los filtros
 interface Filters {
-    priceRange: number[];
-    colors: string[];
-    conditions: string[];
-  }
+  priceRange: number[];
+  colors: string[];
+  conditions: string[];
+}
 
 interface FilterSidebarProps {
   onFilter: (filters: Filters) => void;
 }
 
-const STEP = 50;
+const STEP = 10;
 const MIN = 0;
-const MAX = 2000;
+const MAX = 20000;
 
 const colors = [
   { name: "Red", count: 56 },
@@ -29,9 +33,16 @@ const conditions = [
 ];
 
 const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
-  const [priceRange, setPriceRange] = useState([500, 1000]);
-  const [selectedColors, setSelectedColors] = useState<string[]>([]);
-  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
+  const searchParams = useSearchParams();
+
+  // ✅ Usar [precio_min, precio_max] en el rango
+  const [priceRange, setPriceRange] = useState([
+    Number(searchParams.get("precio_min")) || MIN,
+    Number(searchParams.get("precio_max")) || MAX,
+  ]);
+  console.log(searchParams.get("precio_min"))
+  const [selectedColors, setSelectedColors] = useState<string[]>(searchParams.getAll("color"));
+  const [selectedConditions, setSelectedConditions] = useState<string[]>(searchParams.getAll("condicion"));
 
   const toggle = (
     list: string[],
@@ -84,8 +95,8 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
         )}
       />
       <div className="flex justify-between text-sm text-gray-600 mb-4">
-        <span>From: <span className="text-green-600">${priceRange[0]}</span></span>
-        <span>To: <span className="text-green-600">${priceRange[1]}</span></span>
+        <span>Desde: <span className="text-green-600">${priceRange[0]}</span></span>
+        <span>Hasta: <span className="text-green-600">${priceRange[1]}</span></span>
       </div>
 
       {/* COLORS */}
@@ -106,7 +117,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
 
       {/* CONDITION */}
       <div className="mb-4">
-        <p className="text-sm font-semibold text-gray-700 mb-2">Item Condition</p>
+        <p className="text-sm font-semibold text-gray-700 mb-2">Condición</p>
         {conditions.map(({ name, count }) => (
           <label key={name} className="flex items-center gap-2 text-sm text-gray-600 mb-1">
             <input
