@@ -8,33 +8,53 @@ export default function SearchBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [search, setSearch] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
+  // Sincronizar con la URL
   useEffect(() => {
     const param = searchParams.get('busqueda') || '';
     setSearch(param);
+    setInputValue(param);
   }, [searchParams]);
 
-  const handleSearch = (value: string) => {
+  // Buscar
+  const handleSubmit = () => {
     const params = new URLSearchParams(searchParams.toString());
-    value ? params.set('busqueda', value) : params.delete('busqueda');
+
+    if (inputValue.trim()) {
+      params.set('busqueda', inputValue.trim());
+    } else {
+      params.delete('busqueda');
+    }
+
     router.push(`?${params.toString()}`);
   };
 
+  // Enter
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
+  };
+
   return (
-    <div className="flex items-center border border-green-300 rounded-md overflow-hidden shadow-sm">
+    <div className="flex items-center border border-green-400 rounded-md overflow-hidden shadow-md focus-within:ring-2 ring-green-300 transition w-full">
       <input
         type="text"
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          handleSearch(e.target.value);
-        }}
-        placeholder="Search for items..."
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder="Buscar productos..."
         className="w-full px-4 py-2 text-sm outline-none text-black"
       />
-      <div className="bg-white px-3">
-        <Search className="w-4 h-4 text-gray-500" />
-      </div>
+      <button
+        onClick={handleSubmit}
+        className="bg-green-500 text-white px-3 py-2 transition-all duration-300 ease-in-out 
+                   hover:bg-green-600 hover:shadow-lg hover:scale-110 active:scale-95 rounded-l-none"
+        aria-label="Buscar"
+      >
+        <Search className="w-5 h-5" />
+      </button>
     </div>
   );
 }
