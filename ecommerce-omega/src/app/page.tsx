@@ -1,3 +1,4 @@
+'use client'
 import { Product } from "./Components/ProductCardGrid/ProductCardGrid";
 import ProductListSection from "./Components/ProductListSection/ProductListSection";
 import { Suspense } from "react";
@@ -203,10 +204,6 @@ export default function Home() {
         </Suspense>
         <Footer></Footer>
       </main>
-
-
-
-
     </div>
   );
 }
