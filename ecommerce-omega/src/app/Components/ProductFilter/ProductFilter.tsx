@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { FC, useState } from "react";
 import { Range, getTrackBackground } from "react-range";
@@ -34,15 +34,12 @@ const conditions = [
 
 const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
   const searchParams = useSearchParams();
-
-  // ✅ Usar [precio_min, precio_max] en el rango
   const [priceRange, setPriceRange] = useState([
-    Number(searchParams.get("precio_min")) || MIN,
-    Number(searchParams.get("precio_max")) || MAX,
+    Number(searchParams.get("precio_min")) || 0,
+    Number(searchParams.get("precio_max")) || 20000,
   ]);
-  console.log(searchParams.get("precio_min"))
-  const [selectedColors, setSelectedColors] = useState<string[]>(searchParams.getAll("color"));
-  const [selectedConditions, setSelectedConditions] = useState<string[]>(searchParams.getAll("condicion"));
+  const [selectedColors, setSelectedColors] = useState<string[]>(searchParams.getAll("color") || []);
+  const [selectedConditions, setSelectedConditions] = useState<string[]>(searchParams.getAll("condicion") || []);
 
   const toggle = (
     list: string[],
@@ -87,12 +84,16 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
             {children}
           </div>
         )}
-        renderThumb={({ props }) => (
-          <div
-            {...props}
-            className="h-4 w-4 rounded-full bg-green-400 shadow"
-          />
-        )}
+        renderThumb={({ props }) => {
+          const { key, ...rest } = props;
+          return (
+            <div
+              key={key}
+              {...rest}
+              className="h-4 w-4 rounded-full bg-green-400 shadow"
+            />
+          );
+        }}
       />
       <div className="flex justify-between text-sm text-gray-600 mb-4">
         <span>Desde: <span className="text-green-600">${priceRange[0]}</span></span>

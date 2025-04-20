@@ -9,6 +9,7 @@ interface BadgeProps {
 }
 
 export interface ProductCardProps {
+    id:string;
     imageUrl: string;
     title: string;
     category?: string;
@@ -19,6 +20,12 @@ export interface ProductCardProps {
     currentPrice: number;
     oldPrice: number;
   badge?: BadgeProps; // Opcional: si no se envía, se autogenera si hay descuento
+  description?: string;
+  stock?: number;
+  tags?: string[];
+  mfg?: string;
+  life?: string;
+
 }
 
 
@@ -49,6 +56,7 @@ const ProductCard: FC<ProductCardProps> = ({
   const finalBadge = badge || autoBadge;
 
   return (
+    
     <div className="relative w-full max-w-xs bg-white border border-[#ECECEC] rounded-[15px] overflow-hidden p-4 flex flex-col justify-between shadow-sm transition-transform duration-200 ease-in-out hover:scale-[1.015] hover:shadow-lg">
       {finalBadge && (
         <span

@@ -24,7 +24,6 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
   const [categories, setCategories] = useState<Category[]>([]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  // 🔍 Obtener filtros desde la URL
   const filters = {
     category: searchParams.get("categoria") || null,
     colors: searchParams.getAll("color"),
@@ -33,18 +32,13 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
       Number(searchParams.get("precio_min")) || 0,
       Number(searchParams.get("precio_max")) || 20000,
     ] as [number, number],
+    search: searchParams.get("busqueda")?.toLowerCase() || "",
   };
 
-  // ✅ Mostrar filtros actuales en consola
   useEffect(() => {
-    console.log("🔎 Filtros desde URL:");
-    console.log("precio_min:", searchParams.get("precio_min"));
-    console.log("precio_max:", searchParams.get("precio_max"));
-    console.log("colores:", searchParams.getAll("color"));
-    console.log("condiciones:", searchParams.getAll("condicion"));
+    console.log("🔎 Filtros desde URL:", filters);
   }, [searchParams]);
 
-  // Mock de categorías
   useEffect(() => {
     const mockCategories = [
       { label: "Tecnologia", iconUrl: "/icons/tech.svg" },
@@ -57,30 +51,32 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
     return () => clearTimeout(timeout);
   }, []);
 
-  // ✅ NUEVO - Aplicar todos los filtros de una sola vez
+  // ✅ Ahora incluye "category"
   const applyAllFilters = (f: {
     priceRange: number[];
     colors: string[];
     conditions: string[];
+    category?: string | null;
   }) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    // Limpiar valores anteriores
     params.delete("precio_min");
     params.delete("precio_max");
     params.delete("color");
     params.delete("condicion");
+    params.delete("categoria");
 
-    // Agregar nuevos
     params.set("precio_min", String(f.priceRange[0]));
     params.set("precio_max", String(f.priceRange[1]));
     f.colors.forEach((c) => params.append("color", c));
     f.conditions.forEach((c) => params.append("condicion", c));
+    if (f.category) {
+      params.set("categoria", f.category);
+    }
 
     router.push(`?${params.toString()}`);
   };
 
-  // 🧮 Aplicar filtros a la lista de productos
   const filtrarProductos = (productos: Product[]) =>
     productos.filter((p) => {
       const matchesCategory =
@@ -92,15 +88,22 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
       const matchesPrice =
         p.currentPrice >= filters.priceRange[0] &&
         p.currentPrice <= filters.priceRange[1];
+      const matchesSearch =
+        !filters.search || p.title.toLowerCase().includes(filters.search);
 
-      return matchesCategory && matchesColor && matchesCondition && matchesPrice;
+      return (
+        matchesCategory &&
+        matchesColor &&
+        matchesCondition &&
+        matchesPrice &&
+        matchesSearch
+      );
     });
 
   const productosFiltrados = filtrarProductos(products);
 
   return (
     <section className="px-4 py-6">
-      {/* 📱 Botón para abrir filtros en mobile */}
       <div className="md:hidden mb-4">
         <button
           onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
@@ -118,12 +121,22 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
               <CategoryFilter
                 categories={categories}
                 selected={filters.category}
-                onSelect={(cat) => applyAllFilters({ priceRange: filters.priceRange, colors: filters.colors, conditions: filters.conditions })}
+                onSelect={(cat) =>
+                  applyAllFilters({
+                    priceRange: filters.priceRange,
+                    colors: filters.colors,
+                    conditions: filters.conditions,
+                    category: cat, // ✅ pasar categoría seleccionada
+                  })
+                }
               />
               <ProductFilterSidebar
                 onFilter={(f) => {
                   console.log("📤 Filtros aplicados desde sidebar:", f);
-                  applyAllFilters(f);
+                  applyAllFilters({
+                    ...f,
+                    category: filters.category, // ✅ mantener categoría actual
+                  });
                 }}
               />
             </div>
@@ -139,20 +152,29 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
               <CategoryFilter
                 categories={categories}
                 selected={filters.category}
-                onSelect={(cat) => applyAllFilters({ priceRange: filters.priceRange, colors: filters.colors, conditions: filters.conditions })}
+                onSelect={(cat) =>
+                  applyAllFilters({
+                    priceRange: filters.priceRange,
+                    colors: filters.colors,
+                    conditions: filters.conditions,
+                    category: cat,
+                  })
+                }
               />
               <ProductFilterSidebar
                 onFilter={(f) => {
                   console.log("📤 Filtros aplicados desde sidebar (mobile):", f);
-                  applyAllFilters(f);
-                  setMobileFiltersOpen(false); // ✅ Cierra filtros al aplicar
+                  applyAllFilters({
+                    ...f,
+                    category: filters.category,
+                  });
+                  setMobileFiltersOpen(false);
                 }}
               />
             </div>
           </aside>
         )}
 
-        {/* 🛒 Listado de productos */}
         <main className="flex-1 min-w-0">
           <CarouselBanner />
           <h2 className="text-2xl font-semibold mb-4 text-black">{title}</h2>

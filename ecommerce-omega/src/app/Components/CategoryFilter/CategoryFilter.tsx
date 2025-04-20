@@ -1,5 +1,7 @@
-'use client'
+'use client';
+
 import { FC } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export interface Category {
   label: string;
@@ -9,7 +11,7 @@ export interface Category {
 interface CategoryFilterProps {
   categories: Category[];
   selected: string | null;
-  onSelect: (category: string | null) => void;
+  onSelect: (category: string | null) => void; // ✅ AÑADÍ ESTA LÍNEA
 }
 
 const CategoryFilter: FC<CategoryFilterProps> = ({ categories, selected, onSelect }) => {
@@ -44,4 +46,5 @@ const CategoryFilter: FC<CategoryFilterProps> = ({ categories, selected, onSelec
     </div>
   );
 };
+
 export default CategoryFilter;
