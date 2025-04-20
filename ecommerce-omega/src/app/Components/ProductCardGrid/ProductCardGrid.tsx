@@ -1,3 +1,4 @@
+'use client'
 import { FC } from "react";
 import ProductCard, { ProductCardProps } from "../ProductCard/ProductCard";
 import Link from "next/link";
