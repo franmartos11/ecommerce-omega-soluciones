@@ -192,9 +192,9 @@ export default function Home() {
   ];
 
   return (
-    <div className="bg-white  items-center justify-items-center min-h-screen p-8 pb-0 gap-16  font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Navbar></Navbar>
+    <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
+      <Navbar />
+      <main className="flex flex-col gap-8">
         <Suspense fallback={<div className="p-6">Cargando productos...</div>}>
           <ProductListSection
             title="Ofertas destacadas"
@@ -202,8 +202,8 @@ export default function Home() {
             showFilter
           />
         </Suspense>
-        <Footer></Footer>
       </main>
+      <Footer />
     </div>
   );
 }
