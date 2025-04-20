@@ -36,10 +36,6 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
   };
 
   useEffect(() => {
-    console.log("🔎 Filtros desde URL:", filters);
-  }, [searchParams]);
-
-  useEffect(() => {
     const mockCategories = [
       { label: "Tecnologia", iconUrl: "/icons/tech.svg" },
       { label: "Herramientas", iconUrl: "/icons/tools.svg" },
