@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Product } from "@/app/Components/ProductCardGrid/ProductCardGrid";
 import Image from "next/image";
+import Navbar from "@/app/Components/NavigationBar/NavBar";
+import Footer from "@/app/Components/Footer/Footer";
 
 // Simulamos base de datos
 const mockProducts: Product[] = [
   {
     id: "1",
     title: "Resma Papel A5 x500 Hoja 80gr",
-    imageUrl: "/images/resma-a5.jpg",
+    imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
     currentPrice: 5849,
     oldPrice: 6290,
     rating: 4.5,
@@ -40,11 +42,15 @@ export default function ProductoDetailPage() {
   if (!product) return <div className="p-6">Producto no encontrado</div>;
 
   return (
+    <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
+
+    <Navbar></Navbar>
     <section className="px-6 py-10 max-w-6xl mx-auto">
+      
       <div className="flex flex-col md:flex-row gap-10">
         {/* Imagen principal */}
         <div className="flex-1 space-y-4">
-          <Image
+          <img
             src={product.imageUrl}
             alt={product.title}
             width={400}
@@ -52,9 +58,9 @@ export default function ProductoDetailPage() {
             className="rounded-xl"
           />
           <div className="flex gap-2">
-            <Image src="/images/papel-preview1.jpg" alt="prev" width={60} height={60} />
-            <Image src="/images/papel-preview2.jpg" alt="prev" width={60} height={60} />
-            <Image src="/images/papel-preview3.jpg" alt="prev" width={60} height={60} />
+            <img src="https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true" alt="prev" width={60} height={60} />
+            <img src="https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true" alt="prev" width={60} height={60} />
+            <img src="https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true" alt="prev" width={60} height={60} />
           </div>
         </div>
 
@@ -106,6 +112,9 @@ export default function ProductoDetailPage() {
           Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium, diseñadas para ofrecer un rendimiento confiable en todo tipo de impresoras y fotocopiadoras. Su textura uniforme garantiza resultados nítidos tanto en impresión como en escritura manual. Ideal para el uso en oficinas, hogares y centros educativos.
         </p>
       </div>
+      
     </section>
+<Footer></Footer>
+    </div>
   );
 }
