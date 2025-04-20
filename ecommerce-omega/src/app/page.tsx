@@ -1,9 +1,6 @@
-import Image from "next/image";
 import { Product } from "./Components/ProductCardGrid/ProductCardGrid";
 import ProductListSection from "./Components/ProductListSection/ProductListSection";
 import { Suspense } from "react";
-import CarouselBanner from "./Components/CarrouselImgs/CarrouselBanner";
-import SearchBar from "./Components/NavigationBar/SereachBar";
 import Navbar from "./Components/NavigationBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 
