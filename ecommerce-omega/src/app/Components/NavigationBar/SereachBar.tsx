@@ -1,45 +1,40 @@
-"use client";
+'use client';
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { Search } from 'lucide-react';
 
-const SearchBar = () => {
+export default function SearchBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
-  // Leer el valor de búsqueda desde la URL
   useEffect(() => {
-    const param = searchParams.get("busqueda") || "";
+    const param = searchParams.get('busqueda') || '';
     setSearch(param);
   }, [searchParams]);
 
-  // Actualizar URL al escribir
   const handleSearch = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    if (value) {
-      params.set("busqueda", value);
-    } else {
-      params.delete("busqueda");
-    }
+    value ? params.set('busqueda', value) : params.delete('busqueda');
     router.push(`?${params.toString()}`);
   };
 
   return (
-    <div className="w-full flex text-black justify-center ">
+    <div className="flex items-center border border-green-300 rounded-md overflow-hidden shadow-sm">
       <input
         type="text"
         value={search}
         onChange={(e) => {
-          const value = e.target.value;
-          setSearch(value);
-          handleSearch(value);
+          setSearch(e.target.value);
+          handleSearch(e.target.value);
         }}
-        placeholder="Buscar productos..."
-        className="w-full max-w-md border px-4 py-2 rounded-lg shadow-sm text-sm"
+        placeholder="Search for items..."
+        className="w-full px-4 py-2 text-sm outline-none text-black"
       />
+      <div className="bg-white px-3">
+        <Search className="w-4 h-4 text-gray-500" />
+      </div>
     </div>
   );
-};
-
-export default SearchBar;
+}

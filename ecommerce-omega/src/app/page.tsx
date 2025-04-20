@@ -1,10 +1,11 @@
 import Image from "next/image";
-import  { Product } from "./Components/ProductCardGrid/ProductCardGrid";
+import { Product } from "./Components/ProductCardGrid/ProductCardGrid";
 import ProductListSection from "./Components/ProductListSection/ProductListSection";
 import { Suspense } from "react";
 import CarouselBanner from "./Components/CarrouselImgs/CarrouselBanner";
 import SearchBar from "./Components/NavigationBar/SereachBar";
 import Navbar from "./Components/NavigationBar/NavBar";
+import Footer from "./Components/Footer/Footer";
 
 export default function Home() {
 
@@ -106,69 +107,109 @@ export default function Home() {
       color: "Blue",
       condition: "Refurbished",
     },
+    {
+      id: "9",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      category: "Categoria",
+      title: "Blue Diamond Almonds Lightly",
+      rating: 5.0,
+      seller: "NestFood",
+      currentPrice: 23.85,
+      oldPrice: 25.8,
+      color: "Blue",
+      condition: "Refurbished",
+    },
+    {
+      id: "10",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      category: "Categoria",
+      title: "Blue Diamond Almonds Lightly",
+      rating: 5.0,
+      seller: "NestFood",
+      currentPrice: 23.85,
+      oldPrice: 25.8,
+      color: "Blue",
+      condition: "Refurbished",
+    },
+    {
+      id: "11",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      category: "Categoria",
+      title: "Blue Diamond Almonds Lightly",
+      rating: 5.0,
+      seller: "NestFood",
+      currentPrice: 23.85,
+      oldPrice: 25.8,
+      color: "Blue",
+      condition: "Refurbished",
+    },
+    {
+      id: "12",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      category: "Categoria",
+      title: "Blue Diamond Almonds Lightly",
+      rating: 5.0,
+      seller: "NestFood",
+      currentPrice: 23.85,
+      oldPrice: 25.8,
+      color: "Blue",
+      condition: "Refurbished",
+    },
+    {
+      id: "13",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      category: "Categoria",
+      title: "Blue Diamond Almonds Lightly",
+      rating: 5.0,
+      seller: "NestFood",
+      currentPrice: 23.85,
+      oldPrice: 25.8,
+      color: "Blue",
+      condition: "Refurbished",
+    },
+    {
+      id: "14",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      category: "Categoria",
+      title: "Blue Diamond Almonds Lightly",
+      rating: 5.0,
+      seller: "NestFood",
+      currentPrice: 23.85,
+      oldPrice: 25.8,
+      color: "Blue",
+      condition: "Refurbished",
+    },
+    {
+      id: "15",
+      imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      category: "Categoria",
+      title: "Blue Diamond Almonds Lightly",
+      rating: 5.0,
+      seller: "NestFood",
+      currentPrice: 23.85,
+      oldPrice: 25.8,
+      color: "Blue",
+      condition: "Refurbished",
+    },
   ];
-  
+
   return (
-    <div className="bg-white grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="bg-white  items-center justify-items-center min-h-screen p-8 pb-0 gap-16  font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Navbar></Navbar>
-      <SearchBar />
-      <Suspense fallback={<div className="p-6">Cargando productos...</div>}>
-      <ProductListSection
-        title="Ofertas destacadas"
-        products={mockProducts}
-        showFilter
-      />
-    </Suspense>
-
+        <Suspense fallback={<div className="p-6">Cargando productos...</div>}>
+          <ProductListSection
+            title="Ofertas destacadas"
+            products={mockProducts}
+            showFilter
+          />
+        </Suspense>
+        <Footer></Footer>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+
+
+
     </div>
   );
 }

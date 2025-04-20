@@ -103,7 +103,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
   const productosFiltrados = filtrarProductos(products);
 
   return (
-    <section className="px-4 py-6">
+    <section className="">
       <div className="md:hidden mb-4">
         <button
           onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
