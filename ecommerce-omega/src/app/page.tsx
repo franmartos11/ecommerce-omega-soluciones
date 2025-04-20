@@ -191,19 +191,19 @@ export default function Home() {
     },
   ];
 
-  return (<Suspense fallback={<div className="p-6">Cargando productos...</div>}>
-    <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
-      <Navbar />
-      <main className="flex flex-col pt-4 gap-8">
-        
+  return (
+    <Suspense fallback={<div className="p-6">Cargando productos...</div>}>
+      <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
+        <Navbar />
+        <main className="flex flex-col pt-4 gap-8">
           <ProductListSection
             title="Ofertas destacadas"
             products={mockProducts}
             showFilter
           />
-        
-      </main>
-      <Footer />
-    </div></Suspense>
+        </main>
+        <Footer />
+      </div>
+    </Suspense>
   );
 }
