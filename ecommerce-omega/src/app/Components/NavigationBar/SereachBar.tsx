@@ -7,17 +7,13 @@ import { Search } from 'lucide-react';
 export default function SearchBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [search, setSearch] = useState('');
   const [inputValue, setInputValue] = useState('');
 
-  // Sincronizar con la URL
   useEffect(() => {
     const param = searchParams.get('busqueda') || '';
-    setSearch(param);
     setInputValue(param);
   }, [searchParams]);
 
-  // Buscar
   const handleSubmit = () => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -30,7 +26,6 @@ export default function SearchBar() {
     router.push(`?${params.toString()}`);
   };
 
-  // Enter
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleSubmit();
