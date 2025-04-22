@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Product } from "@/app/Components/ProductCardGrid/ProductCardGrid";
-import Image from "next/image";
 import Navbar from "@/app/Components/NavigationBar/NavBar";
 import Footer from "@/app/Components/Footer/Footer";
 
