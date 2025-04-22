@@ -1,4 +1,3 @@
-// pages/api/sendEmail.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 

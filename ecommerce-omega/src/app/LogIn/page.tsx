@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { Mail, Lock } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -42,55 +44,43 @@ export default function LoginForm() {
     if (!formValid) return;
 
     console.log({ email, password, remember });
-    // 🔐 Aquí iría fetch/axios al backend
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md p-8 bg-white shadow-md rounded-xl">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Iniciar Sesión</h2>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen flex flex-col lg:flex-row items-center justify-center bg-green-400 px-4"
+    >
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center py-10">
+        <Image src="/logo.png" alt="Logo" width={120} height={120} className="mb-4" />
+        <h1 className="text-white text-4xl font-bold">LOGO</h1>
+      </div>
 
+      <div className="w-full max-w-md bg-white shadow-md rounded-xl p-8 lg:mr-20">
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Email */}
-          <div className="relative">
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="email"
-              placeholder="Correo electrónico"
-              className={`pl-10 w-full border ${
-                errors.email ? 'border-red-500' : 'border-gray-300'
-              } rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${
-                errors.email ? 'ring-red-400' : 'ring-green-400'
-              }`}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
-          </div>
+          <input
+            type="email"
+            placeholder="example@spectra.com"
+            className={`w-full border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${errors.email ? 'ring-red-400' : 'ring-green-400'}`}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          {errors.email && <p className="text-xs text-red-500 -mt-4">{errors.email}</p>}
 
-          {/* Contraseña */}
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="password"
-              placeholder="Contraseña"
-              className={`pl-10 w-full border ${
-                errors.password ? 'border-red-500' : 'border-gray-300'
-              } rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${
-                errors.password ? 'ring-red-400' : 'ring-green-400'
-              }`}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            {errors.password && (
-              <p className="text-xs text-red-500 mt-1">{errors.password}</p>
-            )}
-          </div>
+          <input
+            type="password"
+            placeholder="••••••••"
+            className={`w-full border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${errors.password ? 'ring-red-400' : 'ring-green-400'}`}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          {errors.password && <p className="text-xs text-red-500 -mt-4">{errors.password}</p>}
 
-          {/* Recordarme + Forgot */}
-          <div className="flex items-center justify-between text-sm">
+          <div className="flex justify-between items-center text-sm">
             <label className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -98,34 +88,67 @@ export default function LoginForm() {
                 onChange={() => setRemember(!remember)}
                 className="accent-green-500"
               />
-              Recordarme
+              Stay signed in
             </label>
-            <Link href="#" className="text-green-600 hover:underline">
-              ¿Olvidaste tu contraseña?
+            <Link href="#" className="text-gray-500 hover:underline">
+              Forgot your password?
             </Link>
           </div>
 
-          {/* Botón */}
           <button
             type="submit"
             disabled={!formValid}
-            className={`w-full text-white py-2 rounded-md transition ${
-              formValid
-                ? 'bg-green-500 hover:bg-green-600'
-                : 'bg-gray-300 cursor-not-allowed'
-            }`}
+            className={`w-full text-white py-2 rounded-md transition ${formValid ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-300 cursor-not-allowed'}`}
           >
-            Ingresar
+            Iniciar Sesion
           </button>
         </form>
 
-        <p className="text-sm text-center text-gray-600 mt-6">
-          ¿No tenés cuenta?{' '}
-          <Link href="/Registro" className="text-green-600 hover:underline font-medium">
-            Registrate
+        <div className="text-center mt-4 text-sm text-gray-500">
+          Don't have an account?{' '}
+          <Link href="/Registro" className="text-green-600 hover:underline">
+            Sign Up
           </Link>
+        </div>
+
+        <div className="my-4 border-t text-center relative">
+          <span className="absolute bg-white px-2 text-gray-400 -top-3 left-1/2 transform -translate-x-1/2 text-sm">
+            OR
+          </span>
+        </div>
+
+        <div className="space-y-3">
+          <button className="w-full border border-gray-300 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-gray-50">
+            <Image src="/google-icon.svg" alt="Google" width={18} height={18} />
+            Continue with Google
+          </button>
+          <button className="w-full border border-gray-300 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-gray-50">
+            <Image src="/facebook-icon.svg" alt="Facebook" width={18} height={18} />
+            Continue with Facebook
+          </button>
+          <button className="w-full border border-gray-300 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-gray-50">
+            <Image src="/apple-icon.svg" alt="Apple" width={18} height={18} />
+            Continue with Apple
+          </button>
+        </div>
+
+        <p className="text-[11px] text-gray-500 text-center mt-4">
+          By clicking Sign in, Continue with Google, Facebook, or Apple, you agree to Omega{' '}
+          <Link href="#" className="underline">
+            Terms of Use
+          </Link>{' '}
+          and{' '}
+          <Link href="#" className="underline">
+            Privacy Policy
+          </Link>
+          .
+        </p>
+
+        <p className="text-[11px] text-gray-500 text-center mt-2">
+          Spectra may send you communications; you may change your preferences in your account
+          settings. We'll never post without your permission.
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 }
