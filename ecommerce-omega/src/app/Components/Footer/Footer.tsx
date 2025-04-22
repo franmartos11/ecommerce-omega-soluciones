@@ -27,9 +27,10 @@ export default function Footer() {
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Navegación</h4>
           <ul className="space-y-2">
             <li><Link href="/" className="hover:text-green-600">Inicio</Link></li>
-            <li><Link href="#" className="hover:text-green-600">Tienda</Link></li>
             <li><Link href="#" className="hover:text-green-600">Nosotros</Link></li>
-            <li><Link href="#" className="hover:text-green-600">Contáctanos</Link></li>
+            <li><Link href="#" className="hover:text-green-600">Unidades de Negocio</Link></li>
+            <li><Link href="#" className="hover:text-green-600">Marcas</Link></li>
+            <li><Link href="/Contacto" className="hover:text-green-600">Contáctanos</Link></li>
           </ul>
         </div>
 

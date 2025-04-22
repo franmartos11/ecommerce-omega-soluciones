@@ -20,7 +20,7 @@ export default function Navbar() {
     { label: 'Nosotros', href: '#' },
     { label: 'Unidades de negocio', href: '#' },
     { label: 'Marcas', href: '#' },
-    { label: 'Contáctanos', href: '#' },
+    { label: 'Contáctanos', href: 'Contacto' },
   ];
 
   return (
