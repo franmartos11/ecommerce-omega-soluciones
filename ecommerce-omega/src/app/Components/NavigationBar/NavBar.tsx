@@ -16,7 +16,6 @@ export default function Navbar() {
 
   const navItems = [
     { label: 'Inicio', href: '/', highlight: true },
-    { label: 'Tienda', href: '#' },
     { label: 'Nosotros', href: '#' },
     { label: 'Unidades de negocio', href: '#' },
     { label: 'Marcas', href: '#' },
