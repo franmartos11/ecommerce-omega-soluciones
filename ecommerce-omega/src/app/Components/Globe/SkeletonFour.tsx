@@ -42,10 +42,11 @@ export const Globe: React.FC<GlobeProps> = ({ className }) => {
       markers: [
         { location: [30.7128, -79.006], size: 0.1 },
       ],
-      onRender: (state: Record<string, any>) => {
-        state.phi = phi;
+      onRender: (state: Record<string, unknown>) => {
+        (state as { phi: number }).phi = phi;
         phi -= 0.001;
       },
+      
     });
 
     return () => {
