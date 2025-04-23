@@ -47,7 +47,7 @@ export default function CartPage() {
     return (
         <div className='bg-white'>
             <Suspense fallback={<p>Cargando...</p>}>
-                <Navbar></Navbar>
+                <Navbar/>
                 <section className="max-w-6xl mx-auto px-4 py-10">
                     <h1 className="text-3xl font-bold text-gray-800 mb-8">Tu Carrito</h1>
 
@@ -108,7 +108,7 @@ export default function CartPage() {
                         </div>
                     )}
                 </section>
-                <Footer></Footer>
+                <Footer/>
             </Suspense>
         </div>
     );
