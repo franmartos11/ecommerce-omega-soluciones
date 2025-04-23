@@ -10,7 +10,7 @@ import Navbar from "../Components/NavigationBar/NavBar";
 
 export default function about() {
     return (
-        <div className="bg-white">
+        <div className="p-8 bg-white">
             <Suspense fallback={<div className="p-6">Cargando....</div>}>
             <Navbar></Navbar>
             <ImageWithContentAboutUs></ImageWithContentAboutUs>
