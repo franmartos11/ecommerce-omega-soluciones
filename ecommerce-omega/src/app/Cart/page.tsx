@@ -45,7 +45,7 @@ export default function CartPage() {
     const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
     return (
-        <div className='bg-white'>
+        <div className='bg-white p-8'>
             <Suspense fallback={<p>Cargando...</p>}>
                 <Navbar/>
                 <section className="max-w-6xl mx-auto px-4 py-10">

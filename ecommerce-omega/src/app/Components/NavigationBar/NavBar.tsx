@@ -54,7 +54,7 @@ export default function Navbar() {
 
             </div>
           </a>
-          <div className="hidden md:flex items-center gap-1">
+          <div className="flex items-center gap-1">
             <User className="w-5 h-5" />
             <a href='/LogIn'>
               <span>Cuenta</span>
