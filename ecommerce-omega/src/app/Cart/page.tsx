@@ -47,7 +47,6 @@ export default function CartPage() {
     return (
         <div>
             <Navbar></Navbar>
-
             <section className="max-w-6xl mx-auto px-4 py-10">
                 <h1 className="text-3xl font-bold text-gray-800 mb-8">Tu Carrito</h1>
 
