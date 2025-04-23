@@ -43,14 +43,17 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4 text-gray-700 text-sm">
-          <div className="relative flex items-center gap-1">
-            <ShoppingCart className="w-5 h-5" />
-            <span className="hidden md:inline">Carro</span>
-            <span className="absolute -top-2 -right-3 bg-green-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
-              2
-            </span>
-          </div>
+          <a href='/Cart'>
+            <div className="relative flex items-center gap-1">
 
+              <ShoppingCart className="w-5 h-5" />
+              <span className="hidden md:inline">Carro</span>
+              <span className="absolute -top-2 -right-3 bg-green-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+                2
+              </span>
+
+            </div>
+          </a>
           <div className="hidden md:flex items-center gap-1">
             <User className="w-5 h-5" />
             <a href='/LogIn'>
@@ -94,9 +97,8 @@ export default function Navbar() {
             <Link
               key={item.label}
               href={item.href}
-              className={`block text-sm font-medium ${
-                pathname === item.href ? 'text-green-600' : 'text-gray-800 hover:text-green-600'
-              }`}
+              className={`block text-sm font-medium ${pathname === item.href ? 'text-green-600' : 'text-gray-800 hover:text-green-600'
+                }`}
               onClick={() => setMenuOpen(false)}
             >
               {item.label}
