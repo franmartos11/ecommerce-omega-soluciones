@@ -4,7 +4,6 @@ import { Suspense } from "react";
 import ImageWithContent2AboutUs from "../Components/AboutUS/ImageWithContent2AboutUs";
 import ImageWithContentAboutUs from "../Components/AboutUS/ImageWithContentAboutUs";
 import Footer from "../Components/Footer/Footer";
-import Form from "../Components/Forms/Form";
 import { SkeletonFour } from "../Components/Globe/SkeletonFour";
 import MoovingLogos from "../Components/MoovingLogos/MoovingLogos";
 import Navbar from "../Components/NavigationBar/NavBar";
