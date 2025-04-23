@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Product } from "@/app/Components/ProductCardGrid/ProductCardGrid";
+import ProductCardGrid, { Product } from "@/app/Components/ProductCardGrid/ProductCardGrid";
 import Navbar from "@/app/Components/NavigationBar/NavBar";
 import Footer from "@/app/Components/Footer/Footer";
 
@@ -25,7 +25,62 @@ const mockProducts: Product[] = [
     mfg: "2022-06-04",
     life: "70 days",
   },
+  {
+    id: "2",
+    title: "Resma Papel A5 x500 Hoja 80gr",
+    imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+    currentPrice: 5849,
+    oldPrice: 6290,
+    rating: 4.5,
+    seller: "Ledesma",
+    category: "Papelería",
+    color: "White",
+    condition: "New",
+    description:
+      "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
+    stock: 8,
+    tags: ["Oficina", "Papel", "Impresión"],
+    mfg: "2022-06-04",
+    life: "70 days",
+  },
+  {
+    id: "3",
+    title: "Resma Papel A5 x500 Hoja 80gr",
+    imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+    currentPrice: 5849,
+    oldPrice: 6290,
+    rating: 4.5,
+    seller: "Ledesma",
+    category: "Papelería",
+    color: "White",
+    condition: "New",
+    description:
+      "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
+    stock: 8,
+    tags: ["Oficina", "Papel", "Impresión"],
+    mfg: "2022-06-04",
+    life: "70 days",
+  },
+  {
+    id: "4",
+    title: "Resma Papel A5 x500 Hoja 80gr",
+    imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+    currentPrice: 5849,
+    oldPrice: 6290,
+    rating: 4.5,
+    seller: "Ledesma",
+    category: "Papelería",
+    color: "White",
+    condition: "New",
+    description:
+      "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
+    stock: 8,
+    tags: ["Oficina", "Papel", "Impresión"],
+    mfg: "2022-06-04",
+    life: "70 days",
+  },
 ];
+
 
 export default function ProductoDetailPage() {
   const params = useParams();
@@ -119,13 +174,15 @@ export default function ProductoDetailPage() {
           </div>
         </div>
 
-        <div className="mt-10 border-t pt-6">
+        <div className="mt-10 border-t pt-6 pb-[3rem]">
           <h2 className="text-lg font-semibold text-black mb-2">Descripción</h2>
           <p className="text-gray-700 text-sm leading-relaxed">
             Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium, diseñadas para ofrecer un rendimiento confiable en todo tipo de impresoras y fotocopiadoras. Su textura uniforme garantiza resultados nítidos tanto en impresión como en escritura manual. Ideal para el uso en oficinas, hogares y centros educativos.
           </p>
         </div>
+        <ProductCardGrid products={mockProducts}></ProductCardGrid>
       </section>
+      
       <Footer />
     </div>
   );
