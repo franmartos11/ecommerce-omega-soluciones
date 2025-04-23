@@ -1,25 +1,24 @@
 "use client";
+
 import React, { useEffect, useRef } from "react";
-import createGlob from "cobe";
+import createGlobe from "cobe";
 
 export const SkeletonFour = () => {
   return (
-    <div className="h-auto  flex flex-col items-center mt-10  z-10">
-      <h3 className=" pb-10 gowun-batang-bold pt-14 text-4xl font-semibold  text-center">
+    <div className="h-auto flex flex-col items-center mt-10 z-10">
+      <h3 className="pb-10 gowun-batang-bold pt-14 text-4xl font-semibold text-center">
         Based in Miami FL, working worldwide
       </h3>
-      <Globe className=" w-full" />
+      <Globe className="w-full" />
     </div>
   );
 };
 
-interface GlobeState {
-  phi?: number;
-  theta?: number;
-  [key: string]: any; // Add other properties as needed
+interface GlobeProps {
+  className?: string;
 }
 
-export const Globe = ({ className }: { className?: string }) => {
+export const Globe: React.FC<GlobeProps> = ({ className }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -27,7 +26,7 @@ export const Globe = ({ className }: { className?: string }) => {
 
     if (!canvasRef.current) return;
 
-    const globe = createGlob(canvasRef.current, {
+    const globe = createGlobe(canvasRef.current, {
       devicePixelRatio: 2,
       width: 600 * 2,
       height: 600 * 2,
@@ -41,12 +40,9 @@ export const Globe = ({ className }: { className?: string }) => {
       markerColor: [0.1, 0.8, 1],
       glowColor: [1, 1, 1],
       markers: [
-        
         { location: [30.7128, -79.006], size: 0.1 },
       ],
-      onRender: (state: GlobeState) => {
-        // Called on every animation frame.
-        // `state` will be an empty object, return updated params.
+      onRender: (state: Record<string, any>) => {
         state.phi = phi;
         phi -= 0.001;
       },
@@ -60,9 +56,8 @@ export const Globe = ({ className }: { className?: string }) => {
   return (
     <canvas
       ref={canvasRef}
-      style={{ width: 600, height: 600, maxWidth: "100%", aspectRatio: 1 }}
+      style={{ width: 600, height: 600, maxWidth: "100%", aspectRatio: "1" }}
       className={className}
     />
   );
 };
-
