@@ -104,7 +104,7 @@ export default function LoginForm() {
         </form>
 
         <div className="text-center mt-4 text-sm text-gray-500">
-          Don't have an account?{' '}
+          Dont have an account?{' '}
           <Link href="/Registro" className="text-green-600 hover:underline">
             Sign Up
           </Link>
@@ -145,7 +145,7 @@ export default function LoginForm() {
 
         <p className="text-[11px] text-gray-500 text-center mt-2">
           Spectra may send you communications; you may change your preferences in your account
-          settings. We'll never post without your permission.
+          settings. Well never post without your permission.
         </p>
       </div>
     </motion.div>
