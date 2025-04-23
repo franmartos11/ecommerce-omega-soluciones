@@ -18,7 +18,7 @@ export default function CartPage() {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
     useEffect(() => {
-        // En un caso real, cargar desde context o localStorage
+        //  cargar desde context o localStorage
         const mockCart: CartItem[] = [
             {
                 id: '1',
@@ -45,7 +45,7 @@ export default function CartPage() {
     const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
     return (
-        <div>
+        <div className='bg-white'>
             <Suspense fallback={<p>Cargando...</p>}>
                 <Navbar></Navbar>
                 <section className="max-w-6xl mx-auto px-4 py-10">
