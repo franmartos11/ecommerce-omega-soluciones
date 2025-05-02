@@ -3,17 +3,20 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
-  const [formValid, setFormValid] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; password?: string; api?: string }>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [shake, setShake] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    validateForm();
+    if (submitted) validateForm();
   }, [email, password]);
 
   const validateEmail = (email: string): boolean =>
@@ -30,19 +33,43 @@ export default function LoginForm() {
     }
 
     if (!validatePassword(password)) {
-      newErrors.password =
-        'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo';
+      newErrors.password = 'Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo';
     }
 
     setErrors(newErrors);
-    setFormValid(Object.keys(newErrors).length === 0);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formValid) return;
+    setSubmitted(true);
 
-    console.log({ email, password, remember });
+    const isValid = validateForm();
+    if (!isValid) {
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+      return;
+    }
+
+    try {
+      // Mock de validación de API
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (res.ok || email === 'test@omega.com') {
+        // Simula éxito
+        localStorage.setItem('userLoggedIn', JSON.stringify({ email, remember }));
+        router.push('/');
+      } else {
+        throw new Error('Credenciales incorrectas');
+      }
+    } catch (err) {
+      setErrors((prev) => ({ ...prev, api: 'Credenciales incorrectas' }));
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+    }
   };
 
   return (
@@ -54,100 +81,65 @@ export default function LoginForm() {
     >
       <div className="w-full lg:w-1/2 flex flex-col items-center justify-center py-10">
         <Image src="/logo.png" alt="Logo" width={120} height={120} className="mb-4" />
-        <h1 className="text-white text-4xl font-bold">LOGO</h1>
+        <h1 className="text-black text-4xl font-bold">LOGO</h1>
       </div>
 
-      <div className="w-full max-w-md bg-white shadow-md rounded-xl p-8 lg:mr-20">
+      <motion.div
+        animate={shake ? { x: [-10, 10, -10, 10, 0] } : { x: 0 }}
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-md bg-white shadow-md rounded-xl p-8 lg:mr-20"
+      >
         <form onSubmit={handleSubmit} className="space-y-5">
           <input
             type="email"
-            placeholder="example@spectra.com"
-            className={`w-full border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${errors.email ? 'ring-red-400' : 'ring-green-400'}`}
+            placeholder="example@omega.com"
+            className={`w-full text-black border ${submitted && errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${submitted && errors.email ? 'ring-red-400' : 'ring-green-400'}`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
-          {errors.email && <p className="text-xs text-red-500 -mt-4">{errors.email}</p>}
+          {submitted && errors.email && <p className="text-xs text-red-500 -mt-4">{errors.email}</p>}
 
           <input
             type="password"
             placeholder="••••••••"
-            className={`w-full border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${errors.password ? 'ring-red-400' : 'ring-green-400'}`}
+            className={`w-full text-black border ${submitted && errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${submitted && errors.password ? 'ring-red-400' : 'ring-green-400'}`}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
-          {errors.password && <p className="text-xs text-red-500 -mt-4">{errors.password}</p>}
+          {submitted && errors.password && <p className="text-xs text-red-500 -mt-4">{errors.password}</p>}
+
+          {errors.api && <p className="text-sm text-red-500">{errors.api}</p>}
 
           <div className="flex justify-between items-center text-sm">
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2 text-gray-500">
               <input
                 type="checkbox"
                 checked={remember}
                 onChange={() => setRemember(!remember)}
-                className="accent-green-500"
+                className="accent-green-500 "
               />
-              Stay signed in
+              Recordarme
             </label>
             <Link href="#" className="text-gray-500 hover:underline">
-              Forgot your password?
+              ¿Olvidaste tu contraseña?
             </Link>
           </div>
 
           <button
             type="submit"
-            disabled={!formValid}
-            className={`w-full text-white py-2 rounded-md transition ${formValid ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-300 cursor-not-allowed'}`}
+            className="w-full text-white py-2 rounded-md transition bg-green-600 hover:bg-green-700"
           >
-            Iniciar Sesion
+            Iniciar sesión
           </button>
         </form>
 
         <div className="text-center mt-4 text-sm text-gray-500">
-          Dont have an account?{' '}
-          <Link href="/Registro" className="text-green-600 hover:underline">
-            Sign Up
+          ¿No tenés cuenta?{' '}
+          <Link href="/Registro" className="text-green-600 hover:underline font-medium">
+            Registrate
           </Link>
         </div>
-
-        <div className="my-4 border-t text-center relative">
-          <span className="absolute bg-white px-2 text-gray-400 -top-3 left-1/2 transform -translate-x-1/2 text-sm">
-            OR
-          </span>
-        </div>
-
-        <div className="space-y-3">
-          <button className="w-full border border-gray-300 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-gray-50">
-            <Image src="/google-icon.svg" alt="Google" width={18} height={18} />
-            Continue with Google
-          </button>
-          <button className="w-full border border-gray-300 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-gray-50">
-            <Image src="/facebook-icon.svg" alt="Facebook" width={18} height={18} />
-            Continue with Facebook
-          </button>
-          <button className="w-full border border-gray-300 rounded-md py-2 flex items-center justify-center gap-2 hover:bg-gray-50">
-            <Image src="/apple-icon.svg" alt="Apple" width={18} height={18} />
-            Continue with Apple
-          </button>
-        </div>
-
-        <p className="text-[11px] text-gray-500 text-center mt-4">
-          By clicking Sign in, Continue with Google, Facebook, or Apple, you agree to Omega{' '}
-          <Link href="#" className="underline">
-            Terms of Use
-          </Link>{' '}
-          and{' '}
-          <Link href="#" className="underline">
-            Privacy Policy
-          </Link>
-          .
-        </p>
-
-        <p className="text-[11px] text-gray-500 text-center mt-2">
-          Spectra may send you communications; you may change your preferences in your account
-          settings. Well never post without your permission.
-        </p>
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
