@@ -16,26 +16,26 @@ export default function LoginForm() {
   const router = useRouter();
 
   useEffect(() => {
-    if (submitted) validateForm();
-  }, [email, password]);
+    if (submitted) {
+      validateForm();
+    }
+  }, [submitted, email, password]);
 
-  const validateEmail = (email: string): boolean =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateEmail = (value: string): boolean =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-  const validatePassword = (password: string): boolean =>
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
+  const validatePassword = (value: string): boolean =>
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(value);
 
-  const validateForm = () => {
+  const validateForm = (): boolean => {
     const newErrors: typeof errors = {};
-
     if (!validateEmail(email)) {
       newErrors.email = 'El correo no es válido';
     }
-
     if (!validatePassword(password)) {
-      newErrors.password = 'Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo';
+      newErrors.password =
+        'Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo';
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -43,9 +43,7 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-
-    const isValid = validateForm();
-    if (!isValid) {
+    if (!validateForm()) {
       setShake(true);
       setTimeout(() => setShake(false), 500);
       return;
@@ -57,16 +55,14 @@ export default function LoginForm() {
         method: 'POST',
         body: JSON.stringify({ email, password }),
       });
-
       if (res.ok || email === 'test@omega.com') {
-        // Simula éxito
         localStorage.setItem('userLoggedIn', JSON.stringify({ email, remember }));
         router.push('/');
       } else {
-        throw new Error('Credenciales incorrectas');
+        throw new Error();
       }
-    } catch (err) {
-      setErrors((prev) => ({ ...prev, api: 'Credenciales incorrectas' }));
+    } catch {
+      setErrors(prev => ({ ...prev, api: 'Credenciales incorrectas' }));
       setShake(true);
       setTimeout(() => setShake(false), 500);
     }
@@ -93,20 +89,32 @@ export default function LoginForm() {
           <input
             type="email"
             placeholder="example@omega.com"
-            className={`w-full text-black border ${submitted && errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${submitted && errors.email ? 'ring-red-400' : 'ring-green-400'}`}
+            className={`w-full text-black border ${
+              submitted && errors.email ? 'border-red-500' : 'border-gray-300'
+            } rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${
+              submitted && errors.email ? 'ring-red-400' : 'ring-green-400'
+            }`}
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
           />
-          {submitted && errors.email && <p className="text-xs text-red-500 -mt-4">{errors.email}</p>}
+          {submitted && errors.email && (
+            <p className="text-xs text-red-500 -mt-4">{errors.email}</p>
+          )}
 
           <input
             type="password"
             placeholder="••••••••"
-            className={`w-full text-black border ${submitted && errors.password ? 'border-red-500' : 'border-gray-300'} rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${submitted && errors.password ? 'ring-red-400' : 'ring-green-400'}`}
+            className={`w-full text-black border ${
+              submitted && errors.password ? 'border-red-500' : 'border-gray-300'
+            } rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${
+              submitted && errors.password ? 'ring-red-400' : 'ring-green-400'
+            }`}
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
           />
-          {submitted && errors.password && <p className="text-xs text-red-500 -mt-4">{errors.password}</p>}
+          {submitted && errors.password && (
+            <p className="text-xs text-red-500 -mt-4">{errors.password}</p>
+          )}
 
           {errors.api && <p className="text-sm text-red-500">{errors.api}</p>}
 
@@ -116,7 +124,7 @@ export default function LoginForm() {
                 type="checkbox"
                 checked={remember}
                 onChange={() => setRemember(!remember)}
-                className="accent-green-500 "
+                className="accent-green-500"
               />
               Recordarme
             </label>
@@ -135,7 +143,10 @@ export default function LoginForm() {
 
         <div className="text-center mt-4 text-sm text-gray-500">
           ¿No tenés cuenta?{' '}
-          <Link href="/Registro" className="text-green-600 hover:underline font-medium">
+          <Link
+            href="/Registro"
+            className="text-green-600 hover:underline font-medium"
+          >
             Registrate
           </Link>
         </div>
