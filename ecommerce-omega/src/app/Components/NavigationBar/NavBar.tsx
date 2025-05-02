@@ -35,12 +35,14 @@ export default function Navbar() {
           )}
         </button>
 
-        <div className="flex-1 flex items-center gap-6">
+
+        <Link className="flex-1 flex items-center gap-6" href={'/'}>
           <div className="text-2xl font-bold text-gray-800">Logo</div>
           <div className="hidden md:flex flex-1">
             <SearchBar />
           </div>
-        </div>
+        </Link>
+
 
         <div className="flex items-center gap-4 text-gray-700 text-sm">
           <a href='/Cart'>
