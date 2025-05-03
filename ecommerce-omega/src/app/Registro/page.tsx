@@ -84,13 +84,13 @@ export default function RegisterForm() {
       });
 
       if (res.ok) {
-        // Redirige al login cuando todo salió bien
         router.push('/login');
       } else {
         const { message } = await res.json();
         setErrors({ api: message || 'Error al registrar' });
       }
-    } catch (_err) {
+    } catch {
+      // Aquí ya no recibimos parámetro err
       setErrors({ api: 'No se pudo conectar con el servidor' });
     } finally {
       setLoading(false);
