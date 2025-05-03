@@ -1,4 +1,3 @@
-// src/app/Cart/page.tsx
 'use client';
 
 import { Suspense, useEffect, useState } from 'react';
@@ -11,8 +10,6 @@ import {
 } from '@/utils/CartUtils';
 import Navbar from '../Components/NavigationBar/NavBar';
 import Footer from '../Components/Footer/Footer';
-
-
 
 interface CartItem {
   id: string;
