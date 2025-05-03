@@ -85,12 +85,12 @@ export default function RegisterForm() {
 
       if (res.ok) {
         // Redirige al login cuando todo salió bien
-        router.push('/Login');
+        router.push('/login');
       } else {
         const { message } = await res.json();
         setErrors({ api: message || 'Error al registrar' });
       }
-    } catch (err) {
+    } catch (_err) {
       setErrors({ api: 'No se pudo conectar con el servidor' });
     } finally {
       setLoading(false);
@@ -238,7 +238,7 @@ export default function RegisterForm() {
         <p className="text-sm text-center text-gray-600 mt-6">
           ¿Ya tenés cuenta?{' '}
           <Link
-            href="/Login"
+            href="/login"
             className="text-green-600 hover:underline font-medium"
           >
             Iniciá sesión
