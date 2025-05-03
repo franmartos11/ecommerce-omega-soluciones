@@ -45,7 +45,7 @@ export default function CartPage() {
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <Suspense fallback={<div className="p-8 text-center">Cargando carrito…</div>}>
+    <Suspense fallback={<div className="p-8 bg-white text-center">Cargando carrito…</div>}>
       <Navbar />
 
       <div className="bg-white p-8 min-h-screen">

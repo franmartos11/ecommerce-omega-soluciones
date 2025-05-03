@@ -10,7 +10,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className=" px-6 pt-8 text-gray-700 text-sm w-full ">
+    <footer className=" px-6 pt-8 bg-white text-gray-700 text-sm w-full ">
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         
         {/* Columna 1 - Marca */}
