@@ -1,35 +1,30 @@
+'use client';
 
-import { FC } from "react";
+import React, { FC, useState } from "react";
 import { ShoppingCart } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { addToCart } from "@/utils/CartUtils";
 
 interface BadgeProps {
   label: string;
-  color: string; // ej: 'bg-blue-500'
+  color: string; // e.g. 'bg-blue-500'
   textColor?: string;
 }
 
 export interface ProductCardProps {
-    id:string;
-    imageUrl: string;
-    title: string;
-    category?: string;
-    color?: string; // ✅ nueva
-    condition?: string; // ✅ nueva
-    rating: number;
-    seller: string;
-    currentPrice: number;
-    oldPrice: number;
-  badge?: BadgeProps; // Opcional: si no se envía, se autogenera si hay descuento
-  description?: string;
-  stock?: number;
-  tags?: string[];
-  mfg?: string;
-  life?: string;
-
+  id: string;
+  imageUrl: string;
+  title: string;
+  category?: string;
+  rating: number;
+  seller: string;
+  currentPrice: number;
+  oldPrice: number;
+  badge?: BadgeProps;
 }
 
-
 const ProductCard: FC<ProductCardProps> = ({
+  id,
   imageUrl,
   category,
   title,
@@ -39,6 +34,9 @@ const ProductCard: FC<ProductCardProps> = ({
   oldPrice,
   badge,
 }) => {
+  const router = useRouter();
+  const [added, setAdded] = useState(false);
+
   const hasDiscount = oldPrice > currentPrice;
   const discountPercent = hasDiscount
     ? Math.round(((oldPrice - currentPrice) / oldPrice) * 100)
@@ -55,25 +53,29 @@ const ProductCard: FC<ProductCardProps> = ({
 
   const finalBadge = badge || autoBadge;
 
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation(); // evita que dispare el onClick del contenedor
+    addToCart({ id, title, imageUrl, price: currentPrice }, 1);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+    window.dispatchEvent(new Event('cartUpdated'));
+  };
+
   return (
-    
-    <div className="relative w-full max-w-xs bg-white border border-[#ECECEC] rounded-[15px] overflow-hidden p-4 flex flex-col justify-between shadow-sm transition-transform duration-200 ease-in-out hover:scale-[1.015] hover:shadow-lg">
+    <div
+      onClick={() => router.push(`/ProductoDetailPage/${id}`)}
+      className="cursor-pointer relative w-full max-w-xs bg-white border border-[#ECECEC] rounded-[15px] overflow-hidden p-4 flex flex-col justify-between shadow-sm transition-transform duration-200 ease-in-out hover:scale-[1.015] hover:shadow-lg"
+    >
       {finalBadge && (
         <span
-        className={`absolute top-0 left-0 px-3 py-1 text-xs font-semibold rounded-tl-[15px] rounded-br-[1px] ${finalBadge.color} ${
-          finalBadge.textColor || "text-white"
-        }`}
-        style={{
-          borderBottomRightRadius: 0,
-          borderTopRightRadius: 0,
-          borderBottomLeftRadius: 0,
-        }}
-      >
-        {finalBadge.label}
-      </span>
+          className={`absolute top-0 left-0 px-3 py-1 text-xs font-semibold rounded-tl-[15px] ${finalBadge.color} ${finalBadge.textColor || "text-white"}`}
+          style={{ borderBottomRightRadius: 0, borderTopRightRadius: 0, borderBottomLeftRadius: 0 }}
+        >
+          {finalBadge.label}
+        </span>
       )}
 
-      <div className=" rounded-md p-2">
+      <div className="rounded-md p-2">
         <img
           src={imageUrl}
           alt={title}
@@ -82,7 +84,7 @@ const ProductCard: FC<ProductCardProps> = ({
       </div>
 
       <div className="mt-3 flex-grow">
-        <p className="text-gray-400 text-xs mb-1">{category}</p>
+        {category && <p className="text-gray-400 text-xs mb-1">{category}</p>}
 
         <h3 className="text-[16px] font-semibold text-gray-800 leading-snug mb-1">
           {title}
@@ -101,16 +103,27 @@ const ProductCard: FC<ProductCardProps> = ({
           <span className="text-green-600 font-bold text-[18px]">
             ${currentPrice.toFixed(2)}
           </span>
-          <span className="text-gray-400 line-through text-sm">
-            ${oldPrice.toFixed(1)}
-          </span>
+          {hasDiscount && (
+            <span className="text-gray-400 line-through text-sm">
+              ${oldPrice.toFixed(2)}
+            </span>
+          )}
         </div>
       </div>
 
-      <button className="w-full flex items-center justify-center gap-2 text-sm bg-green-100 text-green-700 font-medium py-2 rounded-md hover:bg-green-200 transition">
+      <button
+        onClick={handleAddToCart}
+        className="w-full flex items-center justify-center gap-2 text-sm bg-green-100 text-green-700 font-medium py-2 rounded-md hover:bg-green-200 transition"
+      >
         <ShoppingCart className="w-4 h-4" />
         Agregar
       </button>
+
+      {added && (
+        <p className="text-center text-sm text-green-600 mt-2">
+          ¡Agregado al carrito!
+        </p>
+      )}
     </div>
   );
 };

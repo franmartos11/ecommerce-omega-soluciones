@@ -1,7 +1,6 @@
 'use client'
 import { FC, useState } from "react";
 import ProductCard, { ProductCardProps } from "../ProductCard/ProductCard";
-import Link from "next/link";
 import { motion } from "framer-motion";
 
 export interface Product extends ProductCardProps {
@@ -36,12 +35,9 @@ const ProductCardGrid: FC<ProductCardGridProps> = ({ products }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <Link
-              href={`/ProductoDetailPage/${product.id}`}
-              className="block focus:outline-none focus:ring-2 focus:ring-green-400 rounded-lg"
-            >
+            
               <ProductCard {...product} />
-            </Link>
+            
           </motion.div>
         ))}
       </div>

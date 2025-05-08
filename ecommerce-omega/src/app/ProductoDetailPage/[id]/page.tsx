@@ -9,9 +9,71 @@ import Footer from "@/app/Components/Footer/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { addToCart } from "@/utils/CartUtils";
 
-const mockProducts: Product[] = [
+interface DetailProducts extends Product {
+  description : string,
+  stock: number,
+  tags: string[],
+  mfg:string,
+  life:string
+}
+
+const mockProducts: DetailProducts[] = [
   {
     id: "1",
+    title: "Resma Papel A5 x500 Hoja 80gr",
+    imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+    currentPrice: 5849,
+    oldPrice: 6290,
+    rating: 4.5,
+    seller: "Ledesma",
+    category: "Papelería",
+    color: "White",
+    condition: "New",
+    description:
+      "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
+    stock: 8,
+    tags: ["Oficina", "Papel", "Impresión"],
+    mfg: "2022-06-04",
+    life: "70 days",
+  },
+  {
+    id: "2",
+    title: "Resma Papel A5 x500 Hoja 80gr",
+    imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+    currentPrice: 5849,
+    oldPrice: 6290,
+    rating: 4.5,
+    seller: "Ledesma",
+    category: "Papelería",
+    color: "White",
+    condition: "New",
+    description:
+      "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
+    stock: 8,
+    tags: ["Oficina", "Papel", "Impresión"],
+    mfg: "2022-06-04",
+    life: "70 days",
+  },
+  {
+    id: "3",
+    title: "Resma Papel A5 x500 Hoja 80gr",
+    imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+    currentPrice: 5849,
+    oldPrice: 6290,
+    rating: 4.5,
+    seller: "Ledesma",
+    category: "Papelería",
+    color: "White",
+    condition: "New",
+    description:
+      "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
+    stock: 8,
+    tags: ["Oficina", "Papel", "Impresión"],
+    mfg: "2022-06-04",
+    life: "70 days",
+  },
+  {
+    id: "4",
     title: "Resma Papel A5 x500 Hoja 80gr",
     imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
     currentPrice: 5849,
@@ -32,7 +94,7 @@ const mockProducts: Product[] = [
 
 export default function ProductoDetailPage() {
   const params = useParams();
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<DetailProducts | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [showPopup, setShowPopup] = useState(false);
