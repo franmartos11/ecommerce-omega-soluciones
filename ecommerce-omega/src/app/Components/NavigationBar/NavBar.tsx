@@ -29,9 +29,7 @@ export default function Navbar() {
 
   const navItems = [
     { label: 'Inicio', href: '/' },
-    { label: 'Nosotros', href: '/Nosotros' },
-    { label: 'Unidades de negocio', href: '/unidades' },
-    { label: 'Marcas', href: '/marcas' },
+    { label: 'Sobre Nosotros', href: '/SobreNosotros' },
     { label: 'Contáctanos', href: '/Contacto' },
   ];
 

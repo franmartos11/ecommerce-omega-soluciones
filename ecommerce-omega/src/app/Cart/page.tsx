@@ -89,7 +89,7 @@ export default function CartPage() {
                                                                     Math.max(1, parseInt(e.target.value, 10) || 1)
                                                                 )
                                                             }
-                                                            className="w-16 border border-gray-300 rounded px-2 py-1 text-sm"
+                                                            className="w-16 border text-gray-500 border-gray-300 rounded px-2 py-1 text-sm"
                                                         />
                                                     </div>
                                                     <p className="text-sm text-gray-500 mt-1">
