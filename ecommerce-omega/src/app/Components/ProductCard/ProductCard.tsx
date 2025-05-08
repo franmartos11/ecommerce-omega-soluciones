@@ -36,7 +36,6 @@ const ProductCard: FC<ProductCardProps> = ({
 }) => {
   const router = useRouter();
   const [added, setAdded] = useState(false);
-
   const hasDiscount = oldPrice > currentPrice;
   const discountPercent = hasDiscount
     ? Math.round(((oldPrice - currentPrice) / oldPrice) * 100)
