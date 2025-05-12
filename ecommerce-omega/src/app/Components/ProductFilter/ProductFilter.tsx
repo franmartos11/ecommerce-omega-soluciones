@@ -109,7 +109,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
               type="checkbox"
               checked={selectedColors.includes(name)}
               onChange={() => toggle(selectedColors, setSelectedColors, name)}
-              className="accent-green-500"
+              className=" cursor-pointer accent-green-500"
             />
             {name} ({count})
           </label>
@@ -125,7 +125,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
               type="checkbox"
               checked={selectedConditions.includes(name)}
               onChange={() => toggle(selectedConditions, setSelectedConditions, name)}
-              className="accent-green-500"
+              className="cursor-pointer accent-green-500"
             />
             {name} ({count})
           </label>
@@ -135,7 +135,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
       {/* BUTTON */}
       <button
         onClick={applyFilters}
-        className="w-full bg-green-500 hover:bg-green-600 text-white text-sm font-medium py-2 rounded flex items-center justify-center gap-2"
+        className=" cursor-pointer w-full bg-green-500 hover:bg-green-600 text-white text-sm font-medium py-2 rounded flex items-center justify-center gap-2"
       >
         <Funnel className="w-4 h-4" />
         Filtrar

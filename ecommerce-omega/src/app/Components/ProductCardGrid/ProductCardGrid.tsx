@@ -48,7 +48,7 @@ const ProductCardGrid: FC<ProductCardGridProps> = ({ products }) => {
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.05 }}
             onClick={handleLoadMore}
-            className="px-6 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition text-sm font-medium"
+            className=" cursor-pointer px-6 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition text-sm font-medium"
           >
             Cargar más
           </motion.button>

@@ -26,7 +26,7 @@ const CategoryFilter: FC<CategoryFilterProps> = ({ categories, selected, onSelec
           <button
             key={cat.label}
             onClick={() => toggleCategory(cat.label)}
-            className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg border transition ${
+            className={` cursor-pointer w-full flex items-center gap-3 px-4 py-2 rounded-lg border transition ${
               selected === cat.label
                 ? "border-green-500 bg-green-50 text-green-700"
                 : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"

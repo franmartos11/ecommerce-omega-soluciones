@@ -82,7 +82,7 @@ const OmegaShowcase2 = () => {
             <button
               key={section.id}
               onClick={() => handleLogoClick(section.id)}
-              className={`${positionClasses[index]} ${isMainButton
+              className={`cursor-pointer ${positionClasses[index]} ${isMainButton
                   ? "w-[10rem] lg:w-[15rem] h-[10rem] lg:h-[15rem]"
                   : "w-[5rem] lg:w-[8rem] h-[5rem] lg:h-[8rem]"
                 } rounded-full border-2 ${isActive

@@ -1,7 +1,6 @@
 
 import { Product } from "./Components/ProductCardGrid/ProductCardGrid";
 import ProductListSection from "./Components/ProductListSection/ProductListSection";
-import { Suspense } from "react";
 import Navbar from "./Components/NavigationBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 
@@ -252,7 +251,6 @@ export default function Home() {
   ];
 
   return (
-    <Suspense fallback={<div className="p-6">Cargando productos...</div>}>
       <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
         <Navbar />
         <main className="flex flex-col pt-4 gap-8">
@@ -264,6 +262,5 @@ export default function Home() {
         </main>
         <Footer />
       </div>
-    </Suspense>
   );
 }
