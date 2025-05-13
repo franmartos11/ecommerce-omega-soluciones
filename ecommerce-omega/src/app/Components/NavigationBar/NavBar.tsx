@@ -164,13 +164,13 @@ export default function Navbar() {
         <div className="md:hidden px-4 pb-4 space-y-3 border-t relative z-50 bg-white">
           <SearchBar />
           {navItems.map(item => (
-            <Link key={item.label} href={item.href} className={`block text-sm font-medium ${pathname === item.href ? 'text-text2' : 'text-gray-800 hover:text-text2'}`} onClick={() => setMenuOpen(false)}>
+            <Link key={item.label} href={item.href} className={`block text-sm font-medium ${pathname === item.href ? 'text-text1' : 'text-gray-800 hover:text-text2'}`} onClick={() => setMenuOpen(false)}>
               {item.label}
             </Link>
           ))}
           <div className="pt-4 text-sm font-medium text-text2 flex items-center gap-2">
             <Headphones className="w-5 h-5 text-gray-800" />
-            <span>1900 - 888</span>
+            <span className='text-text1' >1900 - 888</span>
             <span className="text-xs text-gray-500">24/7 Soporte</span>
           </div>
         </div>

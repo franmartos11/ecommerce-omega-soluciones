@@ -112,7 +112,7 @@ const ProductCard: FC<ProductCardProps> = ({
 
       <button
         onClick={handleAddToCart}
-        className="cursor-pointer  w-full flex items-center justify-center gap-2 text-sm bg-green-100 text-text2 font-medium py-2 rounded-md hover:bg-bg1 transition"
+        className="cursor-pointer  w-full flex items-center justify-center gap-2 text-sm bg-bg1 text-white font-medium py-2 rounded-md hover:bg-bg2 transition"
       >
         <ShoppingCart className="w-4 h-4" />
         Agregar

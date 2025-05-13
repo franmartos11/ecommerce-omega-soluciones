@@ -75,7 +75,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
             style={{
               background: getTrackBackground({
                 values: priceRange,
-                colors: ["#34D399", "#34D399", "#E5E7EB"],
+                colors: ["bg1", "bg1", "bg2"],
                 min: MIN,
                 max: MAX,
               }),
@@ -109,7 +109,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
               type="checkbox"
               checked={selectedColors.includes(name)}
               onChange={() => toggle(selectedColors, setSelectedColors, name)}
-              className=" cursor-pointer accent-text2"
+              className=" cursor-pointer accent-bg1"
             />
             {name} ({count})
           </label>
