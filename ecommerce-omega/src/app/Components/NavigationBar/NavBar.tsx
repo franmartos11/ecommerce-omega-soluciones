@@ -154,7 +154,7 @@ export default function Navbar() {
           </nav>
           <div className="flex items-center gap-2 text-text2 font-semibold text-sm">
             <Headphones className="w-5 h-5 text-gray-800" />
-            <span className="text-base">1900 - 888</span>
+            <span className="text-base text-text2">1900 - 888</span>
             <span className="text-xs text-gray-500 font-normal">24/7 Soporte</span>
           </div>
         </div>

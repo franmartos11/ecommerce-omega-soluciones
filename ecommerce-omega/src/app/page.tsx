@@ -249,7 +249,7 @@ export default function Home() {
     },
   ];
   return (
-      <div className="bg-bg1 min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
+      <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
         <Navbar />
         <main className="flex flex-col pt-4 gap-8">
           <ProductListSection

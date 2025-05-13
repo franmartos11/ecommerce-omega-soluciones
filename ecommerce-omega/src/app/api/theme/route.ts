@@ -2,12 +2,12 @@
 import { NextResponse } from 'next/server';
 
 const theme = {
-  bg1:     '#F3F4F6',
-  bg2:     '#111827',
-  text1:   '#1F2937',
-  text2:   '#E5E7EB',
+  bg1:     '#F97316',
+  bg2:     '#C2410C',
+  text1:   '#F97316',
+  text2:   '#C2410C',
   border:  '#FDBA74',
-  border2: '#FB923C',
+  border2: '#FED7AA',
 };
 
 export async function GET() {
