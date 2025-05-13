@@ -5,6 +5,14 @@
   --foreground: #171717;
 }
 
+:root {
+  --color-bg1:    #F97316;
+  --color-bg2:    #C2410C;
+  --color-text1:  #F97316;
+  --color-text2:  #C2410C;
+  --color-border: #FDBA74;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

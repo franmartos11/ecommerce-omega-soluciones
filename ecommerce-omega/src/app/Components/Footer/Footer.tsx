@@ -26,11 +26,11 @@ export default function Footer() {
         <div>
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Navegación</h4>
           <ul className="space-y-2">
-            <li><Link href="/" className="hover:text-green-600">Inicio</Link></li>
-            <li><Link href="#" className="hover:text-green-600">Nosotros</Link></li>
-            <li><Link href="#" className="hover:text-green-600">Unidades de Negocio</Link></li>
-            <li><Link href="#" className="hover:text-green-600">Marcas</Link></li>
-            <li><Link href="/Contacto" className="hover:text-green-600">Contáctanos</Link></li>
+            <li><Link href="/" className="hover:text-text1">Inicio</Link></li>
+            <li><Link href="#" className="hover:text-text1">Nosotros</Link></li>
+            <li><Link href="#" className="hover:text-text1">Unidades de Negocio</Link></li>
+            <li><Link href="#" className="hover:text-text1">Marcas</Link></li>
+            <li><Link href="/Contacto" className="hover:text-text1">Contáctanos</Link></li>
           </ul>
         </div>
 
@@ -52,13 +52,13 @@ export default function Footer() {
         <div>
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Seguinos</h4>
           <div className="flex gap-4">
-            <Link href="#" className="hover:text-green-600">
+            <Link href="#" className="hover:text-text1">
               <Facebook className="w-5 h-5" />
             </Link>
-            <Link href="#" className="hover:text-green-600">
+            <Link href="#" className="hover:text-text1">
               <Instagram className="w-5 h-5" />
             </Link>
-            <Link href="#" className="hover:text-green-600">
+            <Link href="#" className="hover:text-text1">
               <Twitter className="w-5 h-5" />
             </Link>
           </div>

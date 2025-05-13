@@ -54,7 +54,7 @@ export default function ContactCardImg() {
     <section className="min-h-screen pt-[0rem] pb-[7.8rem] gowun-batang-regular">
       <div className="container px-6 mx-auto">
         <div className="lg:flex lg:items-center lg:-mx-10">
-          <div className="lg:w-1/2 lg:mx-10 bg-green-500 p-[2.5rem] rounded-2xl">
+          <div className="lg:w-1/2 lg:mx-10 bg-bg1 p-[2.5rem] rounded-2xl">
             <h1 className="text-3xl font-semibold capitalize text-white lg:text-5xl">Contactanos</h1>
 
             <p className="mt-4 text-white">
@@ -71,7 +71,7 @@ export default function ContactCardImg() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder=""
-                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-green-300 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-bg2 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                   />
                 </div>
@@ -84,7 +84,7 @@ export default function ContactCardImg() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder=""
-                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-green-300 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-bg2 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                   />
                 </div>
@@ -96,7 +96,7 @@ export default function ContactCardImg() {
                     value={formData.pn}
                     onChange={handleChange}
                     placeholder=""
-                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-green-300 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-bg2 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                   />
                 </div>
@@ -110,7 +110,7 @@ export default function ContactCardImg() {
                   value={formData.subject}
                   onChange={handleChange}
                   placeholder=""
-                  className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-green-300 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-bg2 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                   required
                 />
               </div>
@@ -121,7 +121,7 @@ export default function ContactCardImg() {
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  className="block w-full h-20 px-5 py-3 mt-2 border rounded-md md:h-56 placeholder-gray-600 bg-green-300 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  className="block w-full h-20 px-5 py-3 mt-2 border rounded-md md:h-56 placeholder-gray-600 bg-bg2 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                   placeholder=""
                   required
                 ></textarea>
@@ -138,7 +138,7 @@ export default function ContactCardImg() {
 
           <div className="mt-12 pt-[3rem] lg:flex lg:mt-0 lg:flex-col lg:items-center lg:w-1/2 lg:mx-10">
             <Image
-              className="hidden bg-green-400 object-cover mx-auto rounded-full lg:block shrink-0 w-96 h-96"
+              className="hidden bg-bg1 object-cover mx-auto rounded-full lg:block shrink-0 w-96 h-96"
               src="/logo2.png"
               alt="Visual Peephole logo"
               title="Visual Peephole logo"
@@ -218,19 +218,19 @@ export default function ContactCardImg() {
               <h3 className="text-gray-900">Siguenos</h3>
               <div className="flex mt-4 -mx-1.5 space-x-5 ">
                 {/* Social Media Links */}
-                <Link href="#" className="hover:text-green-600">
+                <Link href="#" className="hover:text-bg1">
                   <Facebook className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="hover:text-green-600">
+                <Link href="#" className="hover:text-bg1">
                   <Instagram className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="hover:text-green-600">
+                <Link href="#" className="hover:text-bg1">
                   <Twitter className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="hover:text-green-600">
+                <Link href="#" className="hover:text-bg1">
                   <Youtube className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="hover:text-green-600">
+                <Link href="#" className="hover:text-bg1">
                   <Linkedin className="w-5 h-5" />
                 </Link>
               </div>

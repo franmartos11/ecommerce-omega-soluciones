@@ -33,7 +33,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="flex items-center border border-green-400 rounded-md overflow-hidden shadow-md focus-within:ring-2 ring-green-300 transition w-full">
+    <div className="flex items-center border border-border rounded-md overflow-hidden shadow-md focus-within:ring-2 ring-border2 transition w-full">
       <input
         type="text"
         value={inputValue}
@@ -44,8 +44,8 @@ export default function SearchBar() {
       />
       <button
         onClick={handleSubmit}
-        className="bg-green-500 text-white px-3 py-2 transition-all duration-300 ease-in-out 
-                   hover:bg-green-600 hover:shadow-lg hover:scale-110 active:scale-95 rounded-l-none"
+        className="bg-bg1 text-white px-3 py-2 transition-all duration-300 ease-in-out 
+                   hover:bg-bg2 hover:shadow-lg hover:scale-110 active:scale-95 rounded-l-none"
         aria-label="Buscar"
       >
         <Search className="w-5 h-5" />

@@ -1,5 +1,3 @@
-
-
 import { FC } from "react";
 
 export interface Category {
@@ -10,7 +8,7 @@ export interface Category {
 interface CategoryFilterProps {
   categories: Category[];
   selected: string | null;
-  onSelect: (category: string | null) => void; // ✅ AÑADÍ ESTA LÍNEA
+  onSelect: (category: string | null) => void;
 }
 
 const CategoryFilter: FC<CategoryFilterProps> = ({ categories, selected, onSelect }) => {
@@ -28,7 +26,7 @@ const CategoryFilter: FC<CategoryFilterProps> = ({ categories, selected, onSelec
             onClick={() => toggleCategory(cat.label)}
             className={` cursor-pointer w-full flex items-center gap-3 px-4 py-2 rounded-lg border transition ${
               selected === cat.label
-                ? "border-green-500 bg-green-50 text-green-700"
+                ? "border-border bg-green-50 text-border2"
                 : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
             }`}
           >

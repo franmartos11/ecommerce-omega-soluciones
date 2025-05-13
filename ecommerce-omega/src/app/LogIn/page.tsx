@@ -73,7 +73,7 @@ export default function LoginForm() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen flex flex-col lg:flex-row items-center justify-center bg-green-400 px-4"
+      className="min-h-screen flex flex-col lg:flex-row items-center justify-center bg-bg2 px-4"
     >
       <div className="w-full lg:w-1/2 flex flex-col items-center justify-center py-10">
         <Image src="/logo.png" alt="Logo" width={120} height={120} className="mb-4" />
@@ -135,7 +135,7 @@ export default function LoginForm() {
 
           <button
             type="submit"
-            className="w-full text-white py-2 rounded-md transition bg-green-600 hover:bg-green-700"
+            className="w-full text-white py-2 rounded-md transition bg-bg1 hover:bg-bg2"
           >
             Iniciar sesión
           </button>

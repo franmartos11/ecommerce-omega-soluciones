@@ -111,7 +111,7 @@ export default function Navbar() {
             <div className="relative flex items-center gap-1">
               <ShoppingCart className="w-5 h-5" />
               <span className="hidden md:inline">Carro</span>
-              <span className="absolute -top-2 -right-3 bg-green-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="absolute -top-2 -right-3 bg-bg1 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
                 {cartCount}
               </span>
             </div>
@@ -147,12 +147,12 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
           <nav className="flex gap-6 text-sm font-medium text-gray-800">
             {navItems.map(item => (
-              <Link key={item.label} href={item.href} className={pathname === item.href ? 'text-green-600 border-b-2 border-green-600' : 'hover:text-green-500'}>
+              <Link key={item.label} href={item.href} className={pathname === item.href ? 'text-text2 border-b-2 border-text2' : 'hover:text-text2'}>
                 {item.label}
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-2 text-green-600 font-semibold text-sm">
+          <div className="flex items-center gap-2 text-text2 font-semibold text-sm">
             <Headphones className="w-5 h-5 text-gray-800" />
             <span className="text-base">1900 - 888</span>
             <span className="text-xs text-gray-500 font-normal">24/7 Soporte</span>
@@ -164,11 +164,11 @@ export default function Navbar() {
         <div className="md:hidden px-4 pb-4 space-y-3 border-t relative z-50 bg-white">
           <SearchBar />
           {navItems.map(item => (
-            <Link key={item.label} href={item.href} className={`block text-sm font-medium ${pathname === item.href ? 'text-green-600' : 'text-gray-800 hover:text-green-600'}`} onClick={() => setMenuOpen(false)}>
+            <Link key={item.label} href={item.href} className={`block text-sm font-medium ${pathname === item.href ? 'text-text2' : 'text-gray-800 hover:text-text2'}`} onClick={() => setMenuOpen(false)}>
               {item.label}
             </Link>
           ))}
-          <div className="pt-4 text-sm font-medium text-green-600 flex items-center gap-2">
+          <div className="pt-4 text-sm font-medium text-text2 flex items-center gap-2">
             <Headphones className="w-5 h-5 text-gray-800" />
             <span>1900 - 888</span>
             <span className="text-xs text-gray-500">24/7 Soporte</span>

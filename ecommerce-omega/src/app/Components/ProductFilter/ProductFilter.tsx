@@ -90,14 +90,14 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
             <div
               key={key}
               {...rest}
-              className="h-4 w-4 rounded-full bg-green-400 shadow"
+              className="h-4 w-4 rounded-full bg-bg1 shadow"
             />
           );
         }}
       />
       <div className="flex justify-between text-sm text-gray-600 mb-4">
-        <span>Desde: <span className="text-green-600">${priceRange[0]}</span></span>
-        <span>Hasta: <span className="text-green-600">${priceRange[1]}</span></span>
+        <span>Desde: <span className="text-text1">${priceRange[0]}</span></span>
+        <span>Hasta: <span className="text-text1">${priceRange[1]}</span></span>
       </div>
 
       {/* COLORS */}
@@ -109,7 +109,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
               type="checkbox"
               checked={selectedColors.includes(name)}
               onChange={() => toggle(selectedColors, setSelectedColors, name)}
-              className=" cursor-pointer accent-green-500"
+              className=" cursor-pointer accent-text2"
             />
             {name} ({count})
           </label>
@@ -125,7 +125,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
               type="checkbox"
               checked={selectedConditions.includes(name)}
               onChange={() => toggle(selectedConditions, setSelectedConditions, name)}
-              className="cursor-pointer accent-green-500"
+              className="cursor-pointer accent-text2"
             />
             {name} ({count})
           </label>
@@ -135,7 +135,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
       {/* BUTTON */}
       <button
         onClick={applyFilters}
-        className=" cursor-pointer w-full bg-green-500 hover:bg-green-600 text-white text-sm font-medium py-2 rounded flex items-center justify-center gap-2"
+        className=" cursor-pointer w-full bg-bg1 hover:bg-bg2 text-white text-sm font-medium py-2 rounded flex items-center justify-center gap-2"
       >
         <Funnel className="w-4 h-4" />
         Filtrar

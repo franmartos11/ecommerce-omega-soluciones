@@ -25,13 +25,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Suspense fallback={<div className="p-6">Cargando productos...</div>}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Suspense fallback={<div className="p-6">Cargando productos...</div>}>
+          {children}
+        </Suspense>
       </body>
-      </Suspense>
     </html>
   );
 }

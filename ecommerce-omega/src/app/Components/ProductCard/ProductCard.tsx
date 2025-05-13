@@ -95,11 +95,11 @@ const ProductCard: FC<ProductCardProps> = ({
         </div>
 
         <p className="text-sm text-gray-500 mb-2">
-          By <span className="text-green-600">{seller}</span>
+          By <span className="text-text1">{seller}</span>
         </p>
 
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-green-600 font-bold text-[18px]">
+          <span className="text-text1 font-bold text-[18px]">
             ${currentPrice.toFixed(2)}
           </span>
           {hasDiscount && (
@@ -112,14 +112,14 @@ const ProductCard: FC<ProductCardProps> = ({
 
       <button
         onClick={handleAddToCart}
-        className="cursor-pointer  w-full flex items-center justify-center gap-2 text-sm bg-green-100 text-green-700 font-medium py-2 rounded-md hover:bg-green-200 transition"
+        className="cursor-pointer  w-full flex items-center justify-center gap-2 text-sm bg-green-100 text-text2 font-medium py-2 rounded-md hover:bg-bg1 transition"
       >
         <ShoppingCart className="w-4 h-4" />
         Agregar
       </button>
 
       {added && (
-        <p className="text-center text-sm text-green-600 mt-2">
+        <p className="text-center text-sm text-text1 mt-2">
           ¡Agregado al carrito!
         </p>
       )}
