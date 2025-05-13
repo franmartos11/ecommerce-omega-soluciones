@@ -46,7 +46,7 @@ const ProductCard: FC<ProductCardProps> = ({
       ? {
           label: `-${discountPercent}%`,
           color: "bg-orange-400",
-          textColor: "text-white",
+          textColor: "text-white ",
         }
       : undefined;
 
