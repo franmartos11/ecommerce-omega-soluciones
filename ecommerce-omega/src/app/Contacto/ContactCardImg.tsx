@@ -51,77 +51,77 @@ export default function ContactCardImg() {
   };
 
   return (
-    <section className="min-h-screen pt-[2rem] pb-[7.8rem] gowun-batang-regular">
+    <section className="min-h-screen pt-[0rem] pb-[7.8rem] gowun-batang-regular">
       <div className="container px-6 mx-auto">
         <div className="lg:flex lg:items-center lg:-mx-10">
-          <div className="lg:w-1/2 lg:mx-10 bg-gray-300 p-[2.5rem] rounded-2xl">
-            <h1 className="text-3xl font-semibold capitalize text-black lg:text-5xl">Contact Us</h1>
+          <div className="lg:w-1/2 lg:mx-10 bg-green-500 p-[2.5rem] rounded-2xl">
+            <h1 className="text-3xl font-semibold capitalize text-white lg:text-5xl">Contactanos</h1>
 
-            <p className="mt-4 text-gray-800">
-              We are here to help! Fill out the form below, and we will be happy to answer your questions, discuss potential collaborations, or explore your ideas.
+            <p className="mt-4 text-white">
+              ¡Estamos aquí para ayudarte! Completa el formulario a continuación y con gusto responderemos tus preguntas, hablaremos sobre posibles colaboraciones o exploraremos tus ideas.
             </p>
 
             <form className="mt-12" onSubmit={handleSubmit}>
               <div className="-mx-2 md:items-center md:flex">
                 <div className="flex-1 px-2">
-                  <label className="block mb-2 text-sm text-gray-900">Full Name</label>
+                  <label className="block mb-2 text-base text-white">Nombre Completo</label>
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     placeholder=""
-                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-gray-400 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-green-300 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                   />
                 </div>
 
                 <div className="flex-1 px-2 mt-4 md:mt-0">
-                  <label className="block mb-2 text-sm text-gray-900">Email</label>
+                  <label className="block mb-2 text-base text-white">Email</label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder=""
-                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-gray-400 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-green-300 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                   />
                 </div>
                 <div className="flex-1 px-2 mt-4 md:mt-0">
-                  <label className="block mb-2 text-sm text-gray-900">Phone Number</label>
+                  <label className="block mb-2 text-base text-white">Numero de Telefono</label>
                   <input
                     type="text"
                     name="pn"
                     value={formData.pn}
                     onChange={handleChange}
                     placeholder=""
-                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-gray-400 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-green-300 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     required
                   />
                 </div>
               </div>
 
               <div className="w-full mt-4">
-                <label className="block mb-2 text-sm text-gray-900">Subject</label>
+                <label className="block mb-2 text-base text-white">Razon</label>
                 <input
                   type="text"
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
                   placeholder=""
-                  className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-gray-400 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  className="block w-full px-5 py-3 mt-2 border rounded-md placeholder-gray-600 bg-green-300 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                   required
                 />
               </div>
 
               <div className="w-full mt-4">
-                <label className="block mb-2 text-sm text-gray-900">Message</label>
+                <label className="block mb-2 text-base text-white">Mensaje</label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
-                  className="block w-full h-32 px-5 py-3 mt-2 border rounded-md md:h-56 placeholder-gray-600 bg-gray-400 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                  className="block w-full h-20 px-5 py-3 mt-2 border rounded-md md:h-56 placeholder-gray-600 bg-green-300 text-gray-800 border-white focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                   placeholder=""
                   required
                 ></textarea>
@@ -129,16 +129,16 @@ export default function ContactCardImg() {
 
               <button
                 type="submit"
-                className="w-full px-6 py-3 mt-4 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform rounded-md bg-gray-400 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-900 focus:ring-opacity-50"
+                className="cursor-pointer w-full px-6 py-3 mt-4 text-base font-medium tracking-wide hover:text-white text-black capitalize transition-colors duration-300 transform rounded-md bg-green-300 hover:bg-green-800 focus:outline-none focus:ring focus:ring-blue-900 focus:ring-opacity-50"
               >
-                Send
+                Enviar
               </button>
             </form>
           </div>
 
           <div className="mt-12 pt-[3rem] lg:flex lg:mt-0 lg:flex-col lg:items-center lg:w-1/2 lg:mx-10">
             <Image
-              className="hidden bg-gray-300 object-cover mx-auto rounded-full lg:block shrink-0 w-96 h-96"
+              className="hidden bg-green-400 object-cover mx-auto rounded-full lg:block shrink-0 w-96 h-96"
               src="/logo2.png"
               alt="Visual Peephole logo"
               title="Visual Peephole logo"
@@ -168,7 +168,7 @@ export default function ContactCardImg() {
                 </svg>
                 <span className="mx-2 truncate w-72 text-gray-600">
                   <a href="https://www.google.com/maps/place/744+Jefferson+Ave,+Miami+Beach,+FL+33139,+EE.+UU./@25.7778414,-80.1401509,17z/data=!3m1!4b1!4m6!3m5!1s0x88d9b48b5eb638bb:0x2320cda3a9e4490!8m2!3d25.7778414!4d-80.1375706!16s%2Fg%2F11c10j64my?hl=es&entry=ttu">
-                    Miami, FL
+                    Ubicacion Empresa
                   </a>
                 </span>
               </p>
@@ -189,7 +189,7 @@ export default function ContactCardImg() {
                   />
                 </svg>
                 <span className="mx-2 truncate w-72 ms:w-50 text-gray-600">
-                  <a href="tel:+17866544082?">+1 (786) 654 4082</a>
+                  <a href="tel:+17866544082?">Numero de Telefono</a>
                 </span>
               </p>
 
@@ -209,13 +209,13 @@ export default function ContactCardImg() {
                   />
                 </svg>
                 <span className="mx-2 truncate w-72 text-gray-600">
-                  <a href="mailto:info@Visualpeephole.com">info@visualpeephole.com</a>
+                  <a href="mailto:info@Visualpeephole.com">Correo Electronico</a>
                 </span>
               </p>
             </div>
 
             <div className="mt-6 w-80 md:mt-8">
-              <h3 className="text-gray-900">Follow Us</h3>
+              <h3 className="text-gray-900">Siguenos</h3>
               <div className="flex mt-4 -mx-1.5 space-x-5 ">
                 {/* Social Media Links */}
                 <Link href="#" className="hover:text-green-600">
@@ -233,8 +233,6 @@ export default function ContactCardImg() {
                 <Link href="#" className="hover:text-green-600">
                   <Linkedin className="w-5 h-5" />
                 </Link>
-
-
               </div>
             </div>
           </div>
