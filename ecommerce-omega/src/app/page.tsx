@@ -1,42 +1,10 @@
-'use client'
+
 import { Product } from "./Components/ProductCardGrid/ProductCardGrid";
 import ProductListSection from "./Components/ProductListSection/ProductListSection";
 import Navbar from "./Components/NavigationBar/NavBar";
 import Footer from "./Components/Footer/Footer";
-import { useEffect } from "react";
-
-type Theme = {
-  bg1:    string;
-  bg2:    string;
-  text1:  string;
-  text2:  string;
-  border: string;
-};
-
-async function fetchTheme(): Promise<Theme> {
-  const res = await fetch('/api/theme');
-  return res.json();
-}
-
-function applyTheme(theme: Theme) {
-  Object.entries(theme).forEach(([key, val]) => {
-    document.documentElement.style.setProperty(
-      `--color-${key}`,
-      val
-    );
-  });
-  // opcional: guardar en localStorage para evitar refetch en recargas
-  localStorage.setItem('site-theme', JSON.stringify(theme));
-}
 
 export default function Home() {
-  useEffect(() => {
-    fetchTheme()
-      .then(applyTheme)
-      .catch(() => {
-        /* si falla, quedan los valores de :root */
-      });
-  }, []);
   const mockProducts: Product[] = [
     {
       id: "1",
@@ -280,9 +248,8 @@ export default function Home() {
       condition: "Refurbished",
     },
   ];
-
   return (
-      <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
+      <div className="bg-bg1 min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
         <Navbar />
         <main className="flex flex-col pt-4 gap-8">
           <ProductListSection
