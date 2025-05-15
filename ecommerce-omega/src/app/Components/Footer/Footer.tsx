@@ -15,7 +15,7 @@ export default function Footer() {
         
         {/* Columna 1 - Marca */}
         <div>
-          <h4 className="text-lg font-semibold text-gray-900 mb-4">Deals</h4>
+          <h4 className="text-lg font-semibold text-text1 mb-4">Deals</h4>
           <p>
             Transformamos tu experiencia de compra en algo simple y confiable.
             Productos de calidad, atención 24/7 y envíos a todo el país.
@@ -24,7 +24,7 @@ export default function Footer() {
 
         {/* Columna 2 - Navegación */}
         <div>
-          <h4 className="text-lg font-semibold text-gray-900 mb-4">Navegación</h4>
+          <h4 className="text-lg font-semibold text-text1 mb-4">Navegación</h4>
           <ul className="space-y-2">
             <li><Link href="/" className="hover:text-text1">Inicio</Link></li>
             <li><Link href="#" className="hover:text-text1">Nosotros</Link></li>
@@ -36,7 +36,7 @@ export default function Footer() {
 
         {/* Columna 3 - Soporte */}
         <div>
-          <h4 className="text-lg font-semibold text-gray-900 mb-4">Soporte</h4>
+          <h4 className="text-lg font-semibold text-text1 mb-4">Soporte</h4>
           <ul className="space-y-2">
             <li className="flex items-center gap-2">
               <Phone className="w-4 h-4" /> <span>1900 - 888</span>
@@ -50,7 +50,7 @@ export default function Footer() {
 
         {/* Columna 4 - Redes */}
         <div>
-          <h4 className="text-lg font-semibold text-gray-900 mb-4">Seguinos</h4>
+          <h4 className="text-lg font-semibold text-text1 mb-4">Seguinos</h4>
           <div className="flex gap-4">
             <Link href="#" className="hover:text-text1">
               <Facebook className="w-5 h-5" />
@@ -66,7 +66,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-gray-300 text-center py-4 text-xs text-gray-500">
-        © {new Date().getFullYear()} Deals. Todos los derechos reservados.
+        © {new Date().getFullYear()} Deals. Todos los derechos reservados. Disenado y Programado por Aspa Software
       </div>
     </footer>
   );
