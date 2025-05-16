@@ -17,7 +17,7 @@ export interface ProductCardProps {
   title: string;
   category?: string;
   rating: number;
-  seller: string;
+  brand: string;
   currentPrice: number;
   oldPrice: number;
   badge?: BadgeProps;
@@ -29,7 +29,7 @@ const ProductCard: FC<ProductCardProps> = ({
   category,
   title,
   rating,
-  seller,
+  brand: seller,
   currentPrice,
   oldPrice,
   badge,
@@ -44,10 +44,10 @@ const ProductCard: FC<ProductCardProps> = ({
   const autoBadge: BadgeProps | undefined =
     !badge && hasDiscount
       ? {
-          label: `-${discountPercent}%`,
-          color: "bg-orange-400",
-          textColor: "text-white ",
-        }
+        label: `-${discountPercent}%`,
+        color: "bg-orange-400",
+        textColor: "text-white ",
+      }
       : undefined;
 
   const finalBadge = badge || autoBadge;

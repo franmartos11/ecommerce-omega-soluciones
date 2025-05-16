@@ -71,11 +71,11 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
         renderTrack={({ props, children }) => (
           <div
             {...props}
-            className="h-1 w-full rounded bg-gray-200 mb-4"
+            className="h-1 w-full rounded bg-bg1 mb-4"
             style={{
               background: getTrackBackground({
                 values: priceRange,
-                colors: ["bg1", "bg1", "bg2"],
+                colors: ["bg1", "bg2", "bg1"],
                 min: MIN,
                 max: MAX,
               }),
