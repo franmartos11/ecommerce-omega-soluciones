@@ -24,63 +24,56 @@ export default function CartPage() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Carga inicial del carrito
   useEffect(() => {
     setCartItems(getCart());
   }, []);
 
-  // Eliminar un item del carrito
   const handleRemove = (id: string) => {
     removeFromCart(id);
     setCartItems(getCart());
   };
 
-  // Actualizar cantidad de un item
   const handleQtyChange = (id: string, qty: number) => {
     updateCartQty(id, qty);
     setCartItems(getCart());
   };
 
-  // Vaciar todo el carrito
   const handleClear = () => {
     clearCart();
     setCartItems([]);
   };
 
-  // Abrir modal de checkout si hay items
   const handleCheckout = () => {
     if (cartItems.length > 0) {
       setIsModalOpen(true);
     }
   };
 
-  // Cerrar modal de checkout
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  // Calcular total del carrito
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <div className="bg-white min-h-screen p-8 pb-0 font-geist-sans relative">
+    <div className="bg-white min-h-screen font-geist-sans relative">
       <Navbar />
 
-      <section className="max-w-6xl mx-auto px-4 py-12">
+      <section className="max-w-4xl mx-auto px-4 py-12">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-8">Tu Carrito</h1>
 
         {cartItems.length === 0 ? (
           <p className="text-gray-600 text-center">Tu carrito está vacío</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="flex flex-col gap-10">
             {/* Lista de productos */}
-            <div className="md:col-span-2 space-y-6">
-              {cartItems.map(item => (
+            <div className="space-y-6">
+              {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between bg-white rounded-lg p-4 shadow hover:shadow-md transition"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between bg-white rounded-lg p-4 shadow hover:shadow-md transition"
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-start gap-4">
                     <img
                       src={item.imageUrl}
                       alt={item.title}
@@ -96,36 +89,53 @@ export default function CartPage() {
                           type="number"
                           min={1}
                           value={item.quantity}
-                          onChange={e => handleQtyChange(item.id, Math.max(1, parseInt(e.target.value, 10) || 1))}
-                          className="w-16 border text-black border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-bg1"
+                          onChange={(e) =>
+                            handleQtyChange(
+                              item.id,
+                              Math.max(1, parseInt(e.target.value, 10) || 1)
+                            )
+                          }
+                          className="w-20 border text-black border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-bg1"
                         />
                       </div>
                       <p className="text-sm text-gray-600 mt-2">
-                        Subtotal: <span className="font-medium text-gray-800">${(item.price * item.quantity).toFixed(2)}</span>
+                        Subtotal:{' '}
+                        <span className="font-medium text-gray-800">
+                          ${(item.price * item.quantity).toFixed(2)}
+                        </span>
                       </p>
                     </div>
                   </div>
                   <button
                     onClick={() => handleRemove(item.id)}
-                    className="cursor-pointer text-red-500 hover:text-red-600 text-sm font-medium"
-                  >Eliminar</button>
+                    className="mt-4 sm:mt-0 text-red-500 hover:text-red-600 text-sm font-medium self-start sm:self-auto"
+                  >
+                    Eliminar
+                  </button>
                 </div>
               ))}
               <button
                 onClick={handleClear}
-                className="cursor-pointer text-red-600 hover:text-red-700 underline text-sm"
-              >Vaciar carrito</button>
+                className="text-red-600 hover:text-red-700 underline text-sm"
+              >
+                Vaciar carrito
+              </button>
             </div>
 
-            {/* Resumen y botón de checkout */}
-            <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">
+            {/* Resumen abajo */}
+            <div className="w-full bg-white rounded-lg shadow-lg p-6 space-y-6">
               <h2 className="text-2xl font-bold text-gray-800 border-b pb-2">Resumen</h2>
 
               <ul className="space-y-3 max-h-64 overflow-auto">
-                {cartItems.map(item => (
-                  <li key={item.id} className="flex justify-between items-center text-gray-700">
+                {cartItems.map((item) => (
+                  <li
+                    key={item.id}
+                    className="flex justify-between items-center text-gray-700 text-sm"
+                  >
                     <span className="font-medium truncate">{item.title}</span>
-                    <span className="font-semibold text-gray-900">${(item.price * item.quantity).toFixed(2)}</span>
+                    <span className="font-semibold text-gray-900">
+                      ${(item.price * item.quantity).toFixed(2)}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -138,8 +148,10 @@ export default function CartPage() {
               <button
                 onClick={handleCheckout}
                 disabled={cartItems.length === 0}
-                className={`cursor-pointer w-full py-3 rounded-lg font-medium transition ${
-                  cartItems.length === 0 ? 'bg-green-300 cursor-not-allowed' : 'bg-bg1 hover:bg-bg2 text-white'
+                className={`w-full py-3 rounded-lg font-medium transition ${
+                  cartItems.length === 0
+                    ? 'bg-green-300 cursor-not-allowed'
+                    : 'bg-bg1 hover:bg-bg2 text-white'
                 }`}
               >
                 Finalizar Compra
@@ -156,7 +168,6 @@ export default function CartPage() {
         )}
       </section>
 
-      {/* Modal de checkout integrado */}
       <CheckoutModal open={isModalOpen} onClose={handleCloseModal} />
 
       <Footer />
