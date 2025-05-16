@@ -92,7 +92,7 @@ export default function LoginForm() {
             className={`w-full text-black border ${
               submitted && errors.email ? 'border-red-500' : 'border-gray-300'
             } rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${
-              submitted && errors.email ? 'ring-red-400' : 'ring-green-400'
+              submitted && errors.email ? 'ring-red-400' : 'ring-text1'
             }`}
             value={email}
             onChange={e => setEmail(e.target.value)}
@@ -107,7 +107,7 @@ export default function LoginForm() {
             className={`w-full text-black border ${
               submitted && errors.password ? 'border-red-500' : 'border-gray-300'
             } rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${
-              submitted && errors.password ? 'ring-red-400' : 'ring-green-400'
+              submitted && errors.password ? 'ring-red-400' : 'ring-text1'
             }`}
             value={password}
             onChange={e => setPassword(e.target.value)}
@@ -124,7 +124,7 @@ export default function LoginForm() {
                 type="checkbox"
                 checked={remember}
                 onChange={() => setRemember(!remember)}
-                className="accent-green-500"
+                className="accent-text1"
               />
               Recordarme
             </label>
@@ -145,7 +145,7 @@ export default function LoginForm() {
           ¿No tenés cuenta?{' '}
           <Link
             href="/Registro"
-            className="text-green-600 hover:underline font-medium"
+            className="text-text1 hover:underline font-medium"
           >
             Registrate
           </Link>
