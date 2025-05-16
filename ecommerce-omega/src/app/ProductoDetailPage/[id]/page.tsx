@@ -155,7 +155,7 @@ export default function ProductoDetailPage() {
                   height={60}
                   onClick={() => setSelectedImage(thumb)}
                   className={`cursor-pointer rounded-lg border-2 ${
-                    selectedImage === thumb ? "border-green-500" : "border-transparent"
+                    selectedImage === thumb ? "border-bg1" : "border-transparent"
                   }`}
                 />
               ))}
@@ -170,8 +170,8 @@ export default function ProductoDetailPage() {
             <p className="text-yellow-500 text-sm">★ {product.rating} (32 reviews)</p>
 
             <div className="flex items-center gap-3">
-              <span className="text-3xl font-bold text-green-600">
-                ${product.currentPrice}
+              <span className="text-3xl font-bold text-bg1">
+                $ {product.currentPrice}
               </span>
               <span className="line-through text-gray-400 text-sm">${product.oldPrice}</span>
             </div>
@@ -183,7 +183,7 @@ export default function ProductoDetailPage() {
             <div className="flex items-center text-black gap-3">
               <label>Cantidad:</label>
               <select
-                className="border rounded px-2 py-1 text-sm"
+                className="w-16 border text-black border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-bg1"
                 value={quantity}
                 onChange={(e) => setQuantity(parseInt(e.target.value))}
               >
@@ -193,7 +193,7 @@ export default function ProductoDetailPage() {
               </select>
               <button
                 onClick={handleAddToCart}
-                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded text-sm"
+                className=" cursor-pointer bg-bg1 hover:bg-bg2 text-white px-4 py-2 rounded text-sm"
               >
                 Agregar
               </button>
@@ -225,7 +225,7 @@ export default function ProductoDetailPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.4 }}
-            className="fixed bottom-6 right-6 bg-green-500 text-white px-6 py-3 rounded shadow-lg z-50"
+            className="fixed bottom-6 right-6 bg-bg1 text-white px-6 py-3 rounded shadow-lg z-50"
           >
             Producto agregado al carrito 🛒
           </motion.div>
