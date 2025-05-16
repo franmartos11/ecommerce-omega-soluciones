@@ -56,7 +56,7 @@ export default function CartPage() {
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <div className="bg-white min-h-screen font-geist-sans relative">
+    <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
       <Navbar />
 
       <section className="max-w-4xl mx-auto px-4 py-12">
