@@ -5,7 +5,6 @@ import { useParams } from "next/navigation";
 import ProductCardGrid, { Product } from "@/app/Components/ProductCardGrid/ProductCardGrid";
 import Navbar from "@/app/Components/NavigationBar/NavBar";
 import Footer from "@/app/Components/Footer/Footer";
-
 import { motion, AnimatePresence } from "framer-motion";
 import { addToCart } from "@/utils/CartUtils";
 
