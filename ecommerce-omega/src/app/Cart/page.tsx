@@ -97,7 +97,7 @@ export default function CartPage() {
                           min={1}
                           value={item.quantity}
                           onChange={e => handleQtyChange(item.id, Math.max(1, parseInt(e.target.value, 10) || 1))}
-                          className="w-16 border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-green-300"
+                          className="w-16 border text-black border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-bg1"
                         />
                       </div>
                       <p className="text-sm text-gray-600 mt-2">
@@ -107,13 +107,13 @@ export default function CartPage() {
                   </div>
                   <button
                     onClick={() => handleRemove(item.id)}
-                    className="text-red-500 hover:text-red-600 text-sm font-medium"
+                    className="cursor-pointer text-red-500 hover:text-red-600 text-sm font-medium"
                   >Eliminar</button>
                 </div>
               ))}
               <button
                 onClick={handleClear}
-                className="text-red-600 hover:text-red-700 underline text-sm"
+                className="cursor-pointer text-red-600 hover:text-red-700 underline text-sm"
               >Vaciar carrito</button>
             </div>
 
@@ -138,8 +138,8 @@ export default function CartPage() {
               <button
                 onClick={handleCheckout}
                 disabled={cartItems.length === 0}
-                className={`w-full py-3 rounded-lg font-medium transition ${
-                  cartItems.length === 0 ? 'bg-green-300 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700 text-white'
+                className={`cursor-pointer w-full py-3 rounded-lg font-medium transition ${
+                  cartItems.length === 0 ? 'bg-green-300 cursor-not-allowed' : 'bg-bg1 hover:bg-bg2 text-white'
                 }`}
               >
                 Finalizar Compra
@@ -147,7 +147,7 @@ export default function CartPage() {
 
               <Link
                 href="/"
-                className="block text-center text-green-600 hover:underline text-sm"
+                className="block text-center text-bg1 hover:underline text-sm"
               >
                 ← Seguir comprando
               </Link>
