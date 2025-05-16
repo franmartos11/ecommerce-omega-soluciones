@@ -103,7 +103,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
       <div className="md:hidden mb-4">
         <button
           onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
-          className="w-full border rounded-lg py-2 px-4 text-sm font-medium text-green-600 border-green-300 bg-green-50"
+          className="w-full shadow-2xl shadow-gray-400 border rounded-lg py-2 px-4 text-sm font-medium text-white border-border2 bg-bg1"
         >
           {mobileFiltersOpen ? "Ocultar filtros" : "Mostrar filtros"}
         </button>
