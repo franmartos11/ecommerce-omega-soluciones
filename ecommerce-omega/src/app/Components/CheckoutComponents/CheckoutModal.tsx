@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { getCart, clearCart } from '@/utils/CartUtils';
-import ShippingForm from './ShippingForm';
+import ShippingForm, { ShippingData } from './ShippingForm';
 import PaymentForm from './PaymentForm';
 import ReviewOrder from './ReviewOrder';
 
@@ -11,13 +11,20 @@ interface CheckoutModalProps {
   onClose: () => void;
 }
 
+type CartItem = {
+  id: string;
+  title: string;
+  price: number;
+  quantity: number;
+  imageUrl?: string;
+};
+
 export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
   const [step, setStep] = useState(1);
-  const [shippingData, setShippingData] = useState<any>(null);
+  const [shippingData, setShippingData] = useState<ShippingData | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<'mercadopago' | 'local' | 'transfer'>('mercadopago');
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  // Carga carrito al abrir
   useEffect(() => {
     if (open) {
       setCartItems(getCart());
@@ -25,7 +32,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
     }
   }, [open]);
 
-  const handleShipping = (data: any) => {
+  const handleShipping = (data: ShippingData) => {
     setShippingData(data);
     setStep(2);
   };
@@ -37,32 +44,30 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
   const handleConfirm = async () => {
     try {
-      // 1) Crear orden
       const orderRes = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ shippingData, paymentMethod, cartItems }),
       });
+
       if (!orderRes.ok) {
         console.error('Error al crear la orden', await orderRes.text());
         return;
       }
+
       const { id: orderId } = await orderRes.json();
 
-      // 2) Notificar a API de pagos
       const paymentRes = await fetch('/api/payments/confirm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId, status: 'paid' }),
       });
+
       if (!paymentRes.ok) {
         console.error('Error al notificar el pago', await paymentRes.text());
       }
 
-      // 3) Limpiar carrito local
       clearCart();
-
-      // 4) Cerrar modal y redirigir
       onClose();
       window.location.href = '/thank-you';
     } catch (error) {
@@ -82,23 +87,9 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
       {/* Modal */}
       <div
         className="
-          relative
-          bg-white
-          rounded-lg
-          shadow-lg
-          w-full
-          max-w-md
-          sm:max-w-lg
-          lg:max-w-xl
-          mx-auto
-          p-4
-          sm:p-6
-          md:p-8
-          max-h-[90vh]
-          overflow-y-auto
+          relative bg-white rounded-lg shadow-lg w-full max-w-md sm:max-w-lg lg:max-w-xl mx-auto p-4 sm:p-6 md:p-8 max-h-[90vh] overflow-y-auto
         "
       >
-        {/* Close */}
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl leading-none"
@@ -130,7 +121,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
           })}
         </div>
 
-        {/* Back button */}
+        {/* Botón volver */}
         {step > 1 && (
           <button
             onClick={() => setStep(step - 1)}
@@ -140,10 +131,10 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
           </button>
         )}
 
-        {/* Step content */}
+        {/* Contenido por paso */}
         {step === 1 && <ShippingForm onNext={handleShipping} />}
         {step === 2 && <PaymentForm onNext={handlePayment} />}
-        {step === 3 && (
+        {step === 3 && shippingData && (
           <ReviewOrder
             shipping={shippingData}
             cartItems={cartItems}
