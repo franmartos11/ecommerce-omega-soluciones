@@ -43,7 +43,7 @@ export default function ShippingForm({ onNext }: Props) {
               minLength: { value: 2, message: 'Mínimo 2 caracteres' },
               maxLength: { value: 30, message: 'Máximo 30 caracteres' },
             })}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
+            className="w-full border border-gray-300 text-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
           />
           {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName.message}</p>}
         </div>
@@ -60,7 +60,7 @@ export default function ShippingForm({ onNext }: Props) {
               minLength: { value: 2, message: 'Mínimo 2 caracteres' },
               maxLength: { value: 30, message: 'Máximo 30 caracteres' },
             })}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
+            className="w-full border border-gray-300 text-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
           />
           {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName.message}</p>}
         </div>
@@ -78,7 +78,7 @@ export default function ShippingForm({ onNext }: Props) {
             required: 'Dirección obligatoria',
             minLength: { value: 5, message: 'Mínimo 5 caracteres' },
           })}
-          className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
+          className="w-full border border-gray-300 text-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
         />
         {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
       </div>
@@ -93,7 +93,7 @@ export default function ShippingForm({ onNext }: Props) {
             id="city"
             type="text"
             {...register('city', { required: 'Ciudad obligatoria' })}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
+            className="w-full border border-gray-300 text-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
           />
           {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city.message}</p>}
         </div>
@@ -106,7 +106,7 @@ export default function ShippingForm({ onNext }: Props) {
             id="province"
             type="text"
             {...register('province', { required: 'Provincia obligatoria' })}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
+            className="w-full border border-gray-300 text-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
           />
           {errors.province && <p className="text-red-500 text-sm mt-1">{errors.province.message}</p>}
         </div>
@@ -122,7 +122,7 @@ export default function ShippingForm({ onNext }: Props) {
               required: 'Código postal obligatorio',
               pattern: { value: /^[0-9]{4,10}$/, message: 'Formato inválido' },
             })}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
+            className="w-full border border-gray-300 text-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
           />
           {errors.postalCode && <p className="text-red-500 text-sm mt-1">{errors.postalCode.message}</p>}
         </div>
@@ -140,7 +140,7 @@ export default function ShippingForm({ onNext }: Props) {
             required: 'Teléfono obligatorio',
             pattern: { value: /^\+?\d{7,15}$/, message: 'Número inválido' },
           })}
-          className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
+          className="w-full border border-gray-300 text-gray-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
         />
         {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
       </div>

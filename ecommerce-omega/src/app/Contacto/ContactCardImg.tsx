@@ -129,7 +129,7 @@ export default function ContactCardImg() {
 
               <button
                 type="submit"
-                className="cursor-pointer w-full px-6 py-3 mt-4 text-base font-medium tracking-wide hover:text-white text-black capitalize transition-colors duration-300 transform rounded-md bg-green-300 hover:bg-green-800 focus:outline-none focus:ring focus:ring-blue-900 focus:ring-opacity-50"
+                className="cursor-pointer w-full px-6 py-3 mt-4 text-base font-medium tracking-wide hover:text-white text-black capitalize transition-colors duration-300 transform rounded-md bg-bg2  hover:border-white focus:outline-none focus:ring focus:ring-blue-900 focus:ring-opacity-50"
               >
                 Enviar
               </button>

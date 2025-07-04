@@ -230,7 +230,7 @@ export default function ProductoDetailPage() {
           </motion.div>
         )}
       </AnimatePresence>
-
+      
       <Footer />
     </div>
   );
