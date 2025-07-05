@@ -44,6 +44,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
   const handleConfirm = async () => {
     try {
+      // 1. Crear orden en tu backend
       const orderRes = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -51,12 +52,39 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
       });
 
       if (!orderRes.ok) {
-        console.error('Error al crear la orden', await orderRes.text());
+        const errorText = await orderRes.text();
+        console.error('Error al crear la orden:', {
+          status: orderRes.status,
+          statusText: orderRes.statusText,
+          body: errorText,
+        });
+        alert(`Error al crear la orden:\n${errorText}`);
         return;
       }
+      
 
       const { id: orderId } = await orderRes.json();
 
+      // 2. Si el método es Mercado Pago, crear preferencia y redirigir
+      if (paymentMethod === 'mercadopago') {
+        const prefRes = await fetch('/api/payments/mercadopago', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId, cartItems }),
+        });
+
+        if (!prefRes.ok) {
+          console.error('Error creando preferencia MercadoPago', await prefRes.text());
+          return;
+        }
+
+        const { init_point } = await prefRes.json();
+        // Redirigir al Checkout Pro
+        window.location.href = init_point;
+        return;
+      }
+
+      // 3. Otros métodos de pago: marcar la orden como pagada directamente
       const paymentRes = await fetch('/api/payments/confirm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -125,7 +153,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
         {step > 1 && (
           <button
             onClick={() => setStep(step - 1)}
-            className=" cursor-pointer text-sm text-gray-600 hover:underline mb-4"
+            className="cursor-pointer text-sm text-gray-600 hover:underline mb-4"
           >
             ← Volver
           </button>
