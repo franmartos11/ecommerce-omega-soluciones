@@ -5,14 +5,20 @@ const client = new MercadoPagoConfig({
   accessToken: process.env.MP_ACCESS_TOKEN!,
 });
 
+interface CartItem {
+  id: string;
+  title: string;
+  quantity: number;
+  price: number;
+}
+
 export async function POST(req: Request) {
   try {
-    // 🚀 Logs en cada request
     console.log("Access Token que está usando:", process.env.MP_ACCESS_TOKEN);
     console.log("Base URL que está usando:", process.env.NEXT_PUBLIC_BASE_URL);
 
     const body = await req.json();
-    const { orderId, cartItems } = body;
+    const { orderId, cartItems }: { orderId: string; cartItems: CartItem[] } = body;
 
     if (!orderId || !cartItems || cartItems.length === 0) {
       return NextResponse.json(
@@ -22,7 +28,7 @@ export async function POST(req: Request) {
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-    console.log(baseUrl)
+    console.log(baseUrl);
     if (!baseUrl) {
       console.error("ERROR: NEXT_PUBLIC_BASE_URL no está definida!");
       return NextResponse.json(
@@ -35,7 +41,7 @@ export async function POST(req: Request) {
 
     const result = await preference.create({
       body: {
-        items: cartItems.map((item: any) => ({
+        items: cartItems.map((item) => ({
           id: item.id,
           title: item.title,
           quantity: item.quantity,
@@ -55,14 +61,21 @@ export async function POST(req: Request) {
     return NextResponse.json({
       init_point: result.init_point,
     });
-  } catch (error: any) {
-    console.error("Error creando preferencia Mercado Pago:", {
-      message: error.message,
-      stack: error.stack,
-      error,
-    });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error creando preferencia Mercado Pago:", {
+        message: error.message,
+        stack: error.stack,
+        error,
+      });
+      return NextResponse.json(
+        { error: "No se pudo crear la preferencia", details: error.message },
+        { status: 500 }
+      );
+    }
+    console.error("Error desconocido:", error);
     return NextResponse.json(
-      { error: "No se pudo crear la preferencia", details: error.message },
+      { error: "No se pudo crear la preferencia", details: "Unknown error" },
       { status: 500 }
     );
   }
