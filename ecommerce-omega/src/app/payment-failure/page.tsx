@@ -10,7 +10,6 @@ export default function PaymentFailure() {
   return (
     <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)] relative">
       <Navbar />
-      
       {/* Contenedor que centra vertical y horizontalmente */}
       <div className="flex justify-center items-center min-h-[40vh] mt-8">
         <div className="text-center max-w-md">
@@ -28,7 +27,6 @@ export default function PaymentFailure() {
           </button>
         </div>
       </div>
-
       <Footer />
     </div>
   );

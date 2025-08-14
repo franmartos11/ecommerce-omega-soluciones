@@ -128,7 +128,7 @@ export default function LoginForm() {
               />
               Recordarme
             </label>
-            <Link href="#" className="text-gray-500 hover:underline">
+            <Link href="Contrasena" className="text-gray-500 hover:underline">
               ¿Olvidaste tu contraseña?
             </Link>
           </div>
