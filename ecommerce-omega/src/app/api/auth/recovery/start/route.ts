@@ -49,10 +49,9 @@ export async function POST(req: Request) {
     console.log(`[DEBUG] Código para ${normalized}: ${code}`);
 
     return NextResponse.json({ ok: true });
-  } catch (err) {
-    return NextResponse.json(
-      { message: 'Error al iniciar la recuperación' },
-      { status: 500 }
-    );
+} catch (err) {
+    console.error('Error en /api/auth/recovery/start', err);
+    return NextResponse.json({ message: 'Error al iniciar la recuperación' }, { status: 500 });
   }
+  
 }
