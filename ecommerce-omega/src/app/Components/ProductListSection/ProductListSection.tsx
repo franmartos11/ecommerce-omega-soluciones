@@ -14,7 +14,6 @@ interface ProductListSectionProps {
 }
 
 const ProductListSection: React.FC<ProductListSectionProps> = ({
-  title = "Productos",
   products,
   showFilter = true,
 }) => {

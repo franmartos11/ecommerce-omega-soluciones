@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { sendResetEmail } from "../lib/firebase/auth-clients";
+import { FirebaseError } from "firebase/app";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -9,7 +10,7 @@ export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
-  async function onSubmit(e: React.FormEvent) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setErr(null);
 
@@ -20,17 +21,23 @@ export default function ForgotPasswordPage() {
 
     try {
       setLoading(true);
-      // Redirigir a tu página que define la nueva contraseña:
+      // Redirige a tu página que define la nueva contraseña:
       const continueUrl = `${window.location.origin}/reset-password`;
       await sendResetEmail(email, continueUrl);
       setSent(true);
-    } catch (error: any) {
-      const code = error?.code as string | undefined;
+    } catch (error: unknown) {
+      // ⬇️ Narrowing del error sin usar 'any'
+      const code = error instanceof FirebaseError ? error.code : undefined;
+
       if (code === "auth/user-not-found") {
-        // Por seguridad, podés no revelar si existe o no
+        // Por seguridad, respondemos como si se hubiese enviado
         setSent(true);
+      } else if (code === "auth/invalid-email") {
+        setErr("El correo es inválido.");
+      } else if (code === "auth/too-many-requests") {
+        setErr("Demasiados intentos. Probá más tarde.");
       } else {
-        setErr("No se pudo enviar el email. Intenta más tarde.");
+        setErr("No se pudo enviar el email. Intentá más tarde.");
       }
     } finally {
       setLoading(false);
@@ -41,7 +48,7 @@ export default function ForgotPasswordPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="bg-white p-6 rounded-xl shadow w-full max-w-md space-y-2">
-          <h1 className="text-xl font-semibold">Revisa tu correo</h1>
+          <h1 className="text-xl font-semibold">Revisá tu correo</h1>
           <p className="text-sm text-black">
             Si el correo existe, recibirás un mensaje con instrucciones para restablecer tu contraseña.
           </p>
