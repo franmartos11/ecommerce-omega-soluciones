@@ -46,9 +46,9 @@ export default function ForgotPasswordPage() {
 
   if (sent) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="min-h-screen bg-bg2 flex items-center justify-center px-4">
         <div className="bg-white p-6 rounded-xl shadow w-full max-w-md space-y-2">
-          <h1 className="text-xl font-semibold">Revisá tu correo</h1>
+          <h1 className="text-xl text-black font-semibold">Revisá tu correo</h1>
           <p className="text-sm text-black">
             Si el correo existe, recibirás un mensaje con instrucciones para restablecer tu contraseña.
           </p>
