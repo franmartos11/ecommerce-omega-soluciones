@@ -173,7 +173,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
 
         <main className="flex-1 min-w-0">
           <CarouselBanner />
-          <h2 className="text-2xl font-semibold mb-4 text-black">{title}</h2>
+          
           <ProductCardGrid products={productosFiltrados} />
         </main>
       </div>

@@ -2,6 +2,7 @@
 import './globals.css'
 import { Suspense } from 'react'
 import ThemeProvider from './ThemeProvider/ThemeProvider'
+import { AuthProvider } from './context/AuthContext'
 
 
 export const metadata = {
@@ -17,11 +18,13 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body>
+        <AuthProvider>
         <ThemeProvider>
           <Suspense fallback={<div className="p-6">Cargando...</div>}>
             {children}
           </Suspense>
         </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   )

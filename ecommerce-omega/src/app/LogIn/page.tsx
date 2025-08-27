@@ -1,24 +1,32 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+
+// 👇 imports Firebase
+import { signInEmail } from "../lib/firebase/auth-clients";
+import { auth } from "../lib/firebase/firebase";
+import {
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence,
+} from "firebase/auth";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string; api?: string }>({});
   const [submitted, setSubmitted] = useState(false);
   const [shake, setShake] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    if (submitted) {
-      validateForm();
-    }
+    if (submitted) validateForm();
   }, [submitted, email, password]);
 
   const validateEmail = (value: string): boolean =>
@@ -29,12 +37,10 @@ export default function LoginForm() {
 
   const validateForm = (): boolean => {
     const newErrors: typeof errors = {};
-    if (!validateEmail(email)) {
-      newErrors.email = 'El correo no es válido';
-    }
+    if (!validateEmail(email)) newErrors.email = "El correo no es válido";
     if (!validatePassword(password)) {
       newErrors.password =
-        'Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo';
+        "Debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -43,6 +49,8 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
+    setErrors(prev => ({ ...prev, api: undefined }));
+
     if (!validateForm()) {
       setShake(true);
       setTimeout(() => setShake(false), 500);
@@ -50,21 +58,37 @@ export default function LoginForm() {
     }
 
     try {
-      // Mock de validación de API
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
-      });
-      if (res.ok || email === 'test@omega.com') {
-        localStorage.setItem('userLoggedIn', JSON.stringify({ email, remember }));
-        router.push('/');
-      } else {
-        throw new Error();
+      setSubmitting(true);
+
+      // 👇 Persistencia según "Recordarme"
+      await setPersistence(
+        auth,
+        remember ? browserLocalPersistence : browserSessionPersistence
+      );
+
+      // 👇 Login con Firebase
+      await signInEmail({ email, password });
+
+      // opcional: guardá tu flag propio
+      localStorage.setItem("userLoggedIn", JSON.stringify({ email, remember }));
+
+      router.push("/");
+    } catch (err: any) {
+      // Mapeo amigable de errores de Firebase
+      const code = err?.code as string | undefined;
+      let msg = "Error al iniciar sesión";
+      if (code === "auth/invalid-credential" || code === "auth/wrong-password") {
+        msg = "Credenciales incorrectas";
+      } else if (code === "auth/user-not-found") {
+        msg = "No existe un usuario con ese email";
+      } else if (code === "auth/too-many-requests") {
+        msg = "Demasiados intentos. Probá más tarde.";
       }
-    } catch {
-      setErrors(prev => ({ ...prev, api: 'Credenciales incorrectas' }));
+      setErrors(prev => ({ ...prev, api: msg }));
       setShake(true);
       setTimeout(() => setShake(false), 500);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -90,9 +114,9 @@ export default function LoginForm() {
             type="email"
             placeholder="example@omega.com"
             className={`w-full text-black border ${
-              submitted && errors.email ? 'border-red-500' : 'border-gray-300'
+              submitted && errors.email ? "border-red-500" : "border-gray-300"
             } rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${
-              submitted && errors.email ? 'ring-red-400' : 'ring-text1'
+              submitted && errors.email ? "ring-red-400" : "ring-text1"
             }`}
             value={email}
             onChange={e => setEmail(e.target.value)}
@@ -105,9 +129,9 @@ export default function LoginForm() {
             type="password"
             placeholder="••••••••"
             className={`w-full text-black border ${
-              submitted && errors.password ? 'border-red-500' : 'border-gray-300'
+              submitted && errors.password ? "border-red-500" : "border-gray-300"
             } rounded-md py-2 px-3 text-sm outline-none focus:ring-2 ${
-              submitted && errors.password ? 'ring-red-400' : 'ring-text1'
+              submitted && errors.password ? "ring-red-400" : "ring-text1"
             }`}
             value={password}
             onChange={e => setPassword(e.target.value)}
@@ -128,25 +152,23 @@ export default function LoginForm() {
               />
               Recordarme
             </label>
-            <Link href="Contrasena" className="text-gray-500 hover:underline">
+            <Link href="CambioContrasena" className="text-gray-500 hover:underline">
               ¿Olvidaste tu contraseña?
             </Link>
           </div>
 
           <button
             type="submit"
-            className="w-full text-white py-2 rounded-md transition bg-bg1 hover:bg-bg2"
+            className="w-full text-white py-2 rounded-md transition bg-bg1 hover:bg-bg2 disabled:opacity-50"
+            disabled={submitting}
           >
-            Iniciar sesión
+            {submitting ? "Ingresando..." : "Iniciar sesión"}
           </button>
         </form>
 
         <div className="text-center mt-4 text-sm text-gray-500">
-          ¿No tenés cuenta?{' '}
-          <Link
-            href="/Registro"
-            className="text-text1 hover:underline font-medium"
-          >
+          ¿No tenés cuenta?{" "}
+          <Link href="/Registro" className="text-text1 hover:underline font-medium">
             Registrate
           </Link>
         </div>

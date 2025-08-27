@@ -24,7 +24,7 @@ const ProductCardGrid: FC<ProductCardGridProps> = ({ products }) => {
   const hasMore = visibleCount < products.length;
 
   return (
-    <div className="w-full px-4 py-6">
+    <div className="w-full ">
       <h2 className="text-black text-2xl font-semibold mb-6 ">En Promo</h2>
 
       <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

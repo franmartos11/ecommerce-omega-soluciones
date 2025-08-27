@@ -12,6 +12,7 @@
     "clsx": "^2.1.1",
     "cobe": "^0.6.3",
     "embla-carousel-react": "^8.6.0",
+    "firebase": "^12.1.0",
     "framer-motion": "^12.7.4",
     "lucide-react": "^0.488.0",
     "mercadopago": "^2.8.0",
