@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { Mail, Lock, User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { FirebaseError } from 'firebase/app';
+import { signUpEmail } from '../lib/firebase/auth-clients'; 
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -22,32 +24,23 @@ export default function RegisterForm() {
   const validateEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
+  // Si preferís mínimo 6, cambiá por: /.{6,}/
   const validatePassword = (password: string) =>
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!form.name.trim()) {
-      newErrors.name = 'El nombre es obligatorio';
-    }
-
-    if (!validateEmail(form.email)) {
-      newErrors.email = 'Correo inválido';
-    }
-
+    if (!form.name.trim()) newErrors.name = 'El nombre es obligatorio';
+    if (!validateEmail(form.email)) newErrors.email = 'Correo inválido';
     if (!validatePassword(form.password)) {
       newErrors.password =
         'Debe tener 8+ caracteres, mayúscula, minúscula, número y símbolo';
     }
-
     if (form.password !== form.confirmPassword) {
       newErrors.confirmPassword = 'Las contraseñas no coinciden';
     }
-
-    if (!form.termsAccepted) {
-      newErrors.termsAccepted = 'Debés aceptar los términos';
-    }
+    if (!form.termsAccepted) newErrors.termsAccepted = 'Debés aceptar los términos';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -55,9 +48,7 @@ export default function RegisterForm() {
 
   // Revalida en cada cambio tras el primer submit
   useEffect(() => {
-    if (submitted) {
-      validateForm();
-    }
+    if (submitted) validateForm();
   }, [form, submitted]);
 
   const handleChange = (
@@ -71,27 +62,32 @@ export default function RegisterForm() {
     e.preventDefault();
     setSubmitted(true);
 
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     setLoading(true);
     try {
-      const res = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+      // Crea el usuario en Firebase Auth y (opcional) el doc en Firestore
+      await signUpEmail({
+        email: form.email,
+        password: form.password,
+        displayName: form.name,
+        createProfileDoc: true, // deja en true si querés /users/{uid}
       });
 
-      if (res.ok) {
-        router.push('/login');
+      // Redirige al login (o al dashboard si preferís)
+      router.push('/LogIn');
+    } catch (error: unknown) {
+      const code = error instanceof FirebaseError ? error.code : undefined;
+
+      if (code === 'auth/email-already-in-use') {
+        setErrors({ api: 'Ese email ya está registrado.' });
+      } else if (code === 'auth/invalid-email') {
+        setErrors({ api: 'Email inválido.' });
+      } else if (code === 'auth/weak-password') {
+        setErrors({ api: 'Contraseña demasiado débil.' });
       } else {
-        const { message } = await res.json();
-        setErrors({ api: message || 'Error al registrar' });
+        setErrors({ api: 'No se pudo crear la cuenta. Intentá nuevamente.' });
       }
-    } catch {
-      // Aquí ya no recibimos parámetro err
-      setErrors({ api: 'No se pudo conectar con el servidor' });
     } finally {
       setLoading(false);
     }
