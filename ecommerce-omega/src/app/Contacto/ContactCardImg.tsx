@@ -1,8 +1,8 @@
 'use client'
-import { Facebook, Instagram, Link, Linkedin, Twitter, Youtube } from "lucide-react";
+import { SiFacebook, SiInstagram, SiX, SiYoutube, SiLinkedin } from "react-icons/si";
+import Link from "next/link";
 import Image from "next/image";
 import { useState, ChangeEvent, FormEvent } from "react";
-
 
 type FormData = {
   name: string;
@@ -129,7 +129,7 @@ export default function ContactCardImg() {
 
               <button
                 type="submit"
-                className="cursor-pointer w-full px-6 py-3 mt-4 text-base font-medium tracking-wide hover:text-white text-black capitalize transition-colors duration-300 transform rounded-md bg-bg2  hover:border-white focus:outline-none focus:ring focus:ring-blue-900 focus:ring-opacity-50"
+                className="cursor-pointer w-full px-6 py-3 mt-4 text-base font-medium tracking-wide text-white border-white capitalize transition-colors duration-300  rounded-md bg-bg2 focus:outline-none focus:ring focus:ring-blue-900 focus:ring-opacity-50"
               >
                 Enviar
               </button>
@@ -217,21 +217,20 @@ export default function ContactCardImg() {
             <div className="mt-6 w-80 md:mt-8">
               <h3 className="text-gray-900">Siguenos</h3>
               <div className="flex mt-4 -mx-1.5 space-x-5 ">
-                {/* Social Media Links */}
-                <Link href="#" className="hover:text-bg1">
-                  <Facebook className="w-5 h-5" />
+                <Link href="#" className="text-gray-600 hover:text-bg1">
+                  <SiFacebook className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="hover:text-bg1">
-                  <Instagram className="w-5 h-5" />
+                <Link href="#" className=" text-gray-600 hover:text-bg1">
+                  <SiInstagram className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="hover:text-bg1">
-                  <Twitter className="w-5 h-5" />
+                <Link href="#" className="text-gray-600 hover:text-bg1">
+                  <SiX className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="hover:text-bg1">
-                  <Youtube className="w-5 h-5" />
+                <Link href="#" className="text-gray-600 hover:text-bg1">
+                  <SiYoutube className="w-5 h-5" />
                 </Link>
-                <Link href="#" className="hover:text-bg1">
-                  <Linkedin className="w-5 h-5" />
+                <Link href="#" className="text-gray-600 hover:text-bg1">
+                  <SiLinkedin className="w-5 h-5" />
                 </Link>
               </div>
             </div>
