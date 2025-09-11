@@ -54,9 +54,7 @@ async function readLocalConfig(): Promise<Config | null> {
       const raw = await fs.readFile(p, "utf8");
       const json = JSON.parse(raw) as Config;
       return normalizeConfig(json);
-    } catch (_) {
-      // probar siguiente ruta
-    }
+    } catch { /* noop */ }
   }
   return null;
 }
