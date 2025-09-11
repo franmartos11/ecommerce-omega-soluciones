@@ -3,6 +3,37 @@ import path from "node:path";
 import fs from "node:fs/promises";
 import { Config, BannerItem } from "./config.types";
 
+const DEFAULT_CONFIG: Config = {
+  version: "0.0.0",
+  actualizadoEn: new Date().toISOString(),
+  sitio: {
+    nombre: "Omega Soluciones",
+    dominio: "http://localhost:3000",
+    idioma: "es-AR",
+    moneda: "ARS",
+    timezone: "America/Argentina/Cordoba",
+  },
+  Logo: { src: "/logo.png", alt: "Omega Soluciones" },
+  Categorias: [],
+  Filtros: {},
+  Banner: { items: [] },
+  Productos: {},
+  Soporte: {},
+  Redes: {},
+  Contactanos: {},
+  SobreNosotros: {},
+  Colores: {
+    bgweb: "#0B1220",
+    ColorPrimarioBG: "#04B0DB",
+    ColorSecundarioBG: "#0EA5E9",
+    ColorTerciarioBG: "#111827",
+    ColorPrimarioTEXT: "#FFFFFF",
+    ColorSecundarioTEXT: "#E5E7EB",
+    ColorTerciarioTEXT: "#9CA3AF",
+  },
+  SEO: { titulo: "Omega Soluciones", descripcion: "", ogImage: undefined },
+};
+
 // Ruta local del JSON dentro de /public. Ajustá si cambiás la carpeta.
 const LOCAL_CONFIG_PATHS = [
   path.join(process.cwd(), "public", "ConfigJson", "config.json"), // tu ruta actual
@@ -54,7 +85,9 @@ async function readLocalConfig(): Promise<Config | null> {
       const raw = await fs.readFile(p, "utf8");
       const json = JSON.parse(raw) as Config;
       return normalizeConfig(json);
-    } catch { /* noop */ }
+    } catch {
+      /* noop */
+    }
   }
   return null;
 }
@@ -63,29 +96,42 @@ export async function getConfig(): Promise<Config> {
   // 1) Remoto por ENV (útil en producción si querés editar sin redeploy)
   const remote = process.env.CONFIG_URL;
   if (remote) {
-    const res = await fetch(remote, { cache: "no-store" });
-    if (!res.ok) throw new Error(`CONFIG_URL fetch failed: ${res.status}`);
-    const cfg = (await res.json()) as Config;
-    return normalizeConfig(cfg);
+    try {
+      const res = await fetch(remote, { cache: "no-store" });
+      if (res.ok) {
+        const cfg = (await res.json()) as Config;
+        return normalizeConfig(cfg);
+      }
+    } catch {
+      // ignore y seguimos a local
+    }
   }
+
   // 2) Local: leer desde /public usando fs (no intentes importar desde /public; no es parte del bundle)
   const local = await readLocalConfig();
   if (local) return local;
 
   // 3) Último recurso: intentar fetch a la ruta pública conocida (requiere URL absoluta en server)
-  // Si tenés NEXT_PUBLIC_SITE_URL (https://tu-dominio.com) configurada, la usamos.
   const base = process.env.NEXT_PUBLIC_SITE_URL;
   if (base) {
-    const res = await fetch(new URL("/ConfigJson/config.json", base), {
-      cache: "no-store",
-    }).catch(() => undefined);
-    if (res && res.ok) {
-      const cfg = (await res.json()) as Config;
-      return normalizeConfig(cfg);
+    try {
+      const res = await fetch(new URL("/ConfigJson/config.json", base), {
+        cache: "no-store",
+      });
+      if (res.ok) {
+        const cfg = (await res.json()) as Config;
+        return normalizeConfig(cfg);
+      }
+    } catch {
+      // ignore
     }
   }
 
-  throw new Error(
-    "No se pudo cargar la configuración. Verificá la ruta en /public/ConfigJson/config.json o la variable CONFIG_URL."
-  );
+  // 4) Fallback definitivo para no romper prerender
+  if (process.env.NODE_ENV === "production") {
+    console.warn(
+      "[config] No se encontró config.json. Usando DEFAULT_CONFIG para evitar fallas de prerender."
+    );
+  }
+  return DEFAULT_CONFIG;
 }

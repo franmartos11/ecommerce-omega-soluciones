@@ -5,6 +5,9 @@ import { AuthProvider } from "./context/AuthContext";
 import { getConfig } from "@/lib/config.server";
 import { Metadata } from "next";
 import { ConfigProvider } from "./ConfigProvider/ConfigProvider";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 
 export async function generateMetadata(): Promise<Metadata> {
   const cfg = await getConfig();
