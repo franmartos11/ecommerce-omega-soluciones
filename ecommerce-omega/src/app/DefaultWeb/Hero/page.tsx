@@ -1,7 +1,7 @@
 "use client";
-import { motion } from "motion/react"; 
+import { motion } from "motion/react";
 
-export function Hero() {
+export default function Page() {
   return (
     <div className="relative mx-auto my-10 flex max-w-7xl flex-col items-center justify-center">
       <div className="px-4 py-10 md:py-20">
@@ -27,8 +27,8 @@ export function Hero() {
           transition={{ duration: 0.3, delay: 0.8 }}
           className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600"
         >
-          With AI, you can launch your website in hours, not days. Try our best in class,
-          state of the art, cutting edge AI tools to get your website up.
+          With AI, you can launch your website in hours, not days. Try our best
+          in class, state of the art, cutting edge AI tools to get your website up.
         </motion.p>
 
         <motion.div
