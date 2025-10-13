@@ -3,7 +3,8 @@ import Navbar from "../Components/NavigationBar/NavBar";
 import { ContactComponent } from "../Components/ComponentsSobreNosotrosOmega/Contact/Contact";
 import { TabsSection } from "./TabsSection/page";
 import {  TimelineSection } from "./TimelineSection/page";
-import { HeroDW } from "./Hero/page";
+import { HeroDW } from "./Hero/HeroDW";
+
 
 
 export default function Home() {
