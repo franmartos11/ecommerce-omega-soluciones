@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
-type Tab = {
+export type Tab = {
   title: string;
   value: string;
   content?: string | React.ReactNode;
@@ -29,8 +29,8 @@ export function Tabs({
 
   const moveSelectedTabToTop = (idx: number) => {
     const newTabs = [...propTabs];
-    const selectedTab = newTabs.splice(idx, 1);
-    newTabs.unshift(selectedTab[0]);
+    const [selected] = newTabs.splice(idx, 1);
+    newTabs.unshift(selected);
     setTabs(newTabs);
     setActive(newTabs[0]);
   };
@@ -77,7 +77,7 @@ export function Tabs({
 function FadeInDiv({
   className,
   tabs,
-  active,          // <-- ahora sí lo recibimos (lo usás si querés)
+  active,
   hovering,
 }: {
   className?: string;
@@ -85,7 +85,8 @@ function FadeInDiv({
   active: Tab;
   hovering?: boolean;
 }) {
-  const isActive = (tab: Tab) => tab.value === tabs[0].value;
+  // ✅ ahora usamos `active` para evitar el warning y además es lo correcto
+  const isActive = (tab: Tab) => tab.value === active.value;
 
   return (
     <div className="relative w-full h-full">
@@ -108,5 +109,3 @@ function FadeInDiv({
     </div>
   );
 }
-
-export type { Tab };
