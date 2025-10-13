@@ -1,4 +1,3 @@
-// src/app/theme-provider.tsx
 'use client'
 
 import { useEffect, ReactNode } from 'react'
