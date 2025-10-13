@@ -7,10 +7,10 @@ import { cn } from "@/lib/utils";
 type Tab = {
   title: string;
   value: string;
-  content?: string | React.ReactNode ;
+  content?: string | React.ReactNode;
 };
 
-export const Tabs = ({
+export function Tabs({
   tabs: propTabs,
   containerClassName,
   activeTabClassName,
@@ -22,9 +22,10 @@ export const Tabs = ({
   activeTabClassName?: string;
   tabClassName?: string;
   contentClassName?: string;
-}) => {
+}) {
   const [active, setActive] = useState<Tab>(propTabs[0]);
   const [tabs, setTabs] = useState<Tab[]>(propTabs);
+  const [hovering, setHovering] = useState(false);
 
   const moveSelectedTabToTop = (idx: number) => {
     const newTabs = [...propTabs];
@@ -33,8 +34,6 @@ export const Tabs = ({
     setTabs(newTabs);
     setActive(newTabs[0]);
   };
-
-  const [hovering, setHovering] = useState(false);
 
   return (
     <>
@@ -47,58 +46,47 @@ export const Tabs = ({
         {propTabs.map((tab, idx) => (
           <button
             key={tab.title}
-            onClick={() => {
-              moveSelectedTabToTop(idx);
-            }}
+            onClick={() => moveSelectedTabToTop(idx)}
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
             className={cn("relative px-4 py-2 rounded-full cursor-pointer", tabClassName)}
-            style={{
-              transformStyle: "preserve-3d",
-            }}
+            style={{ transformStyle: "preserve-3d" }}
           >
             {active.value === tab.value && (
               <motion.div
                 layoutId="clickedbutton"
                 transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
-                className={cn(
-                  "absolute inset-0 bg-gray-200  rounded-full ",
-                  activeTabClassName
-                )}
+                className={cn("absolute inset-0 bg-gray-200 rounded-full", activeTabClassName)}
               />
             )}
-
-            <span className="relative block text-black ">
-              {tab.title}
-            </span>
+            <span className="relative block text-black">{tab.title}</span>
           </button>
         ))}
       </div>
+
       <FadeInDiv
         tabs={tabs}
         active={active}
-        key={active.value}
         hovering={hovering}
         className={cn("mt-32", contentClassName)}
       />
     </>
   );
-};
+}
 
-export const FadeInDiv = ({
+function FadeInDiv({
   className,
   tabs,
+  active,          // <-- ahora sí lo recibimos (lo usás si querés)
   hovering,
 }: {
   className?: string;
-  key?: string;
   tabs: Tab[];
   active: Tab;
   hovering?: boolean;
-}) => {
-  const isActive = (tab: Tab) => {
-    return tab.value === tabs[0].value;
-  };
+}) {
+  const isActive = (tab: Tab) => tab.value === tabs[0].value;
+
   return (
     <div className="relative w-full h-full">
       {tabs.map((tab, idx) => (
@@ -111,9 +99,7 @@ export const FadeInDiv = ({
             zIndex: -idx,
             opacity: idx < 3 ? 1 - idx * 0.1 : 0,
           }}
-          animate={{
-            y: isActive(tab) ? [0, 40, 0] : 0,
-          }}
+          animate={{ y: isActive(tab) ? [0, 40, 0] : 0 }}
           className={cn("w-full h-full absolute top-0 left-0", className)}
         >
           {tab.content}
@@ -121,4 +107,6 @@ export const FadeInDiv = ({
       ))}
     </div>
   );
-};
+}
+
+export type { Tab };
