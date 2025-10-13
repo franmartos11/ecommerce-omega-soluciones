@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "motion/react";
 
-export default function Page() {
+export function HeroDW() {
   return (
     <div className="relative mx-auto my-10 flex max-w-7xl flex-col items-center justify-center">
       <div className="px-4 py-10 md:py-20">
