@@ -9,30 +9,45 @@ import CarouselBanner from "../CarrouselImgs/CarrouselBanner";
 import { useConfig } from "@/app/ConfigProvider/ConfigProvider";
 
 
+/* Tipos auxiliares (coinciden con tu config.json) */
+type ConfigCategoria = {
+  id: string;
+  nombre: string;
+  slug: string;
+  // NOTA: tu JSON no trae iconUrl; si algún día lo agregás, podés extender acá con:
+  // iconUrl?: string;
+};
+
+/* Type guards sin `any` */
+function isCategoriasArray(v: unknown): v is ConfigCategoria[] {
+  return Array.isArray(v) && v.every(
+    (x) =>
+      typeof x === "object" &&
+      x !== null &&
+      "id" in x &&
+      "nombre" in x &&
+      "slug" in x
+  );
+}
+
+/* Helpers label <-> slug */
+function nombreFromSlug(slug: string | null, cats: ConfigCategoria[]): string | null {
+  if (!slug) return null;
+  const f = cats.find((c) => c.slug.toLowerCase() === slug.toLowerCase());
+  return f?.nombre ?? null;
+}
+
+function slugFromNombre(nombre: string | null, cats: ConfigCategoria[]): string | null {
+  if (!nombre) return null;
+  const f = cats.find((c) => c.nombre === nombre);
+  return f?.slug ?? null;
+}
+
 interface ProductListSectionProps {
   title?: string;
   products: Product[];
   showFilter?: boolean;
 }
-
-// Helpers nombre <-> slug usando las categorías del config
-const nombreFromSlug = (
-  slug: string | null,
-  cats?: { id: string; nombre: string; slug: string; iconUrl?: string }[]
-): string | null => {
-  if (!slug || !cats?.length) return null;
-  const found = cats.find((c) => c.slug?.toLowerCase() === slug.toLowerCase());
-  return found?.nombre ?? null;
-};
-
-const slugFromNombre = (
-  nombre: string | null,
-  cats?: { id: string; nombre: string; slug: string; iconUrl?: string }[]
-): string | null => {
-  if (!nombre || !cats?.length) return null;
-  const found = cats.find((c) => c.nombre === nombre);
-  return found?.slug ?? null;
-};
 
 const ProductListSection: React.FC<ProductListSectionProps> = ({
   products,
@@ -44,36 +59,39 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  // Leemos el slug de la URL (fuente de verdad para filtros)
-  const categorySlug = searchParams.get("categoria") || null;
+  // Leemos categorías del config con guard (sin `any`)
+  const categorias: ConfigCategoria[] = useMemo(() => {
+    return isCategoriasArray(config?.Categorias) ? config!.Categorias : [];
+  }, [config?.Categorias]);
 
+  // Derivamos categorías para el CategoryFilter (usa {label, iconUrl})
+  const categories: Category[] = useMemo(() => {
+    return categorias.map((c) => ({
+      label: c.nombre,
+      // ✅ Como tu JSON no trae iconUrl, generamos un fallback por slug:
+      iconUrl: `/icons/${c.slug}.svg`,
+    }));
+  }, [categorias]);
+
+  // Filtros desde la URL (slug como fuente de verdad)
   const filters = {
-    categorySlug, // slug en URL
+    categorySlug: searchParams.get("categoria") || null,
     colors: searchParams.getAll("color"),
     conditions: searchParams.getAll("condicion"),
     priceRange: [
       Number(searchParams.get("precio_min")) || 0,
       Number(searchParams.get("precio_max")) || 20000,
     ] as [number, number],
-    search: searchParams.get("busqueda")?.toLowerCase() || "",
+    search: (searchParams.get("busqueda") || "").toLowerCase(),
   };
 
-  // Derivamos CategoryFilter.categories desde el ConfigProvider
-  const categories: Category[] = useMemo(() => {
-    const cats = config?.Categorias ?? [];
-    return cats.map((c) => ({
-      label: c.nombre, // CategoryFilter usa label
-      iconUrl: c.iconUrl ?? `/icons/${c.slug}.svg`, // fallback si no viene iconUrl en el config
-    }));
-  }, [config?.Categorias]);
-
-  // Para el CategoryFilter.selected (espera `label`), convertimos slug -> nombre
+  // Label seleccionado para CategoryFilter (CategoryFilter.selected espera label)
   const selectedLabel = useMemo(
-    () => nombreFromSlug(filters.categorySlug, config?.Categorias),
-    [filters.categorySlug, config?.Categorias]
+    () => nombreFromSlug(filters.categorySlug, categorias),
+    [filters.categorySlug, categorias]
   );
 
-  // Push de todos los filtros a la URL (usamos slug para categoría)
+  // Push de filtros a la URL (guardamos slug)
   const applyAllFilters = (f: {
     priceRange: number[];
     colors: string[];
@@ -97,7 +115,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
     router.push(`?${params.toString()}`);
   };
 
-  // Filtrado: asumimos que p.category guarda el slug de la categoría del producto
+  // Filtrado local (asume que Product.category guarda el slug)
   const productosFiltrados = useMemo(() => {
     return products.filter((p) => {
       const matchesCategory =
@@ -147,14 +165,13 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
             <div className="hidden md:flex flex-col gap-4 sticky top-6">
               <CategoryFilter
                 categories={categories}
-                selected={selectedLabel} // CategoryFilter espera label (nombre)
+                selected={selectedLabel}
                 onSelect={(labelOrNull) =>
                   applyAllFilters({
                     priceRange: filters.priceRange,
                     colors: filters.colors,
                     conditions: filters.conditions,
-                    // convertimos el label (nombre) a slug para la URL
-                    categorySlug: slugFromNombre(labelOrNull, config?.Categorias),
+                    categorySlug: slugFromNombre(labelOrNull, categorias),
                   })
                 }
               />
@@ -163,7 +180,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
                 onFilter={(f) => {
                   applyAllFilters({
                     ...f,
-                    categorySlug: filters.categorySlug, // mantenemos la categoría actual (slug)
+                    categorySlug: filters.categorySlug,
                   });
                 }}
               />
@@ -185,7 +202,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
                     priceRange: filters.priceRange,
                     colors: filters.colors,
                     conditions: filters.conditions,
-                    categorySlug: slugFromNombre(labelOrNull, config?.Categorias),
+                    categorySlug: slugFromNombre(labelOrNull, categorias),
                   })
                 }
               />
