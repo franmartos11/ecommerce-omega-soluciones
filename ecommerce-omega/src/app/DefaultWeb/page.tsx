@@ -2,7 +2,7 @@ import Footer from "../Components/Footer/Footer";
 import Navbar from "../Components/NavigationBar/NavBar";
 import { ContactComponent } from "../Components/ComponentsSobreNosotrosOmega/Contact/Contact";
 import { TabsSection } from "./TabsSection/TabsSection";
-import {  TimelineSection } from "./TimelineSection/page";
+import {  TimelineSection } from "./TimelineSection/TimelineSection";
 import { HeroDW } from "./Hero/HeroDW";
 
 
