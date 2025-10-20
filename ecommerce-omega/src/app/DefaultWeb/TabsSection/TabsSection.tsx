@@ -1,6 +1,6 @@
 "use client";
 
-import { Tabs } from "./Tabs/page";
+import { Tabs } from "./Tabs/Tabs";
 
 export function TabsSection() {
   const tabs = [
