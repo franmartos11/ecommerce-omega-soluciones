@@ -7,10 +7,7 @@ import Navbar from "./Components/NavigationBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 import { useConfig } from "./ConfigProvider/ConfigProvider";
 
-/**
- * Aceptamos múltiples variantes de esquema de productos en tu config.json
- * para evitar errores de tipeo por nombres distintos.
- */
+/* ========= Tipos auxiliares (sin any) ========= */
 type ConfigCategoria = {
   id: string;
   nombre: string;
@@ -20,113 +17,123 @@ type ConfigCategoria = {
 
 type ConfigBadge = {
   label: string;
-  color: string;      // ej "bg-blue-500"
-  textColor?: string; // ej "text-white"
+  color: string;
+  textColor?: string;
 };
 
 type ConfigProductAny = {
   id?: string | number;
-  // imágenes
+
   imageUrl?: string;
   img?: string;
   image?: string;
 
-  // título
   title?: string;
   nombre?: string;
 
-  // categoría (ideal: slug)
-  category?: string;       // podría venir como nombre o slug
-  categoria?: string;      // puede ser nombre o slug
-  categorySlug?: string;   // preferido
-  slug?: string;           // fallback
+  category?: string;
+  categoria?: string;
+  categorySlug?: string;
+  slug?: string;
 
-  // calificaciones / marca
   rating?: number | string;
   brand?: string;
   marca?: string;
 
-  // precios
   currentPrice?: number | string;
   price?: number | string;
   oldPrice?: number | string;
   priceOld?: number | string;
 
-  // extras
   color?: string;
-  condition?: string;  // "New" | "Used" | "Refurbished" (o lo que manejes)
+  condition?: string;
   condicion?: string;
 
   badge?: ConfigBadge | null | undefined;
 };
 
+/* ========= Type guards sin any ========= */
+function isRecord(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null;
+}
+
+function isArrayOfProducts(v: unknown): v is ConfigProductAny[] {
+  return Array.isArray(v);
+}
+
+function hasItemsArray(v: unknown): v is { items: ConfigProductAny[] } {
+  return isRecord(v) && Array.isArray(v.items);
+}
+
+/** Heurística mínima para detectar un “producto” suelto (objeto único). */
+function looksLikeSingleProduct(v: unknown): v is ConfigProductAny {
+  if (!isRecord(v)) return false;
+  return (
+    "title" in v ||
+    "nombre" in v ||
+    "imageUrl" in v ||
+    "img" in v ||
+    "image" in v
+  );
+}
+
+/* ========= Utils ========= */
 function toNumber(n: unknown, fallback = 0): number {
   const num = typeof n === "string" ? Number(n) : (n as number);
   return Number.isFinite(num) ? (num as number) : fallback;
 }
 
+/* ========= Mapper principal ========= */
 /**
- * Mapea los productos del config hacia el tipo `Product` que consume tu grid.
- * - category: usamos **slug** si está disponible (categorySlug/slug/categoria/category).
- *   Esto mantiene compatible el filtro por `?categoria=<slug>`.
- * - ProductCard mostrará el string que reciba en `category` tal cual;
- *   si querés mostrar el **nombre legible** en la card, podés convertir slug -> nombre
- *   en este mapper usando `config.Categorias`.
+ * Acepta `cfgProducts` como unknown para cubrir:
+ * - Array de productos
+ * - Objeto { items: [...] }
+ * - Objeto único (producto mal formado en el JSON)
  */
 function mapConfigProductsToUI(
   cfgProducts: unknown,
-  categorias?: ConfigCategoria[]
+  _categorias?: ConfigCategoria[]
 ): Product[] {
-  // 1) Obtener array de productos desde varias formas posibles
-  const items: ConfigProductAny[] = Array.isArray(cfgProducts)
-    ? (cfgProducts as ConfigProductAny[])
-    : Array.isArray((cfgProducts as any)?.items)
-    ? ((cfgProducts as any).items as ConfigProductAny[])
-    : [];
+  let items: ConfigProductAny[] = [];
 
-  // helper slug->nombre (por si querés renderizar nombre humano en la tarjeta)
-  const nombreFromSlug = (slug?: string | null) => {
-    if (!slug || !categorias?.length) return slug ?? "";
-    const found = categorias.find((c) => c.slug?.toLowerCase() === slug.toLowerCase());
-    return found?.nombre ?? slug;
-  };
+  if (isArrayOfProducts(cfgProducts)) {
+    items = cfgProducts;
+  } else if (hasItemsArray(cfgProducts)) {
+    items = cfgProducts.items;
+  } else if (looksLikeSingleProduct(cfgProducts)) {
+    items = [cfgProducts];
+  } // si no matchea, queda []
 
   return items.map((it, idx) => {
     const id = String(it.id ?? idx + 1);
-
     const imageUrl = String(it.imageUrl ?? it.img ?? it.image ?? "");
-
     const title = String(it.title ?? it.nombre ?? "Producto");
 
-    // Resolver slug de categoría (preferimos categorySlug/slug)
+    // Usamos slug en `category` para que el filtro ?categoria=<slug> funcione directo
     const categorySlug =
-      (it.categorySlug as string) ??
-      (it.slug as string) ??
-      (it.categoria as string) ??
-      (it.category as string) ??
-      "";
-
-    // Si querés que la Card muestre el **nombre legible** en vez del slug:
-    // const categoryForCard = nombreFromSlug(categorySlug);
-    // Si preferís mostrar el **slug** (compatible con filtros actuales):
-    const categoryForCard = categorySlug;
+      it.categorySlug ?? it.slug ?? it.categoria ?? it.category ?? "";
 
     const rating = toNumber(it.rating, 0);
-
     const brand = String(it.brand ?? it.marca ?? "Sin marca");
 
     const currentPrice = toNumber(it.currentPrice ?? it.price, 0);
-    const oldPrice = toNumber(it.oldPrice ?? it.priceOld ?? it.currentPrice ?? it.price, currentPrice);
+    const oldPrice = toNumber(
+      it.oldPrice ?? it.priceOld ?? it.currentPrice ?? it.price,
+      currentPrice
+    );
 
     const color = String(it.color ?? "");
     const condition = String(it.condition ?? it.condicion ?? "New");
 
     const badge =
-      it.badge && it.badge.label
+      it.badge && typeof it.badge === "object" && it.badge !== null && "label" in it.badge
         ? {
-            label: String(it.badge.label),
-            color: String(it.badge.color ?? "bg-blue-500"),
-            textColor: it.badge.textColor ? String(it.badge.textColor) : undefined,
+            label: String((it.badge as ConfigBadge).label),
+            color: String((it.badge as ConfigBadge).color ?? "bg-blue-500"),
+            textColor:
+              (it.badge as ConfigBadge).textColor !== undefined
+                ? String((it.badge as ConfigBadge).textColor)
+                : undefined,
           }
         : undefined;
 
@@ -134,7 +141,7 @@ function mapConfigProductsToUI(
       id,
       imageUrl,
       title,
-      category: categoryForCard, // 🔹 acá va lo que se muestra en la tarjeta y lo que filtra
+      category: categorySlug, // slug para filtrar con ?categoria=
       rating,
       brand,
       currentPrice,
@@ -148,12 +155,13 @@ function mapConfigProductsToUI(
   });
 }
 
+/* ========= Página ========= */
 export default function Home() {
   const config = useConfig();
 
-  // Productos finales para la UI
   const products: Product[] = useMemo(() => {
-    return mapConfigProductsToUI(config?.Productos, config?.Categorias);
+    // NOTA: no casteamos a any; el mapper ya acepta unknown y hace los guards.
+    return mapConfigProductsToUI(config?.Productos, config?.Categorias as ConfigCategoria[] | undefined);
   }, [config?.Productos, config?.Categorias]);
 
   return (
@@ -166,4 +174,3 @@ export default function Home() {
     </div>
   );
 }
-
