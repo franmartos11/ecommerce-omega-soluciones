@@ -7,14 +7,7 @@ import Navbar from "./Components/NavigationBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 import { useConfig } from "./ConfigProvider/ConfigProvider";
 
-/* ========= Tipos auxiliares (sin any) ========= */
-type ConfigCategoria = {
-  id: string;
-  nombre: string;
-  slug: string;
-  iconUrl?: string;
-};
-
+/* ========= Tipos auxiliares ========= */
 type ConfigBadge = {
   label: string;
   color: string;
@@ -52,7 +45,7 @@ type ConfigProductAny = {
   badge?: ConfigBadge | null | undefined;
 };
 
-/* ========= Type guards sin any ========= */
+/* ========= Type guards ========= */
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null;
 }
@@ -84,16 +77,12 @@ function toNumber(n: unknown, fallback = 0): number {
 }
 
 /* ========= Mapper principal ========= */
-/**
- * Acepta `cfgProducts` como unknown para cubrir:
+/** Acepta:
  * - Array de productos
  * - Objeto { items: [...] }
- * - Objeto único (producto mal formado en el JSON)
+ * - Objeto único (producto suelto)
  */
-function mapConfigProductsToUI(
-  cfgProducts: unknown,
-  _categorias?: ConfigCategoria[]
-): Product[] {
+function mapConfigProductsToUI(cfgProducts: unknown): Product[] {
   let items: ConfigProductAny[] = [];
 
   if (isArrayOfProducts(cfgProducts)) {
@@ -102,14 +91,14 @@ function mapConfigProductsToUI(
     items = cfgProducts.items;
   } else if (looksLikeSingleProduct(cfgProducts)) {
     items = [cfgProducts];
-  } // si no matchea, queda []
+  }
 
   return items.map((it, idx) => {
     const id = String(it.id ?? idx + 1);
     const imageUrl = String(it.imageUrl ?? it.img ?? it.image ?? "");
     const title = String(it.title ?? it.nombre ?? "Producto");
 
-    // Usamos slug en `category` para que el filtro ?categoria=<slug> funcione directo
+    // Usamos el slug en `category` para filtrar con ?categoria=<slug>
     const categorySlug =
       it.categorySlug ?? it.slug ?? it.categoria ?? it.category ?? "";
 
@@ -126,7 +115,10 @@ function mapConfigProductsToUI(
     const condition = String(it.condition ?? it.condicion ?? "New");
 
     const badge =
-      it.badge && typeof it.badge === "object" && it.badge !== null && "label" in it.badge
+      it.badge &&
+      typeof it.badge === "object" &&
+      it.badge !== null &&
+      "label" in it.badge
         ? {
             label: String((it.badge as ConfigBadge).label),
             color: String((it.badge as ConfigBadge).color ?? "bg-blue-500"),
@@ -141,7 +133,7 @@ function mapConfigProductsToUI(
       id,
       imageUrl,
       title,
-      category: categorySlug, // slug para filtrar con ?categoria=
+      category: categorySlug, // slug para el filtro
       rating,
       brand,
       currentPrice,
@@ -160,9 +152,9 @@ export default function Home() {
   const config = useConfig();
 
   const products: Product[] = useMemo(() => {
-    // NOTA: no casteamos a any; el mapper ya acepta unknown y hace los guards.
-    return mapConfigProductsToUI(config?.Productos, config?.Categorias as ConfigCategoria[] | undefined);
-  }, [config?.Productos, config?.Categorias]);
+    // mapper acepta unknown; no hay casts a any
+    return mapConfigProductsToUI(config?.Productos);
+  }, [config?.Productos]);
 
   return (
     <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
