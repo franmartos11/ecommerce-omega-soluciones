@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ProductCardGrid, { Product } from "../ProductCardGrid/ProductCardGrid";
 import CategoryFilter, { Category } from "../CategoryFilter/CategoryFilter";
 import ProductFilterSidebar from "../ProductFilter/ProductFilter";
 import CarouselBanner from "../CarrouselImgs/CarrouselBanner";
+import { useConfig } from "@/app/ConfigProvider/ConfigProvider";
+
 
 interface ProductListSectionProps {
   title?: string;
@@ -13,18 +15,40 @@ interface ProductListSectionProps {
   showFilter?: boolean;
 }
 
+// Helpers nombre <-> slug usando las categorías del config
+const nombreFromSlug = (
+  slug: string | null,
+  cats?: { id: string; nombre: string; slug: string; iconUrl?: string }[]
+): string | null => {
+  if (!slug || !cats?.length) return null;
+  const found = cats.find((c) => c.slug?.toLowerCase() === slug.toLowerCase());
+  return found?.nombre ?? null;
+};
+
+const slugFromNombre = (
+  nombre: string | null,
+  cats?: { id: string; nombre: string; slug: string; iconUrl?: string }[]
+): string | null => {
+  if (!nombre || !cats?.length) return null;
+  const found = cats.find((c) => c.nombre === nombre);
+  return found?.slug ?? null;
+};
+
 const ProductListSection: React.FC<ProductListSectionProps> = ({
   products,
   showFilter = true,
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const config = useConfig();
 
-  const [categories, setCategories] = useState<Category[]>([]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
+  // Leemos el slug de la URL (fuente de verdad para filtros)
+  const categorySlug = searchParams.get("categoria") || null;
+
   const filters = {
-    category: searchParams.get("categoria") || null,
+    categorySlug, // slug en URL
     colors: searchParams.getAll("color"),
     conditions: searchParams.getAll("condicion"),
     priceRange: [
@@ -34,24 +58,27 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
     search: searchParams.get("busqueda")?.toLowerCase() || "",
   };
 
-  useEffect(() => {
-    const mockCategories = [
-      { label: "Tecnologia", iconUrl: "/icons/tech.svg" },
-      { label: "Herramientas", iconUrl: "/icons/tools.svg" },
-      { label: "Electrodomésticos", iconUrl: "/icons/home.svg" },
-      { label: "Construcción", iconUrl: "/icons/construction.svg" },
-      { label: "Productos Químicos", iconUrl: "/icons/chemical.svg" },
-    ];
-    const timeout = setTimeout(() => setCategories(mockCategories), 500);
-    return () => clearTimeout(timeout);
-  }, []);
+  // Derivamos CategoryFilter.categories desde el ConfigProvider
+  const categories: Category[] = useMemo(() => {
+    const cats = config?.Categorias ?? [];
+    return cats.map((c) => ({
+      label: c.nombre, // CategoryFilter usa label
+      iconUrl: c.iconUrl ?? `/icons/${c.slug}.svg`, // fallback si no viene iconUrl en el config
+    }));
+  }, [config?.Categorias]);
 
-  // ✅ Ahora incluye "category"
+  // Para el CategoryFilter.selected (espera `label`), convertimos slug -> nombre
+  const selectedLabel = useMemo(
+    () => nombreFromSlug(filters.categorySlug, config?.Categorias),
+    [filters.categorySlug, config?.Categorias]
+  );
+
+  // Push de todos los filtros a la URL (usamos slug para categoría)
   const applyAllFilters = (f: {
     priceRange: number[];
     colors: string[];
     conditions: string[];
-    category?: string | null;
+    categorySlug?: string | null;
   }) => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -65,24 +92,29 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
     params.set("precio_max", String(f.priceRange[1]));
     f.colors.forEach((c) => params.append("color", c));
     f.conditions.forEach((c) => params.append("condicion", c));
-    if (f.category) {
-      params.set("categoria", f.category);
-    }
+    if (f.categorySlug) params.set("categoria", f.categorySlug);
 
     router.push(`?${params.toString()}`);
   };
 
-  const filtrarProductos = (productos: Product[]) =>
-    productos.filter((p) => {
+  // Filtrado: asumimos que p.category guarda el slug de la categoría del producto
+  const productosFiltrados = useMemo(() => {
+    return products.filter((p) => {
       const matchesCategory =
-        !filters.category || p.category?.toLowerCase() === filters.category.toLowerCase();
+        !filters.categorySlug ||
+        (p.category?.toLowerCase() ?? "") === filters.categorySlug.toLowerCase();
+
       const matchesColor =
         filters.colors.length === 0 || filters.colors.includes(p.color || "");
+
       const matchesCondition =
-        filters.conditions.length === 0 || filters.conditions.includes(p.condition || "");
+        filters.conditions.length === 0 ||
+        filters.conditions.includes(p.condition || "");
+
       const matchesPrice =
         p.currentPrice >= filters.priceRange[0] &&
         p.currentPrice <= filters.priceRange[1];
+
       const matchesSearch =
         !filters.search || p.title.toLowerCase().includes(filters.search);
 
@@ -94,11 +126,11 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
         matchesSearch
       );
     });
-
-  const productosFiltrados = filtrarProductos(products);
+  }, [products, filters]);
 
   return (
     <section className="">
+      {/* 📱 Toggle filtros mobile */}
       <div className="md:hidden mb-4">
         <button
           onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
@@ -115,22 +147,23 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
             <div className="hidden md:flex flex-col gap-4 sticky top-6">
               <CategoryFilter
                 categories={categories}
-                selected={filters.category}
-                onSelect={(cat) =>
+                selected={selectedLabel} // CategoryFilter espera label (nombre)
+                onSelect={(labelOrNull) =>
                   applyAllFilters({
                     priceRange: filters.priceRange,
                     colors: filters.colors,
                     conditions: filters.conditions,
-                    category: cat, // ✅ pasar categoría seleccionada
+                    // convertimos el label (nombre) a slug para la URL
+                    categorySlug: slugFromNombre(labelOrNull, config?.Categorias),
                   })
                 }
               />
+
               <ProductFilterSidebar
                 onFilter={(f) => {
-                  console.log("📤 Filtros aplicados desde sidebar:", f);
                   applyAllFilters({
                     ...f,
-                    category: filters.category, // ✅ mantener categoría actual
+                    categorySlug: filters.categorySlug, // mantenemos la categoría actual (slug)
                   });
                 }}
               />
@@ -146,22 +179,22 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
             >
               <CategoryFilter
                 categories={categories}
-                selected={filters.category}
-                onSelect={(cat) =>
+                selected={selectedLabel}
+                onSelect={(labelOrNull) =>
                   applyAllFilters({
                     priceRange: filters.priceRange,
                     colors: filters.colors,
                     conditions: filters.conditions,
-                    category: cat,
+                    categorySlug: slugFromNombre(labelOrNull, config?.Categorias),
                   })
                 }
               />
+
               <ProductFilterSidebar
                 onFilter={(f) => {
-                  console.log("📤 Filtros aplicados desde sidebar (mobile):", f);
                   applyAllFilters({
                     ...f,
-                    category: filters.category,
+                    categorySlug: filters.categorySlug,
                   });
                   setMobileFiltersOpen(false);
                 }}
@@ -172,7 +205,6 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
 
         <main className="flex-1 min-w-0">
           <CarouselBanner />
-          
           <ProductCardGrid products={productosFiltrados} />
         </main>
       </div>
