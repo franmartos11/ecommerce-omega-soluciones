@@ -1,172 +1,90 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { Product } from "./Components/ProductCardGrid/ProductCardGrid";
-import ProductListSection from "./Components/ProductListSection/ProductListSection";
 import Navbar from "./Components/NavigationBar/NavBar";
 import Footer from "./Components/Footer/Footer";
+import ProductListSection from "./Components/ProductListSection/ProductListSection";
+import { Product } from "./Components/ProductCardGrid/ProductCardGrid";
 import { useConfig } from "./ConfigProvider/ConfigProvider";
+import type { ProductoConfig } from "@/lib/config.types";
 
-/* ========= Tipos auxiliares ========= */
-type ConfigBadge = {
-  label: string;
-  color?: string;
-  textColor?: string;
-};
-
-type ConfigProductAny = {
-  id?: string | number;
-
-  imageUrl?: string;
-  img?: string;
-  image?: string;
-
-  title?: string;
-  nombre?: string;
-
-  category?: string;
-  categoria?: string;
-  categorySlug?: string;
-  slug?: string;
-
-  rating?: number | string;
-  brand?: string;
-  marca?: string;
-
-  currentPrice?: number | string;
-  price?: number | string;
-  oldPrice?: number | string;
-  priceOld?: number | string;
-
-  color?: string;
-  condition?: string;
-  condicion?: string;
-
-  badge?: ConfigBadge | null | undefined;
-};
-
-/* ========= Type guards ========= */
+/* ---------- helpers de tipado ---------- */
 function isRecord(v: unknown): v is Record<string, unknown> {
   return typeof v === "object" && v !== null;
 }
 
-function isArrayOfProducts(v: unknown): v is ConfigProductAny[] {
-  return Array.isArray(v);
+function isBadge(v: unknown): v is NonNullable<ProductoConfig["badge"]> {
+  return isRecord(v) && typeof v.label === "string";
 }
 
-function hasItemsArray(v: unknown): v is { items: ConfigProductAny[] } {
-  return isRecord(v) && Array.isArray((v as { items?: unknown }).items);
-}
-
-function looksLikeSingleProduct(v: unknown): v is ConfigProductAny {
-  if (!isRecord(v)) return false;
+function isProductoConfig(p: unknown): p is ProductoConfig {
+  if (!isRecord(p)) return false;
   return (
-    "title" in v ||
-    "nombre" in v ||
-    "imageUrl" in v ||
-    "img" in v ||
-    "image" in v
+    typeof p.id === "string" &&
+    typeof p.imageUrl === "string" &&
+    typeof p.category === "string" &&
+    typeof p.title === "string" &&
+    typeof p.rating === "number" &&
+    typeof p.brand === "string" &&
+    typeof p.currentPrice === "number" &&
+    typeof p.oldPrice === "number" &&
+    typeof p.color === "string" &&
+    typeof p.condition === "string" &&
+    (p.badge === undefined || isBadge(p.badge))
   );
 }
 
-function isBadge(v: unknown): v is ConfigBadge {
-  return (
-    isRecord(v) &&
-    typeof (v as { label?: unknown }).label === "string" &&
-    (typeof (v as { color?: unknown }).color === "string" ||
-      (v as { color?: unknown }).color === undefined) &&
-    (typeof (v as { textColor?: unknown }).textColor === "string" ||
-      (v as { textColor?: unknown }).textColor === undefined)
-  );
+function isProductoConfigArray(v: unknown): v is ProductoConfig[] {
+  return Array.isArray(v) && v.every(isProductoConfig);
 }
 
-/* ========= Utils ========= */
-function toNumber(n: unknown, fallback = 0): number {
-  const num = typeof n === "string" ? Number(n) : (n as number);
-  return Number.isFinite(num) ? (num as number) : fallback;
-}
-
-/* ========= Mapper principal ========= */
-/** Acepta:
- * - Array de productos
- * - Objeto { items: [...] }
- * - Objeto único (producto suelto)
- */
-function mapConfigProductsToUI(cfgProducts: unknown): Product[] {
-  let items: ConfigProductAny[] = [];
-
-  if (isArrayOfProducts(cfgProducts)) {
-    items = cfgProducts;
-  } else if (hasItemsArray(cfgProducts)) {
-    items = (cfgProducts as { items: ConfigProductAny[] }).items;
-  } else if (looksLikeSingleProduct(cfgProducts)) {
-    items = [cfgProducts as ConfigProductAny];
-  }
-
-  return items.map((it, idx) => {
-    const id = String(it.id ?? idx + 1);
-    const imageUrl = String(it.imageUrl ?? it.img ?? it.image ?? "");
-    const title = String(it.title ?? it.nombre ?? "Producto");
-
-    // Usamos el slug en `category` para filtrar con ?categoria=<slug>
-    const categorySlug =
-      it.categorySlug ?? it.slug ?? it.categoria ?? it.category ?? "";
-
-    const rating = toNumber(it.rating, 0);
-    const brand = String(it.brand ?? it.marca ?? "Sin marca");
-
-    const currentPrice = toNumber(it.currentPrice ?? it.price, 0);
-    const oldPrice = toNumber(
-      it.oldPrice ?? it.priceOld ?? it.currentPrice ?? it.price,
-      currentPrice
-    );
-
-    const color = String(it.color ?? "");
-    const condition = String(it.condition ?? it.condicion ?? "New");
-
-    const normalizedBadge = isBadge(it.badge)
+/* ---------- mapper ---------- */
+function mapProductosToUI(items: ProductoConfig[]): Product[] {
+  return items.map((p, idx) => ({
+    id: p.id ?? String(idx + 1),
+    imageUrl: p.imageUrl,
+    title: p.title,
+    category: p.category, // slug para ?categoria=
+    rating: Number.isFinite(p.rating) ? p.rating : 0,
+    brand: p.brand ?? "Sin marca",
+    currentPrice: p.currentPrice,
+    oldPrice: p.oldPrice ?? p.currentPrice,
+    color: p.color ?? "",
+    condition: p.condition ?? "New",
+    badge: p.badge
       ? {
-          label: it.badge.label,
-          color: it.badge.color ?? "bg-blue-500",
-          textColor: it.badge.textColor,
+          label: p.badge.label,
+          color: p.badge.color ?? "bg-blue-500",
+          textColor: p.badge.textColor,
         }
-      : undefined;
-
-    const product: Product = {
-      id,
-      imageUrl,
-      title,
-      category: categorySlug, // slug para el filtro
-      rating,
-      brand,
-      currentPrice,
-      oldPrice,
-      color,
-      condition,
-      badge: normalizedBadge,
-    };
-
-    return product;
-  });
+      : undefined,
+  }));
 }
 
-/* ========= Página ========= */
+/* ---------- página ---------- */
 export default function Home() {
   const config = useConfig();
 
-  const products: Product[] = useMemo(() => {
-    return mapConfigProductsToUI(config?.Productos ?? []);
-  }, [config?.Productos]);
+  // ✅ Refinamos el tipo de Productos sin usar `as`
+  const productosCfg: ProductoConfig[] = useMemo(
+    () => (isProductoConfigArray(config?.Productos) ? config.Productos : []),
+    [config?.Productos]
+  );
+
+  const products: Product[] = useMemo(
+    () => mapProductosToUI(productosCfg),
+    [productosCfg]
+  );
 
   return (
     <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
       <Navbar />
       <main className="flex flex-col pt-4 gap-8">
-        <ProductListSection
-          title="Ofertas destacadas"
-          products={products}
-          showFilter
-        />
+        {products.length > 0 ? (
+          <ProductListSection title="Ofertas destacadas" products={products} showFilter />
+        ) : (
+          <div className="text-center py-16 text-gray-500">Sin productos por ahora. 🚧</div>
+        )}
       </main>
       <Footer />
     </div>

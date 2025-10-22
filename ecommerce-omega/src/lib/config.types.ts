@@ -91,3 +91,24 @@ ColorTerciarioTEXT?: string;
 };
 SEO?: { titulo?: string; descripcion?: string; ogImage?: string };
 };
+
+export type Badge = {
+  label: string;
+  color?: string;
+  textColor?: string;
+};
+
+export type ProductoConfig = {
+  id: string;
+  imageUrl: string;
+  /** slug de categoría: "paginas-web" | "apps" | "saas" */
+  category: string;
+  title: string;
+  rating: number;
+  brand: string;
+  currentPrice: number;
+  oldPrice: number;
+  color: string;
+  condition: string;
+  badge?: Badge;
+};
