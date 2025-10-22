@@ -1,4 +1,5 @@
 // src/lib/config.types.ts
+
 export type BannerItem = {
   id: string;
   src: string;
@@ -13,7 +14,7 @@ export type Categoria = {
   id: string;
   nombre: string;
   slug: string;
-  // iconUrl?: string; // opcional si querés
+  // iconUrl?: string; // opcional
 };
 
 export type Badge = {
@@ -47,6 +48,7 @@ export type Config = {
     moneda?: string;
     timezone?: string;
   };
+
   Logo?: { src: string; alt: string };
   NumTelefonoSoporte?: string;
 
@@ -61,7 +63,17 @@ export type Config = {
   Redes?: Record<string, string>;
   Contactanos?: Record<string, unknown>;
   SobreNosotros?: Record<string, unknown>;
+
+  /**
+   * 🎨 Colores del tema
+   * - `vars` permite traer variables CSS directamente desde el JSON (p.ej. "--bgweb": "#000")
+   * - Las claves legacy se mantienen por compatibilidad con JSONs anteriores.
+   */
   Colores?: {
+    /** Variables CSS crudas desde el JSON (opcional) */
+    vars?: Record<`--${string}`, string>;
+
+    /** Legacy (compatibilidad) */
     bgweb?: string;
     ColorPrimarioBG?: string;
     ColorSecundarioBG?: string;
@@ -70,6 +82,7 @@ export type Config = {
     ColorSecundarioTEXT?: string;
     ColorTerciarioTEXT?: string;
   };
+  
   SEO?: { titulo?: string; descripcion?: string; ogImage?: string };
   DefaultWeb?: Record<string, unknown>;
 };

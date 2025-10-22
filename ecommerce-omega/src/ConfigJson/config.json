@@ -13,6 +13,17 @@
       "src": "https://cdn.tu-dominio.com/brand/logo.png",
       "alt": "Omega Soluciones"
     },
+    "Colores": {
+    "vars": {
+      "--bgweb": "#9CA3AF",
+      "--color-primary-bg": "#04B0DB",
+      "--color-secondary-bg": "#0EA5E9",
+      "--color-tertiary-bg": "#111827",
+      "--color-primary-text": "#111827",
+      "--color-secondary-text": "#6B7280",
+      "--color-tertiary-text": "#9CA3AF"
+    }
+  },
 
     "NumTelefonoSoporte": "+54 9 351 000-0000",
   

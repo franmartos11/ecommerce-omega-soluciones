@@ -1,5 +1,5 @@
 'use client'
-
+// sirve si usaria el theme consumido desde una api como lo hago con el json ahora no lo uso 
 import { useEffect, ReactNode } from 'react'
 
 type Theme = {
