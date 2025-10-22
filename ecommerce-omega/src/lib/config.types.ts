@@ -1,4 +1,6 @@
-export type Categoria = { id: string; nombre: string; slug: string };
+export type Categoria = {
+  iconUrl: string; id: string; nombre: string; slug: string 
+};
 
 export type FiltroOption = { label: string; value: string };
 

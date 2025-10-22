@@ -10,7 +10,7 @@ import { useConfig } from "./ConfigProvider/ConfigProvider";
 /* ========= Tipos auxiliares ========= */
 type ConfigBadge = {
   label: string;
-  color: string;
+  color?: string;
   textColor?: string;
 };
 
@@ -55,10 +55,9 @@ function isArrayOfProducts(v: unknown): v is ConfigProductAny[] {
 }
 
 function hasItemsArray(v: unknown): v is { items: ConfigProductAny[] } {
-  return isRecord(v) && Array.isArray(v.items);
+  return isRecord(v) && Array.isArray((v as { items?: unknown }).items);
 }
 
-/** Heurística mínima para detectar un “producto” suelto (objeto único). */
 function looksLikeSingleProduct(v: unknown): v is ConfigProductAny {
   if (!isRecord(v)) return false;
   return (
@@ -67,6 +66,17 @@ function looksLikeSingleProduct(v: unknown): v is ConfigProductAny {
     "imageUrl" in v ||
     "img" in v ||
     "image" in v
+  );
+}
+
+function isBadge(v: unknown): v is ConfigBadge {
+  return (
+    isRecord(v) &&
+    typeof (v as { label?: unknown }).label === "string" &&
+    (typeof (v as { color?: unknown }).color === "string" ||
+      (v as { color?: unknown }).color === undefined) &&
+    (typeof (v as { textColor?: unknown }).textColor === "string" ||
+      (v as { textColor?: unknown }).textColor === undefined)
   );
 }
 
@@ -88,9 +98,9 @@ function mapConfigProductsToUI(cfgProducts: unknown): Product[] {
   if (isArrayOfProducts(cfgProducts)) {
     items = cfgProducts;
   } else if (hasItemsArray(cfgProducts)) {
-    items = cfgProducts.items;
+    items = (cfgProducts as { items: ConfigProductAny[] }).items;
   } else if (looksLikeSingleProduct(cfgProducts)) {
-    items = [cfgProducts];
+    items = [cfgProducts as ConfigProductAny];
   }
 
   return items.map((it, idx) => {
@@ -114,20 +124,13 @@ function mapConfigProductsToUI(cfgProducts: unknown): Product[] {
     const color = String(it.color ?? "");
     const condition = String(it.condition ?? it.condicion ?? "New");
 
-    const badge =
-      it.badge &&
-      typeof it.badge === "object" &&
-      it.badge !== null &&
-      "label" in it.badge
-        ? {
-            label: String((it.badge as ConfigBadge).label),
-            color: String((it.badge as ConfigBadge).color ?? "bg-blue-500"),
-            textColor:
-              (it.badge as ConfigBadge).textColor !== undefined
-                ? String((it.badge as ConfigBadge).textColor)
-                : undefined,
-          }
-        : undefined;
+    const normalizedBadge = isBadge(it.badge)
+      ? {
+          label: it.badge.label,
+          color: it.badge.color ?? "bg-blue-500",
+          textColor: it.badge.textColor,
+        }
+      : undefined;
 
     const product: Product = {
       id,
@@ -140,7 +143,7 @@ function mapConfigProductsToUI(cfgProducts: unknown): Product[] {
       oldPrice,
       color,
       condition,
-      badge,
+      badge: normalizedBadge,
     };
 
     return product;
@@ -152,15 +155,18 @@ export default function Home() {
   const config = useConfig();
 
   const products: Product[] = useMemo(() => {
-    // mapper acepta unknown; no hay casts a any
-    return mapConfigProductsToUI(config?.Productos);
+    return mapConfigProductsToUI(config?.Productos ?? []);
   }, [config?.Productos]);
 
   return (
     <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
       <Navbar />
       <main className="flex flex-col pt-4 gap-8">
-        <ProductListSection title="Ofertas destacadas" products={products} showFilter />
+        <ProductListSection
+          title="Ofertas destacadas"
+          products={products}
+          showFilter
+        />
       </main>
       <Footer />
     </div>
