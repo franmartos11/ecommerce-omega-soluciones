@@ -1,7 +1,8 @@
+// src/lib/config.server.ts
 import "server-only";
-import path from "node:path";
-import fs from "node:fs/promises";
 import { Config, BannerItem } from "./config.types";
+// ⬇️ IMPORT ESTÁTICO del JSON dentro de src/
+import rawConfig from "@/ConfigJson/config.json"; // <- poné el JSON en src/config/config.json
 
 const DEFAULT_CONFIG: Config = {
   version: "0.0.0",
@@ -34,15 +35,8 @@ const DEFAULT_CONFIG: Config = {
   SEO: { titulo: "Omega Soluciones", descripcion: "", ogImage: undefined },
 };
 
-// Ruta local del JSON dentro de /public. Ajustá si cambiás la carpeta.
-const LOCAL_CONFIG_PATHS = [
-  path.join(process.cwd(), "public", "ConfigJson", "config.json"), // tu ruta actual
-  path.join(process.cwd(), "public", "config.json"), // fallback si lo movés a raíz de public
-];
-
 function nowISODateOnly() {
-  const d = new Date();
-  return d.toISOString().slice(0, 10); // YYYY-MM-DD
+  return new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 }
 
 function withinVigencia(item: BannerItem): boolean {
@@ -68,7 +62,7 @@ function dedupe<T extends { id?: string; src?: string }>(arr: T[]): T[] {
 export function normalizeConfig(input: Config): Config {
   const cfg = structuredClone(input);
 
-  // Banner: filtrar visibles, vigencia, ordenar y deduplicar
+  // Banner: visibles, vigencia, orden y dedupe
   if (cfg.Banner?.items?.length) {
     const cleaned = cfg.Banner.items
       .filter((b) => b.visible !== false)
@@ -79,21 +73,15 @@ export function normalizeConfig(input: Config): Config {
 
   return cfg;
 }
-async function readLocalConfig(): Promise<Config | null> {
-  for (const p of LOCAL_CONFIG_PATHS) {
-    try {
-      const raw = await fs.readFile(p, "utf8");
-      const json = JSON.parse(raw) as Config;
-      return normalizeConfig(json);
-    } catch {
-      /* noop */
-    }
-  }
-  return null;
-}
 
+/**
+ * Devuelve el config. Prioriza:
+ * 1) CONFIG_URL (remote override opcional)
+ * 2) Import estático empaquetado en build (src/config/config.json)
+ * 3) DEFAULT_CONFIG (fallback)
+ */
 export async function getConfig(): Promise<Config> {
-  // 1) Remoto por ENV (útil en producción si querés editar sin redeploy)
+  // 1) Remoto por ENV (si querés sobreescribir sin redeploy)
   const remote = process.env.CONFIG_URL;
   if (remote) {
     try {
@@ -102,36 +90,20 @@ export async function getConfig(): Promise<Config> {
         const cfg = (await res.json()) as Config;
         return normalizeConfig(cfg);
       }
-    } catch {
-      // ignore y seguimos a local
+      console.warn(`[config] CONFIG_URL respondió ${res.status}`);
+    } catch (e) {
+      console.warn("[config] Error trayendo CONFIG_URL:", e);
     }
   }
 
-  // 2) Local: leer desde /public usando fs (no intentes importar desde /public; no es parte del bundle)
-  const local = await readLocalConfig();
-  if (local) return local;
-
-  // 3) Último recurso: intentar fetch a la ruta pública conocida (requiere URL absoluta en server)
-  const base = process.env.NEXT_PUBLIC_SITE_URL;
-  if (base) {
-    try {
-      const res = await fetch(new URL("/ConfigJson/config.json", base), {
-        cache: "no-store",
-      });
-      if (res.ok) {
-        const cfg = (await res.json()) as Config;
-        return normalizeConfig(cfg);
-      }
-    } catch {
-      // ignore
-    }
+  // 2) Import estático (el más robusto en Vercel)
+  try {
+    const cfg = rawConfig as Config;
+    return normalizeConfig(cfg);
+  } catch (e) {
+    console.warn("[config] Error usando import estático, usando DEFAULT_CONFIG:", e);
   }
 
-  // 4) Fallback definitivo para no romper prerender
-  if (process.env.NODE_ENV === "production") {
-    console.warn(
-      "[config] No se encontró config.json. Usando DEFAULT_CONFIG para evitar fallas de prerender."
-    );
-  }
+  // 3) Fallback
   return DEFAULT_CONFIG;
 }

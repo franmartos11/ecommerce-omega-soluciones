@@ -42,4 +42,4 @@ next-env.d.ts
 
 secrets/
 *.json
-!public/ConfigJson/config.json
+!src/ConfigJson/config.json
