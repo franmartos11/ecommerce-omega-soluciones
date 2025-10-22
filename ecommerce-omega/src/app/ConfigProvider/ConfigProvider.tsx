@@ -1,6 +1,42 @@
 "use client";
 import React, { createContext, useContext, useMemo } from "react";
-import type { Config } from "@/lib/config.types";
+
+// en ConfigProvider/ConfigProvider.tsx
+export type Config = {
+    version: string;
+    actualizadoEn?: string;
+    sitio: { nombre: string; dominio: string; idioma: string; moneda?: string; timezone?: string };
+    Logo?: { src: string; alt: string };
+    NumTelefonoSoporte?: string;
+    Categorias: { id: string; nombre: string; slug: string }[];
+    Filtros?: unknown;
+    Banner?: unknown;
+    Productos: Array<{
+      id: string;
+      imageUrl: string;
+      category: string; // slug
+      title: string;
+      rating: number;
+      brand: string;
+      currentPrice: number;
+      oldPrice: number;
+      color: string;
+      condition: string;
+      badge?: { label: string; color?: string; textColor?: string };
+    }>;
+    Soporte?: unknown;
+    Redes?: Record<string, string>;
+    Contactanos?: unknown;
+    SobreNosotros?: unknown;
+    Colores?: {
+      bgweb?: string;
+      ColorPrimarioBG?: string; ColorSecundarioBG?: string; ColorTerciarioBG?: string;
+      ColorPrimarioTEXT?: string; ColorSecundarioTEXT?: string; ColorTerciarioTEXT?: string;
+    };
+    SEO?: { titulo?: string; descripcion?: string; ogImage?: string };
+    DefaultWeb?: unknown;
+  };
+  
 
 const ConfigContext = createContext<Config | null>(null);
 
