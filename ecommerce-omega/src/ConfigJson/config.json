@@ -389,16 +389,6 @@
       "imagen": "https://cdn.tu-dominio.com/about/cover.jpg"
     },
   
-    "Colores": {
-      "bgweb": "#0B1220",
-      "ColorPrimarioBG": "#04B0DB",
-      "ColorSecundarioBG": "#0EA5E9",
-      "ColorTerciarioBG": "#111827",
-      "ColorPrimarioTEXT": "#FFFFFF",
-      "ColorSecundarioTEXT": "#E5E7EB",
-      "ColorTerciarioTEXT": "#9CA3AF"
-    },
-  
     "SEO": {
       "titulo": "Omega Soluciones",
       "descripcion": "Desarrollamos sitios web, apps y soluciones SaaS para hacer crecer tu negocio.",
