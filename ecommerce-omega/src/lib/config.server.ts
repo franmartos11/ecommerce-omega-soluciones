@@ -17,7 +17,7 @@ const DEFAULT_CONFIG: Config = {
   Categorias: [],
   Filtros: {},
   Banner: { items: [] },
-  Productos: {},
+  Productos: [],
   Soporte: {},
   Redes: {},
   Contactanos: {},
