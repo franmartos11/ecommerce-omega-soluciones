@@ -15,7 +15,7 @@
     },
     "Colores": {
     "vars": {
-      "--bgweb": "#9CA3AF",
+      "--bgweb": "#FFFFFF",
       "--color-primary-bg": "#04B0DB",
       "--color-secondary-bg": "#0EA5E9",
       "--color-tertiary-bg": "#111827",
