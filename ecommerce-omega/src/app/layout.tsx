@@ -67,7 +67,7 @@ export default async function RootLayout({
     "--color-secondary-bg": cfg.Colores?.vars?.["--color-secondary-bg"] ?? "#0EA5E9",
     "--color-tertiary-bg": cfg.Colores?.vars?.["--color-tertiary-bg"] ?? "#111827",
     "--color-primary-text": cfg.Colores?.vars?.["--color-primary-text"] ?? "#FFFFFF",
-    "--color-secondary-text": cfg.Colores?.vars?.["--color-secondary-text"] ?? "#E5E7EB",
+    "--color-secondary-text": cfg.Colores?.vars?.["--color-secondary-text"] ?? "#374151",
     "--color-tertiary-text": cfg.Colores?.vars?.["--color-tertiary-text"] ?? "#9CA3AF",
   };
 

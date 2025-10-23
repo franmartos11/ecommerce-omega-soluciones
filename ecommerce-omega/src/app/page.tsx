@@ -159,10 +159,6 @@ export default function Home() {
   return (
     <div className=" min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]" style={{ background: "var(--bgweb)" }}>
       <Navbar />
-      <div
-  className="fixed bottom-4 right-4 w-8 h-8 rounded shadow"
-  style={{ background: "var(--bgweb)" }}
-/>
       <main className="flex flex-col pt-4 gap-8">
         <ProductListSection title="Ofertas destacadas" products={products} showFilter />
       </main>

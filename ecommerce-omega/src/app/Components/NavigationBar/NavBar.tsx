@@ -97,29 +97,29 @@ export default function Navbar() {
   };
 
   return (
-    <header className="w-full bg-white z-50 relative">
+    <header className="w-full z-50 relative" style={{ background: "var(--bgweb)" }}>
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between gap-4">
         <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden">
           {menuOpen ? (
-            <X className="w-6 h-6 text-gray-700" />
+            <X className="w-6 h-6 " style={{color:"var(--color-secondary-text)"}} />
           ) : (
-            <Menu className="w-6 h-6 text-gray-700" />
+            <Menu className="w-6 h-6" style={{color:"var(--color-secondary-text)"}}  />
           )}
         </button>
 
         <Link href="/" className="flex-1 flex items-center gap-6">
-          <div className="text-2xl font-bold text-gray-800">Logo</div>
+          <div className="text-2xl font-bold" style={{color:"var(--color-primary-text)"}} >Logo</div>
           <div className="hidden md:flex flex-1">
             <SearchBar />
           </div>
         </Link>
 
-        <div className="flex items-center gap-4 text-gray-700 text-sm relative">
+        <div className="flex items-center gap-4 text-sm relative" style={{color:"var(--color-secondary-text)"}}>
           <Link href="/Cart">
             <div className="relative flex items-center gap-1">
               <ShoppingCart className="w-5 h-5" />
               <span className="hidden md:inline">Carro</span>
-              <span className="absolute -top-2 -right-3 bg-bg1 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+              <span className="absolute -top-2 -right-3 text-[10px] w-4 h-4 rounded-full flex items-center justify-center" style={{ background: "var(--color-primary-bg)", color:"var(--color-tertiary-text)" }}>
                 {cartCount}
               </span>
             </div>
@@ -141,8 +141,8 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 5 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute top-full right-0 mt-2 bg-white border rounded shadow-md z-[9999] w-44 py-2"
-                  >
+                    className="absolute top-full right-0 mt-2 border rounded shadow-md z-[9999] w-44 py-2"
+                    style={{ background: "var(--bgweb)" }}>
                     <Link
                       href="/OrdersPanel"
                       className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100"
@@ -172,7 +172,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="hidden md:block border-t border-b border-gray-200 w-full mb-[2rem] bg-white">
+      <div className="hidden md:block border-t border-b border-gray-200 w-full mb-[2rem] "  style={{ background: "var(--bgweb)" }}>
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
           <nav className="flex gap-6 text-sm font-medium text-gray-800">
             {navItems.map((item) => (
@@ -200,7 +200,7 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-3 border-t relative z-50 bg-white">
+        <div className="md:hidden px-4 pb-4 space-y-3 border-t relative z-50 " style={{ background: "var(--bgweb)" }}>
           <SearchBar />
           {navItems.map((item) => (
             <Link
@@ -217,7 +217,7 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="pt-4 text-sm font-medium text-text2 flex items-center gap-2">
-            <Headphones className="w-5 h-5 text-gray-800" />
+            <Headphones className="w-5 h-5 "  style={{ color: "var(--color-primary-text)" }} />
             <span className="text-text1">1900 - 888</span>
             <span className="text-xs text-gray-500">24/7 Soporte</span>
           </div>

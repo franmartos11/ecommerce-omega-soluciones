@@ -16,12 +16,12 @@
     "Colores": {
     "vars": {
       "--bgweb": "#FFFFFF",
-      "--color-primary-bg": "#04B0DB",
+      "--color-primary-bg": "#F97316",
       "--color-secondary-bg": "#0EA5E9",
       "--color-tertiary-bg": "#111827",
       "--color-primary-text": "#111827",
-      "--color-secondary-text": "#6B7280",
-      "--color-tertiary-text": "#9CA3AF"
+      "--color-secondary-text": "#374151",
+      "--color-tertiary-text": "#FFFFFF"
     }
   },
 
