@@ -1,151 +1,159 @@
-import React from "react";
+"use client";
+
+import React, { useMemo } from "react";
 import { Timeline } from "./Timeline/Timeline";
+import { useConfig } from "@/app/ConfigProvider/ConfigProvider";
+
+/**
+ * Estructura esperada en config.json (DefaultWeb.MyJourney):
+ * {
+ *   "Title": "Mi viaje",
+ *   "SubTitle": "Cómo crecimos",
+ *   "Year1": "2023",
+ *   "SubtitleYear1": "Lanzamiento",
+ *   "Img1Year1": "...", "Img2Year1": "...", "Img3Year1": "...", "Img4Year1": "...",
+ *   "Year2": "2024",
+ *   "SubtitleYear2": "...",
+ *   "Img1Year2": "...", ...,
+ *   "Year3": "2025",
+ *   "SubtitleYear3": "...",
+ *   "Img1Year3": "...", ...
+ * }
+ * 
+ * Lee hasta 3 etapas (Year1..Year3), cada una con título, subtítulo y hasta 4 imágenes por año
+ * 
+ */
+
+function isRecord(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null;
+}
+const str = (v: unknown, fb = ""): string => (typeof v === "string" ? v : fb);
+const nonEmpty = (s?: string) => typeof s === "string" && s.trim().length > 0;
+
+type YearBlock = {
+  title: string;        // "2024"
+  subtitle?: string;    // "Lanzamos X"
+  images: string[];     // hasta 4
+};
 
 export function TimelineSection() {
-  const data = [
-    {
-      title: "2024",
-      content: (
-        <div>
-          <p className="mb-8 text-xs font-normal text-neutral-800 md:text-sm ">
-            Built and launched Aceternity UI and Aceternity UI Pro from scratch
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="https://assets.aceternity.com/templates/startup-1.webp"
-              alt="startup template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="https://assets.aceternity.com/templates/startup-2.webp"
-              alt="startup template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="https://assets.aceternity.com/templates/startup-3.webp"
-              alt="startup template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="https://assets.aceternity.com/templates/startup-4.webp"
-              alt="startup template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
+  const cfg = useConfig();
+  const defaultWeb = isRecord(cfg?.DefaultWeb) ? (cfg!.DefaultWeb as Record<string, unknown>) : {};
+  const myJourney = isRecord(defaultWeb.MyJourney) ? (defaultWeb.MyJourney as Record<string, unknown>) : {};
+
+  const pageTitle = str(myJourney.Title, "Mi camino");
+  const pageSubtitle = str(myJourney.SubTitle, "");
+
+  const years: YearBlock[] = useMemo(() => {
+    const extractYear = (idx: 1 | 2 | 3): YearBlock | null => {
+      const y = str(myJourney[`Year${idx}`], "");
+      const sub = str(myJourney[`SubtitleYear${idx}`], "");
+      const imgs = [
+        str(myJourney[`Img1Year${idx}`], ""),
+        str(myJourney[`Img2Year${idx}`], ""),
+        str(myJourney[`Img3Year${idx}`], ""),
+        str(myJourney[`Img4Year${idx}`], ""),
+      ].filter(nonEmpty);
+
+      // si no hay ni año, ni subtítulo, ni imágenes, omitimos el bloque
+      if (!nonEmpty(y) && !nonEmpty(sub) && imgs.length === 0) return null;
+
+      return {
+        title: nonEmpty(y) ? y : `Fase ${idx}`,
+        subtitle: sub,
+        images: imgs.length > 0 ? imgs : ["/linear.webp"],
+      };
+    };
+
+    const out = [extractYear(1), extractYear(2), extractYear(3)].filter(
+      (x): x is YearBlock => x !== null
+    );
+
+    // fallback demo si no hay nada en config
+    if (out.length === 0) {
+      return [
+        {
+          title: "2024",
+          subtitle: "Lanzamos la primera versión del producto",
+          images: [
+            "https://assets.aceternity.com/templates/startup-1.webp",
+            "https://assets.aceternity.com/templates/startup-2.webp",
+            "https://assets.aceternity.com/templates/startup-3.webp",
+            "https://assets.aceternity.com/templates/startup-4.webp",
+          ],
+        },
+        {
+          title: "2023",
+          subtitle: "Crecimos el equipo y el portfolio",
+          images: [
+            "https://assets.aceternity.com/pro/hero-sections.png",
+            "https://assets.aceternity.com/features-section.png",
+            "https://assets.aceternity.com/pro/bento-grids.png",
+            "https://assets.aceternity.com/cards.png",
+          ],
+        },
+        {
+          title: "Changelog",
+          subtitle: "Nuevos componentes y mejoras",
+          images: [
+            "https://assets.aceternity.com/pro/hero-sections.png",
+            "https://assets.aceternity.com/features-section.png",
+            "https://assets.aceternity.com/pro/bento-grids.png",
+            "https://assets.aceternity.com/cards.png",
+          ],
+        },
+      ];
+    }
+
+    return out;
+  }, [myJourney]);
+
+  // Adaptar a lo que espera <Timeline />: [{ title, content }]
+  const data = useMemo(
+    () =>
+      years.map((b) => ({
+        title: b.title,
+        content: (
+          <div>
+            {(nonEmpty(pageTitle) || nonEmpty(pageSubtitle) || nonEmpty(b.subtitle)) && (
+              <div className="mb-6">
+                {nonEmpty(pageTitle) && (
+                  <p className="text-xs md:text-sm font-semibold text-neutral-900">
+                    {pageTitle}
+                  </p>
+                )}
+                {nonEmpty(pageSubtitle) && (
+                  <p className="text-[11px] md:text-xs text-neutral-700">
+                    {pageSubtitle}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {nonEmpty(b.subtitle) && (
+              <p className="mb-8 text-xs md:text-sm font-normal text-neutral-800">
+                {b.subtitle}
+              </p>
+            )}
+
+            <div className="grid grid-cols-2 gap-4">
+              {b.images.map((src, i) => (
+                <img
+                  key={`${b.title}-${i}`}
+                  src={src}
+                  alt={`${b.title} ${i + 1}`}
+                  width={500}
+                  height={500}
+                  className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,42,53,0.06),_0_1px_1px_rgba(0,0,0,0.05),_0_0_0_1px_rgba(34,42,53,0.04),_0_0_4px_rgba(34,42,53,0.08),_0_16px_68px_rgba(47,48,55,0.05),_0_1px_0_rgba(255,255,255,0.1)_inset] md:h-44 lg:h-60"
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      ),
-    },
-    {
-      title: "Early 2023",
-      content: (
-        <div>
-          <p className="mb-8 text-xs font-normal text-neutral-800 md:text-sm ">
-            I usually run out of copy, but when I see content this big, I try to
-            integrate lorem ipsum.
-          </p>
-          <p className="mb-8 text-xs font-normal text-neutral-800 md:text-sm ">
-            Lorem ipsum is for people who are too lazy to write copy. But we are
-            not. Here are some more example of beautiful designs I built.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="https://assets.aceternity.com/pro/hero-sections.png"
-              alt="hero template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="https://assets.aceternity.com/features-section.png"
-              alt="feature template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="https://assets.aceternity.com/pro/bento-grids.png"
-              alt="bento template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="https://assets.aceternity.com/cards.png"
-              alt="cards template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Changelog",
-      content: (
-        <div>
-          <p className="mb-4 text-xs font-normal text-neutral-800 md:text-sm ">
-            Deployed 5 new components on Aceternity today
-          </p>
-          <div className="mb-8">
-            <div className="flex items-center gap-2 text-xs text-neutral-700 md:text-sm ">
-              ✅ Card grid component
-            </div>
-            <div className="flex items-center gap-2 text-xs text-neutral-700 md:text-sm ">
-              ✅ Startup template Aceternity
-            </div>
-            <div className="flex items-center gap-2 text-xs text-neutral-700 md:text-sm ">
-              ✅ Random file upload lol
-            </div>
-            <div className="flex items-center gap-2 text-xs text-neutral-700 md:text-sm ">
-              ✅ Himesh Reshammiya Music CD
-            </div>
-            <div className="flex items-center gap-2 text-xs text-neutral-700 md:text-sm ">
-              ✅ Salman Bhai Fan Club registrations open
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <img
-              src="https://assets.aceternity.com/pro/hero-sections.png"
-              alt="hero template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="https://assets.aceternity.com/features-section.png"
-              alt="feature template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="https://assets.aceternity.com/pro/bento-grids.png"
-              alt="bento template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-            <img
-              src="https://assets.aceternity.com/cards.png"
-              alt="cards template"
-              width={500}
-              height={500}
-              className="h-20 w-full rounded-lg object-cover shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset] md:h-44 lg:h-60"
-            />
-          </div>
-        </div>
-      ),
-    },
-  ];
+        ),
+      })),
+    [years, pageTitle, pageSubtitle]
+  );
+
   return (
     <div className="relative w-full overflow-clip">
       <Timeline data={data} />

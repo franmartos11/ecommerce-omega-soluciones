@@ -424,27 +424,22 @@
       "Tab5Img": "/images/playground.webp"
     },
     "MyJourney": {
-      "Title": "",
-      "SubTitle": "",
-      "Year1": "",
-      "SubtitleYear1": "",
-      "Img1Year1": "",
-      "Img2Year1": "",
-      "Img3Year1": "",
-      "Img4Year1": "",
-      "Year2": "",
-      "SubtitleYear2": "",
-      "Img1Year2": "",
-      "Img2Year2": "",
-      "Img3Year2": "",
-      "Img4Year2": "",
-      "Year3": "",
-      "SubtitleYear3": "",
-      "Img1Year3": "",
-      "Img2Year3": "",
-      "Img3Year3": "",
-      "Img4Year3": ""
-    },
+    "Title": "Construimos soluciones que escalan",
+    "SubTitle": "Hitos de nuestro camino",
+    "Year1": "2023",
+    "SubtitleYear1": "Fundación y primeros clientes",
+    "Img1Year1": "/images/hito1.webp",
+    "Img2Year1": "/images/hito2.webp",
+
+    "Year2": "2024",
+    "SubtitleYear2": "Crecimiento del equipo y nuevas features",
+    "Img1Year2": "https://cdn.tu-dominio.com/hitos/2024-1.jpg",
+
+    "Year3": "2025",
+    "SubtitleYear3": "Expansión regional",
+    "Img1Year3": "/images/hito2025-1.webp",
+    "Img2Year3": "/images/hito2025-2.webp"
+  },
     "ContactUs": {
       "Img": "",
       "Title": "",
