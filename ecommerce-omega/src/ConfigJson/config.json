@@ -446,20 +446,40 @@
     "Img1Year3": "/images/hito2025-1.webp",
     "Img2Year3": "/images/hito2025-2.webp"
   },
-    "ContactUs": {
-      "Img": "",
-      "Title": "",
-      "Subtitle": "",
-      "Contact1Title": "",
-      "Contact1Email": "",
-      "Contact1Phone": "",
-      "Contact2Title": "",
-      "Contact2Email": "",
-      "Contact2Phone": "",
-      "Contact3Title": "",
-      "Contact3Email": "",
-      "Contact3Phone": "",
-      "MapsUbicacion": ""
-    }
+    "Contactanos": {
+    "TextoPrincipal": "¡Estamos aquí para ayudarte! Completa el formulario o escribinos y te respondemos en el día.",
+    "Logo": {
+      "src": "https://cdn.tu-dominio.com/brand/logo-contacto.png",
+      "alt": "Omega Soluciones - Contacto"
+    },
+    "Ubicacion": {
+      "direccion": "Av. Siempreviva 123",
+      "ciudad": "Córdoba",
+      "provincia": "Córdoba",
+      "pais": "Argentina",
+      "lat": -31.4201,
+      "lng": -64.1888,
+      "mapsUrl": "https://maps.google.com/?q=-31.4201,-64.1888"
+    },
+    "tel": "+54 9 351 000 0000",
+    "email": "contacto@tu-dominio.com",
+    "Departamentos": [
+      {
+        "title": "Administración",
+        "email": "administracion@omegasoluciones.com.ar",
+        "phone": "+54 9 351 111 1111"
+      },
+      {
+        "title": "Ventas",
+        "email": "ventas@omegasoluciones.com.ar",
+        "phone": "+54 9 351 222 2222"
+      },
+      {
+        "title": "Compras",
+        "email": "compras@omegasoluciones.com.ar",
+        "phone": "+54 9 351 333 3333"
+      }
+    ]
   }
+}
 }
