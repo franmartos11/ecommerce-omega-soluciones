@@ -17,8 +17,9 @@
     "vars": {
       "--bgweb": "#FFFFFF",
       "--color-primary-bg": "#F97316",
-      "--color-secondary-bg": "#0EA5E9",
-      "--color-tertiary-bg": "#111827",
+      "--color-secondary-bg": "#C2410C",
+      "--color-primary-border": "#FDBA74",
+      "--color-secondary-border": "#FDBA74",
       "--color-primary-text": "#111827",
       "--color-secondary-text": "#374151",
       "--color-tertiary-text": "#FFFFFF"
@@ -365,7 +366,7 @@
     },
   
     "Contactanos": {
-      "TextoPrincipal": "Estamos para ayudarte. Escribinos y te respondemos en el día.",
+      "TextoPrincipal": "¡Estamos aquí para ayudarte! Completa el formulario a continuación y con gusto responderemos tus preguntas, hablaremos sobre posibles colaboraciones o exploraremos tus ideas.",
       "Logo": {
         "src": "https://cdn.tu-dominio.com/brand/logo-contacto.png",
         "alt": "Aspa Contacto"

@@ -1,7 +1,11 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: [
+      "cdn.tu-dominio.com",           // 👈 agrega tu CDN
+      "arcencohogar.vtexassets.com",  // si usas estas imágenes también
+    ],
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
