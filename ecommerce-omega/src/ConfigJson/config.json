@@ -398,7 +398,7 @@
     "Hero": {
     "Title": "Construimos soluciones que escalan",
     "SubTitle": "Sitios, apps y SaaS a medida",
-    "Btn1": { "label": "Contactanos", "href": "/contacto" },
+    "Btn1": { "label": "Contactanos", "href": "/Contacto" },
     "Btn2": "Ver productos",
     "Img": {
       "src": "https://cdn.tu-dominio.com/hero/hero-omega.webp",
@@ -427,6 +427,7 @@
       "Tab5Subtitle": "Experimentá",
       "Tab5Img": "/images/playground.webp"
     },
+
     "MyJourney": {
     "Title": "Construimos soluciones que escalan",
     "SubTitle": "Hitos de nuestro camino",

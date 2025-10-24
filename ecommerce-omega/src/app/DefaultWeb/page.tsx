@@ -1,32 +1,25 @@
 import Footer from "../Components/Footer/Footer";
 import Navbar from "../Components/NavigationBar/NavBar";
-import { ContactComponent } from "../Components/ComponentsSobreNosotrosOmega/Contact/Contact";
+
+// ✅ Hero, Tabs y Timeline leen del JSON mediante useConfig()
+import { HeroDWFromConfig } from "./Hero/HeroDW";
 import { TabsSection } from "./TabsSection/TabsSection";
-import {  TimelineSection } from "./TimelineSection/TimelineSection";
-import { HeroDW } from "./Hero/HeroDW";
+import { TimelineSection } from "./TimelineSection/TimelineSection";
 
-
+// 🔁 Si tu ContactComponent aún no consume el JSON,
+// podés reemplazar esta import por el componente que te pasé:
+// import ContactCardImg from "../Components/Contact/ContactCardImg";
+import { ContactComponent } from "../Components/ComponentsSobreNosotrosOmega/Contact/Contact";
 
 export default function Home() {
-
   return (
     <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
-      <Navbar/>
-      <HeroDW
-      title="Launch your website in hours, not days"
-      subtitle="With AI, you can launch your website in hours, not days. Try our best in class tools."
-      primaryButton={{ label: "Explore Now", href: "/explore" }}
-      secondaryButton={{ label: "Contact Support", href: "/contact" }}
-      image={{
-        src: "https://assets.aceternity.com/pro/aceternity-landing.webp",
-        alt: "Landing page preview",
-        aspect: "aspect-[16/9]",
-      }}
-    />
-      <TabsSection></TabsSection>
-      <TimelineSection></TimelineSection>
-      <ContactComponent/>
-      <Footer/>
+      <Navbar />
+      <HeroDWFromConfig />
+      <TabsSection />
+      <TimelineSection />
+      <ContactComponent />
+      <Footer />
     </div>
   );
 }
