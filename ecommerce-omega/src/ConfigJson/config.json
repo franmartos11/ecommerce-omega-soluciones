@@ -1,19 +1,19 @@
 {
-    "version": "1.0.0",
-    "actualizadoEn": "2025-09-11T11:00:00-03:00",
-    "sitio": {
-      "nombre": "Omega Soluciones",
-      "dominio": "https://www.tu-dominio.com",
-      "idioma": "es-AR",
-      "moneda": "ARS",
-      "timezone": "America/Argentina/Cordoba"
-    },
+  "version": "1.0.0",
+  "actualizadoEn": "2025-09-11T11:00:00-03:00",
+  "sitio": {
+    "nombre": "Omega Soluciones",
+    "dominio": "https://www.tu-dominio.com",
+    "idioma": "es-AR",
+    "moneda": "ARS",
+    "timezone": "America/Argentina/Cordoba"
+  },
 
-    "Logo": {
-      "src": "https://cdn.tu-dominio.com/brand/logo.png",
-      "alt": "Omega Soluciones"
-    },
-    "Colores": {
+  "Logo": {
+    "src": "https://cdn.tu-dominio.com/brand/logo.png",
+    "alt": "Omega Soluciones"
+  },
+  "Colores": {
     "vars": {
       "--bgweb": "#FFFFFF",
       "--color-primary-bg": "#F97316",
@@ -26,437 +26,439 @@
     }
   },
 
-    "NumTelefonoSoporte": "+54 9 351 000-0000",
-  
-    "Categorias": [
-      { "id": "web", "nombre": "Páginas Web", "slug": "paginas-web" },
-      { "id": "apps", "nombre": "Aplicaciones", "slug": "apps" },
-      { "id": "saas", "nombre": "SaaS", "slug": "saas" }
-    ],
+  "NumTelefonoSoporte": "+54 9 351 000-0000",
 
-    "Filtros": {
-      "precio": {
-        "tipo": "range",
-        "paramKey": "precio",
-        "min": 0,
-        "max": 1000000,
-        "step": 1000,
-        "moneda": "ARS",
-        "display": true
-      },
-      "color": {
-        "display": true,
-        "tipo": "multi",
-        "paramKey": "color",
-        "opciones": [
-          { "label": "Azul", "value": "azul" },
-          { "label": "Negro", "value": "negro" },
-          { "label": "Blanco", "value": "blanco" },
-          { "label": "Rojo", "value": "rojo" }
-        ]
-      },
-      "condicion": {
-        "display": true,
-        "tipo": "single",
-        "paramKey": "condicion",
-        "opciones": [
-          { "label": "Nuevo", "value": "nuevo" },
-          { "label": "Usado", "value": "usado" },
-          { "label": "Reacondicionado", "value": "reacondicionado" }
-        ]
-      }
+  "Categorias": [
+    { "id": "web", "nombre": "Páginas Web", "slug": "paginas-web" },
+    { "id": "apps", "nombre": "Aplicaciones", "slug": "apps" },
+    { "id": "saas", "nombre": "SaaS", "slug": "saas" }
+  ],
+
+  "Filtros": {
+    "precio": {
+      "tipo": "range",
+      "paramKey": "precio",
+      "min": 0,
+      "max": 1000000,
+      "step": 1000,
+      "moneda": "ARS",
+      "display": true
     },
-  
-    "Banner": {
-      "items": [
-        {
-          "id": "bnr1",
-          "src": "https://cdn.tu-dominio.com/banners/hero-1.jpg",
-          "alt": "Lanzamiento",
-          "href": "/promociones/lanzamiento",
-          "orden": 1,
-          "visible": true,
-          "vigencia": { "desde": "2025-09-01", "hasta": "2025-10-01" }
-        },
-        {
-            "id": "bnr2",
-            "src": "https://cdn.tu-dominio.com/banners/hero-2.jpg",
-            "alt": "Descuentos",
-            "href": "/descuentos",
-            "orden": 2,
-            "visible": true
-          },
-          {
-            "id": "bnr3",
-            "src": "https://cdn.tu-dominio.com/banners/hero-2.jpg",
-            "alt": "Descuentos",
-            "href": "/descuentos",
-            "orden": 2,
-            "visible": true
-          },{
-            "id": "bnr2",
-            "src": "https://cdn.tu-dominio.com/banners/hero-2.jpg",
-            "alt": "Descuentos",
-            "href": "/descuentos",
-            "orden": 2,
-            "visible": true
-          }
+    "color": {
+      "display": true,
+      "tipo": "multi",
+      "paramKey": "color",
+      "opciones": [
+        { "label": "Azul", "value": "azul" },
+        { "label": "Negro", "value": "negro" },
+        { "label": "Blanco", "value": "blanco" },
+        { "label": "Rojo", "value": "rojo" }
       ]
     },
-  
+    "condicion": {
+      "display": true,
+      "tipo": "single",
+      "paramKey": "condicion",
+      "opciones": [
+        { "label": "Nuevo", "value": "nuevo" },
+        { "label": "Usado", "value": "usado" },
+        { "label": "Reacondicionado", "value": "reacondicionado" }
+      ]
+    }
+  },
 
-      "Productos": [
-  {
-    "id": "1",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Seeds of Change Organic Quinoa",
-    "rating": 4.0,
-    "brand": "NestFood",
-    "currentPrice": 28.85,
-    "oldPrice": 32.8,
-    "badge": { "label": "Sale", "color": "bg-blue-500" },
-    "color": "Red",
-    "condition": "New"
-  },
-  {
-    "id": "2",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Foster Farms Takeout Crispy Classic",
-    "rating": 4.0,
-    "brand": "NestFood",
-    "currentPrice": 17.85,
-    "oldPrice": 19.8,
-    "color": "Green",
-    "condition": "Used"
-  },
-  {
-    "id": "3",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 4.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Green",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "4",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 4.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "5",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 4.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "6",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 4.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "7",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 4.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "8",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "9",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "10",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "11",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "12",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "13",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "14",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "15",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "16",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "17",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "18",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "19",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  },
-  {
-    "id": "20",
-    "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "category": "apps",
-    "title": "Blue Diamond Almonds Lightly",
-    "rating": 5.0,
-    "brand": "NestFood",
-    "currentPrice": 23.85,
-    "oldPrice": 25.8,
-    "color": "Blue",
-    "condition": "Refurbished"
-  }
-],
-
-    
-    "Soporte": {
-      "tel": "+54 9 351 000-0000",
-      "email": "soporte@tu-dominio.com",
-      "horario": "Lun a Vie, 9:00–18:00",
-      "whatsapp": "https://wa.me/5493510000000"
-    },
-  
-    "Redes": {
-      "Facebook": "https://www.facebook.com/tu-pagina",
-      "Instagram": "https://www.instagram.com/tu-usuario",
-      "Twitter": "https://x.com/tu-usuario",
-      "YouTube": "https://www.youtube.com/@tu-canal",
-      "LinkedIn": "https://www.linkedin.com/company/tu-empresa"
-    },
-  
-    "Contactanos": {
-      "TextoPrincipal": "¡Estamos aquí para ayudarte! Completa el formulario a continuación y con gusto responderemos tus preguntas, hablaremos sobre posibles colaboraciones o exploraremos tus ideas.",
-      "Logo": {
-        "src": "https://cdn.tu-dominio.com/brand/logo-contacto.png",
-        "alt": "Aspa Contacto"
+  "Banner": {
+    "items": [
+      {
+        "id": "bnr1",
+        "src": "https://cdn.tu-dominio.com/banners/hero-1.jpg",
+        "alt": "Lanzamiento",
+        "href": "/promociones/lanzamiento",
+        "orden": 1,
+        "visible": true,
+        "vigencia": { "desde": "2025-09-01", "hasta": "2025-10-01" }
       },
-      "Ubicacion": {
-        "direccion": "Av. Siempreviva 123",
-        "ciudad": "Córdoba",
-        "provincia": "Córdoba",
-        "pais": "Argentina",
-        "lat": -31.4201,
-        "lng": -64.1888,
-        "mapsUrl": "https://maps.google.com/?q=-31.4201,-64.1888"
+      {
+        "id": "bnr2",
+        "src": "https://cdn.tu-dominio.com/banners/hero-2.jpg",
+        "alt": "Descuentos",
+        "href": "/descuentos",
+        "orden": 2,
+        "visible": true
       },
-      "tel": "+54 9 351 000-0000",
-      "email": "contacto@tu-dominio.com"
-    },
-  
-    "SobreNosotros": {
-      "titulo": "Construimos soluciones que escalan",
-      "contenido": "Somos un equipo enfocado en desarrollar software y productos digitales que mejoran procesos y escalan negocios.",
-      "imagen": "https://cdn.tu-dominio.com/about/cover.jpg"
-    },
-  
-    "SEO": {
-      "titulo": "Omega Soluciones",
-      "descripcion": "Desarrollamos sitios web, apps y soluciones SaaS para hacer crecer tu negocio.",
-      "ogImage": "https://cdn.tu-dominio.com/og/og-image.png"
-    },
-    "DefaultWeb":{
-      "Hero": {
-        "Title": "",
-        "SubTitle": "",
-        "Btn1":"",
-        "Btn2":"",
-        "Img":""
+      {
+        "id": "bnr3",
+        "src": "https://cdn.tu-dominio.com/banners/hero-2.jpg",
+        "alt": "Descuentos",
+        "href": "/descuentos",
+        "orden": 2,
+        "visible": true
       },
-      "TabsSection":{
-        "Tabs1Title":"",
-        "Tab1Subtitle":"",
-        "Tab1Img":"",
-        "Tabs2Title":"",
-        "Tab2Subtitle":"",
-        "Tab2Img":"",
-        "Tabs3Title":"",
-        "Tab3Subtitle":"",
-        "Tab3Img":"",
-        "Tabs4Title":"",
-        "Tab4Subtitle":"",
-        "Tab4Img":"",
-        "Tabs5Title":"",
-        "Tab5Subtitle":"",
-        "Tab5Img":""
-      },
-      "MyJourney":{
-        "Title":"",
-        "SubTitle":"",
-        "Year1":"",
-        "SubtitleYear1":"",
-        "Img1Year1":"",
-        "Img2Year1":"",
-        "Img3Year1":"",
-        "Img4Year1":"",
-        "Year2":"",
-        "SubtitleYear2":"",
-        "Img1Year2":"",
-        "Img2Year2":"",
-        "Img3Year2":"",
-        "Img4Year2":"",
-        "Year3":"",
-        "SubtitleYear3":"",
-        "Img1Year3":"",
-        "Img2Year3":"",
-        "Img3Year3":"",
-        "Img4Year3":""
-      },
-      "ContactUs":{
-        "Img":"",
-        "Title":"",
-        "Subtitle":"",
-        "Contact1Title":"",
-        "Contact1Email":"",
-        "Contact1Phone":"",
-        "Contact2Title":"",
-        "Contact2Email":"",
-        "Contact2Phone":"",
-        "Contact3Title":"",
-        "Contact3Email":"",
-        "Contact3Phone":"",
-        "MapsUbicacion":""
+      {
+        "id": "bnr2",
+        "src": "https://cdn.tu-dominio.com/banners/hero-2.jpg",
+        "alt": "Descuentos",
+        "href": "/descuentos",
+        "orden": 2,
+        "visible": true
       }
+    ]
+  },
+
+  "Productos": [
+    {
+      "id": "1",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Seeds of Change Organic Quinoa",
+      "rating": 4.0,
+      "brand": "NestFood",
+      "currentPrice": 28.85,
+      "oldPrice": 32.8,
+      "badge": { "label": "Sale", "color": "bg-blue-500" },
+      "color": "Red",
+      "condition": "New"
+    },
+    {
+      "id": "2",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Foster Farms Takeout Crispy Classic",
+      "rating": 4.0,
+      "brand": "NestFood",
+      "currentPrice": 17.85,
+      "oldPrice": 19.8,
+      "color": "Green",
+      "condition": "Used"
+    },
+    {
+      "id": "3",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 4.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Green",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "4",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 4.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "5",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 4.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "6",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 4.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "7",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 4.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "8",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "9",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "10",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "11",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "12",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "13",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "14",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "15",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "16",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "17",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "18",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "19",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    },
+    {
+      "id": "20",
+      "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+      "category": "apps",
+      "title": "Blue Diamond Almonds Lightly",
+      "rating": 5.0,
+      "brand": "NestFood",
+      "currentPrice": 23.85,
+      "oldPrice": 25.8,
+      "color": "Blue",
+      "condition": "Refurbished"
+    }
+  ],
+
+  "Soporte": {
+    "tel": "+54 9 351 000-0000",
+    "email": "soporte@tu-dominio.com",
+    "horario": "Lun a Vie, 9:00–18:00",
+    "whatsapp": "https://wa.me/5493510000000"
+  },
+
+  "Redes": {
+    "Facebook": "https://www.facebook.com/tu-pagina",
+    "Instagram": "https://www.instagram.com/tu-usuario",
+    "Twitter": "https://x.com/tu-usuario",
+    "YouTube": "https://www.youtube.com/@tu-canal",
+    "LinkedIn": "https://www.linkedin.com/company/tu-empresa"
+  },
+
+  "Contactanos": {
+    "TextoPrincipal": "¡Estamos aquí para ayudarte! Completa el formulario a continuación y con gusto responderemos tus preguntas, hablaremos sobre posibles colaboraciones o exploraremos tus ideas.",
+    "Logo": {
+      "src": "https://cdn.tu-dominio.com/brand/logo-contacto.png",
+      "alt": "Aspa Contacto"
+    },
+    "Ubicacion": {
+      "direccion": "Av. Siempreviva 123",
+      "ciudad": "Córdoba",
+      "provincia": "Córdoba",
+      "pais": "Argentina",
+      "lat": -31.4201,
+      "lng": -64.1888,
+      "mapsUrl": "https://maps.google.com/?q=-31.4201,-64.1888"
+    },
+    "tel": "+54 9 351 000-0000",
+    "email": "contacto@tu-dominio.com"
+  },
+
+  "SobreNosotros": {
+    "titulo": "Construimos soluciones que escalan",
+    "contenido": "Somos un equipo enfocado en desarrollar software y productos digitales que mejoran procesos y escalan negocios.",
+    "imagen": "https://cdn.tu-dominio.com/about/cover.jpg"
+  },
+
+  "SEO": {
+    "titulo": "Omega Soluciones",
+    "descripcion": "Desarrollamos sitios web, apps y soluciones SaaS para hacer crecer tu negocio.",
+    "ogImage": "https://cdn.tu-dominio.com/og/og-image.png"
+  },
+  "DefaultWeb": {
+    "Hero": {
+      "Title": "",
+      "SubTitle": "",
+      "Btn1": "",
+      "Btn2": "",
+      "Img": ""
+    },
+    "TabsSection": {
+      "Tabs1Title": "Producto",
+      "Tab1Subtitle": "Descripción del producto",
+      "Tab1Img": "https://cdn.tu-dominio.com/imagenes/prod-1.jpg",
+
+      "Tabs2Title": "Servicios",
+      "Tab2Subtitle": "Qué ofrecemos",
+      "Tab2Img": "/images/servicios.webp",
+
+      "Tabs3Title": "Playground",
+      "Tab3Subtitle": "Experimentá",
+      "Tab3Img": "/images/playground.webp",
+
+      "Tabs4Title": "Playgroundd",
+      "Tab4Subtitle": "Experimentá",
+      "Tab4Img": "/images/playground.webp",
+
+      "Tabs5Title": "Playgrounddd",
+      "Tab5Subtitle": "Experimentá",
+      "Tab5Img": "/images/playground.webp"
+    },
+    "MyJourney": {
+      "Title": "",
+      "SubTitle": "",
+      "Year1": "",
+      "SubtitleYear1": "",
+      "Img1Year1": "",
+      "Img2Year1": "",
+      "Img3Year1": "",
+      "Img4Year1": "",
+      "Year2": "",
+      "SubtitleYear2": "",
+      "Img1Year2": "",
+      "Img2Year2": "",
+      "Img3Year2": "",
+      "Img4Year2": "",
+      "Year3": "",
+      "SubtitleYear3": "",
+      "Img1Year3": "",
+      "Img2Year3": "",
+      "Img3Year3": "",
+      "Img4Year3": ""
+    },
+    "ContactUs": {
+      "Img": "",
+      "Title": "",
+      "Subtitle": "",
+      "Contact1Title": "",
+      "Contact1Email": "",
+      "Contact1Phone": "",
+      "Contact2Title": "",
+      "Contact2Email": "",
+      "Contact2Phone": "",
+      "Contact3Title": "",
+      "Contact3Email": "",
+      "Contact3Phone": "",
+      "MapsUbicacion": ""
     }
   }
-  
+}
