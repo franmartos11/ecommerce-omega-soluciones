@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import * as React from "react";
+import { useConfig } from "@/app/ConfigProvider/ConfigProvider";
 
+/* ==================== Tipos ==================== */
 type ButtonProps = {
   label: string;
-  href?: string;            
-  onClick?: () => void;    
+  href?: string;
+  onClick?: () => void;
   ariaLabel?: string;
 };
 
@@ -16,12 +18,12 @@ type ImageProps = {
   alt?: string;
   width?: number;
   height?: number;
-  aspect?: string;          
+  aspect?: string;
   className?: string;
 };
 
 export type HeroDWProps = {
-  title: string;            
+  title: string;
   subtitle?: string;
   primaryButton?: ButtonProps;
   secondaryButton?: ButtonProps;
@@ -29,6 +31,7 @@ export type HeroDWProps = {
   className?: string;
 };
 
+/* ==================== Presentacional ==================== */
 export function HeroDW({
   title,
   subtitle,
@@ -129,5 +132,84 @@ function renderBtn(btn: ButtonProps, variant: "primary" | "secondary") {
     >
       {btn.label}
     </button>
+  );
+}
+
+/* ==================== Wrapper data-driven ==================== */
+/**
+ * Lee de DefaultWeb.Hero:
+ * {
+ *   "Title": "Texto grande",
+ *   "SubTitle": "Descripción",
+ *   "Btn1": "Contacto" | { "label":"Contacto", "href":"/contacto", "ariaLabel":"Ir a contacto" },
+ *   "Btn2": "Ver productos" | { "label":"Ver productos", "href":"/productos" },
+ *   "Img": "/images/hero.webp" | { "src": "...", "alt":"...", "width":1200, "height":600, "aspect":"aspect-[16/9]" }
+ * }
+ */
+type HeroConfig = {
+  Title?: string;
+  SubTitle?: string;
+  Btn1?: string | { label?: string; href?: string; ariaLabel?: string };
+  Btn2?: string | { label?: string; href?: string; ariaLabel?: string };
+  Img?: string | { src?: string; alt?: string; width?: number; height?: number; aspect?: string };
+};
+
+function isRecord(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null;
+}
+const str = (v: unknown, fb = ""): string => (typeof v === "string" ? v : fb);
+
+function toBtn(v: unknown): ButtonProps | undefined {
+  if (!v) return undefined;
+  if (typeof v === "string" && v.trim()) {
+    return { label: v, href: "#" };
+  }
+  if (isRecord(v)) {
+    const label = str(v.label, "");
+    if (!label) return undefined;
+    const href = str(v.href, undefined);
+    const aria = str(v.ariaLabel, undefined);
+    return { label, href, ariaLabel: aria };
+  }
+  return undefined;
+}
+
+function toImg(v: unknown): ImageProps | undefined {
+  if (!v) return undefined;
+  if (typeof v === "string" && v.trim()) {
+    return { src: v, alt: "Hero" };
+  }
+  if (isRecord(v)) {
+    const src = str(v.src, "");
+    if (!src) return undefined;
+    const alt = str(v.alt, "Hero");
+    const width = typeof v.width === "number" ? v.width : undefined;
+    const height = typeof v.height === "number" ? v.height : undefined;
+    const aspect = str(v.aspect, undefined);
+    return { src, alt, width, height, aspect };
+  }
+  return undefined;
+}
+
+export function HeroDWFromConfig({ className }: { className?: string }) {
+  const cfg = useConfig();
+  const dw = isRecord(cfg.DefaultWeb) ? (cfg.DefaultWeb as Record<string, unknown>) : {};
+  const hero = isRecord(dw.Hero) ? (dw.Hero as HeroConfig) : {};
+
+  const title = hero.Title && hero.Title.trim().length > 0 ? hero.Title : (cfg?.sitio?.nombre ?? "Bienvenido");
+  const subtitle = hero.SubTitle && hero.SubTitle.trim().length > 0 ? hero.SubTitle : undefined;
+  const primaryButton = toBtn(hero.Btn1);
+  const secondaryButton = toBtn(hero.Btn2);
+  const image = toImg(hero.Img);
+
+  return (
+    <HeroDW
+      title={title}
+      subtitle={subtitle}
+      primaryButton={primaryButton}
+      secondaryButton={secondaryButton}
+      image={image}
+      className={className}
+    />
   );
 }

@@ -396,12 +396,16 @@
   },
   "DefaultWeb": {
     "Hero": {
-      "Title": "",
-      "SubTitle": "",
-      "Btn1": "",
-      "Btn2": "",
-      "Img": ""
-    },
+    "Title": "Construimos soluciones que escalan",
+    "SubTitle": "Sitios, apps y SaaS a medida",
+    "Btn1": { "label": "Contactanos", "href": "/contacto" },
+    "Btn2": "Ver productos",
+    "Img": {
+      "src": "https://cdn.tu-dominio.com/hero/hero-omega.webp",
+      "alt": "Hero Omega",
+      "aspect": "aspect-[16/9]"
+    }
+  },
     "TabsSection": {
       "Tabs1Title": "Producto",
       "Tab1Subtitle": "Descripción del producto",
@@ -426,6 +430,7 @@
     "MyJourney": {
     "Title": "Construimos soluciones que escalan",
     "SubTitle": "Hitos de nuestro camino",
+
     "Year1": "2023",
     "SubtitleYear1": "Fundación y primeros clientes",
     "Img1Year1": "/images/hito1.webp",
