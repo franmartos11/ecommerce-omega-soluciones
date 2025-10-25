@@ -107,17 +107,18 @@ export default function LoginForm() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen flex flex-col lg:flex-row items-center justify-center bg-bg2 px-4"
+      className="min-h-screen flex flex-col lg:flex-row items-center justify-center px-4"
+      style={{ background:"var(--color-primary-bg)"}}
     >
       <div className="w-full lg:w-1/2 flex flex-col items-center justify-center py-10">
         <Image src="/logo.png" alt="Logo" width={120} height={120} className="mb-4" />
-        <h1 className="text-black text-4xl font-bold">LOGO</h1>
       </div>
 
       <motion.div
         animate={shake ? { x: [-10, 10, -10, 10, 0] } : { x: 0 }}
         transition={{ duration: 0.35 }}
-        className="w-full max-w-md bg-white shadow-md rounded-xl p-8 lg:mr-20"
+        className="w-full max-w-md shadow-md rounded-xl p-8 lg:mr-20"
+        style={{ background:"var(--bgweb)"}}
       >
         <form onSubmit={handleSubmit} className="space-y-5" noValidate>
           <input
@@ -156,7 +157,7 @@ export default function LoginForm() {
           {errors.api && <p className="text-sm text-red-500">{errors.api}</p>}
 
           <div className="flex justify-between items-center text-sm">
-            <label className="flex items-center gap-2 text-gray-500 select-none">
+            <label className="flex items-center gap-2 select-none" style={{ color:"var(--color-secondary-text)"}}>
               <input
                 type="checkbox"
                 checked={remember}
@@ -165,14 +166,15 @@ export default function LoginForm() {
               />
               Recordarme
             </label>
-            <Link href="/CambioContrasena" className="text-gray-500 hover:underline">
+            <Link href="/CambioContrasena" className="hover:underline" style={{ color:"var(--color-secondary-text)"}}>
               ¿Olvidaste tu contraseña?
             </Link>
           </div>
 
           <button
             type="submit"
-            className="w-full text-white py-2 rounded-md transition bg-bg1 hover:bg-bg2 disabled:opacity-50"
+            className="w-full  py-2 rounded-md transition disabled:opacity-50 cursor-pointer"
+            style={{ color:"var(--color-tertiary-text)", background:"var(--color-primary-bg)"}}
             disabled={submitting}
             aria-busy={submitting}
           >
@@ -180,9 +182,9 @@ export default function LoginForm() {
           </button>
         </form>
 
-        <div className="text-center mt-4 text-sm text-gray-500">
+        <div className="text-center mt-4 text-sm" style={{ color:"var(--color-primary-text)"}}>
           ¿No tenés cuenta?{" "}
-          <Link href="/Registro" className="text-text1 hover:underline font-medium">
+          <Link href="/Registro" className="hover:underline font-medium" style={{ color:"var(--color-primary-bg)"}}>
             Registrate
           </Link>
         </div>

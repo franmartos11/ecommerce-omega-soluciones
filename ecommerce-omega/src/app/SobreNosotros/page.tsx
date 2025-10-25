@@ -11,7 +11,7 @@ import { ContactComponent } from "../Components/ComponentsSobreNosotrosOmega/Con
 export default function Home() {
 
   return (
-    <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
+    <div className=" min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]" style={{ background:"var(--bgweb)"}}>
       <Navbar/>
       <OmegaShowcase2/>
       <MisionVision />

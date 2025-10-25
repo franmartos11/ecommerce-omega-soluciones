@@ -35,7 +35,7 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center px-4"style={{ background:"var(--bgweb)"}}>
       <form onSubmit={onSubmit} className="bg-white p-6 rounded-xl shadow w-full max-w-md space-y-4">
         <h1 className="text-xl font-semibold text-gray-800">Definir nueva contraseña</h1>
         <input
