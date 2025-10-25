@@ -41,9 +41,9 @@ export function HeroDW({
   className,
 }: HeroDWProps) {
   return (
-    <div className={`relative mx-auto my-10 flex max-w-7xl flex-col items-center justify-center ${className ?? ""}`}>
+    <div className={`relative mx-auto my-10 flex max-w-7xl flex-col items-center justify-center ${className ?? ""}`} style={{ background: "var(--bgweb)" }}>
       <div className="px-4 py-10 md:py-20">
-        <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold text-slate-700 md:text-4xl lg:text-7xl">
+        <h1 className="relative z-10 mx-auto max-w-4xl text-center text-2xl font-bold text-slate-700 md:text-4xl lg:text-7xl" style={{color:"var(--color-secondary-text)"}}>
           {title.split(" ").map((word, index) => (
             <motion.span
               key={`${word}-${index}`}
@@ -62,7 +62,7 @@ export function HeroDW({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, delay: 0.7 }}
-            className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600"
+            className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal "style={{color:"var(--color-primary-text)"}}
           >
             {subtitle}
           </motion.p>
