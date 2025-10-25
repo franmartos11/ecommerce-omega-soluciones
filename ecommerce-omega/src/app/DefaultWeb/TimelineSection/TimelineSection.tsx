@@ -118,12 +118,12 @@ export function TimelineSection() {
             {(nonEmpty(pageTitle) || nonEmpty(pageSubtitle) || nonEmpty(b.subtitle)) && (
               <div className="mb-6">
                 {nonEmpty(pageTitle) && (
-                  <p className="text-xs md:text-sm font-semibold text-neutral-900">
+                  <p className="text-xs md:text-sm font-semibold "style={{color:"var(--color-primary-text)"}}>
                     {pageTitle}
                   </p>
                 )}
                 {nonEmpty(pageSubtitle) && (
-                  <p className="text-[11px] md:text-xs text-neutral-700">
+                  <p className="text-[11px] md:text-xs " style={{color:"var(--color-secondary-text)"}}>
                     {pageSubtitle}
                   </p>
                 )}
@@ -131,7 +131,7 @@ export function TimelineSection() {
             )}
 
             {nonEmpty(b.subtitle) && (
-              <p className="mb-8 text-xs md:text-sm font-normal text-neutral-800">
+              <p className="mb-8 text-xs md:text-sm font-normal" style={{ color:"var(--color-primary-text)"}}>
                 {b.subtitle}
               </p>
             )}
@@ -155,7 +155,7 @@ export function TimelineSection() {
   );
 
   return (
-    <div className="relative w-full overflow-clip">
+    <div className="relative w-full overflow-clip" style={{ background: "var(--bgweb)"}}>
       <Timeline data={data} />
     </div>
   );
