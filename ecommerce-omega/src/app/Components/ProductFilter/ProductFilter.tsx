@@ -59,7 +59,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
 
   return (
     <div className="w-full max-w-xs rounded-xl border border-gray-200 p-4 shadow-sm">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">Filtro Precio</h2>
+      <h2 className="text-lg font-semibold  mb-4" style={{ color:"var(--color-primary-text)"}}>Filtro Precio</h2>
 
       {/* PRICE RANGE */}
       <Range
@@ -95,16 +95,16 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
           );
         }}
       />
-      <div className="flex justify-between text-sm text-gray-600 mb-4">
+      <div className="flex justify-between text-sm mb-4" style={{ color:"var(--color-secondary-text)"}}>
         <span>Desde: <span className="text-text1">${priceRange[0]}</span></span>
         <span>Hasta: <span className="text-text1">${priceRange[1]}</span></span>
       </div>
 
       {/* COLORS */}
       <div className="mb-4">
-        <p className="text-sm font-semibold text-gray-700 mb-2">Color</p>
+        <p className="text-sm font-semibold mb-2" style={{color:"var(--color-primary-text)"}}>Color</p>
         {colors.map(({ name, count }) => (
-          <label key={name} className="flex items-center gap-2 text-sm text-gray-600 mb-1">
+          <label key={name} className="flex items-center gap-2 text-sm mb-1" style={{color:"var(--color-secondary-text)"}}>
             <input
               type="checkbox"
               checked={selectedColors.includes(name)}
@@ -118,9 +118,9 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
 
       {/* CONDITION */}
       <div className="mb-4">
-        <p className="text-sm font-semibold text-gray-700 mb-2">Condición</p>
+        <p className="text-sm font-semibold mb-2" style={{color:"var(--color-primary-text)"}}>Condición</p>
         {conditions.map(({ name, count }) => (
-          <label key={name} className="flex items-center gap-2 text-sm text-gray-600 mb-1">
+          <label key={name} className="flex items-center gap-2 text-sm  mb-1" style={{color:"var(--color-secondary-text)"}}>
             <input
               type="checkbox"
               checked={selectedConditions.includes(name)}
@@ -135,7 +135,8 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ onFilter }) => {
       {/* BUTTON */}
       <button
         onClick={applyFilters}
-        className=" cursor-pointer w-full bg-bg1 hover:bg-bg2 text-white text-sm font-medium py-2 rounded flex items-center justify-center gap-2"
+        className="cursor-pointer w-full text-sm font-medium py-2 rounded flex items-center justify-center gap-2"
+        style={{ background: "var(--color-primary-bg)",color:" var(--color-tertiary-text)"}}
       >
         <Funnel className="w-4 h-4" />
         Filtrar
