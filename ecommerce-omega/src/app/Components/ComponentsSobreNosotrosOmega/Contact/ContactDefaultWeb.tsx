@@ -95,7 +95,6 @@ export const ContactComponent = () => {
   }, [contactanos, cfg.sitio?.nombre, emailFallback, telFallback]);
 
   // helpers
-  const toTelHref = (t: string) => `tel:${t.replace(/\s+/g, "")}`;
   const toWaHref = (t: string) => {
     const digits = t.replace(/[^\d]/g, "");
     const withCC = digits.startsWith("54") ? digits : `54${digits}`;
