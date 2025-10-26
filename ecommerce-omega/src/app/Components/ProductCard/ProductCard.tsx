@@ -7,7 +7,7 @@ import { addToCart } from "@/utils/CartUtils";
 
 interface BadgeProps {
   label: string;
-  color: string; // e.g. 'bg-blue-500'
+  color: string; 
   textColor?: string;
 }
 
@@ -36,6 +36,8 @@ const ProductCard: FC<ProductCardProps> = ({
 }) => {
   const router = useRouter();
   const [added, setAdded] = useState(false);
+  const [hoveredBtn, setHoveredBtn] = useState(false);
+
   const hasDiscount = oldPrice > currentPrice;
   const discountPercent = hasDiscount
     ? Math.round(((oldPrice - currentPrice) / oldPrice) * 100)
@@ -44,10 +46,10 @@ const ProductCard: FC<ProductCardProps> = ({
   const autoBadge: BadgeProps | undefined =
     !badge && hasDiscount
       ? {
-        label: `-${discountPercent}%`,
-        color: "bg-orange-400",
-        textColor: "text-white ",
-      }
+          label: `-${discountPercent}%`,
+          color: "bg-orange-400",
+          textColor: "text-white ",
+        }
       : undefined;
 
   const finalBadge = badge || autoBadge;
@@ -57,19 +59,24 @@ const ProductCard: FC<ProductCardProps> = ({
     addToCart({ id, title, imageUrl, price: currentPrice }, 1);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
-    window.dispatchEvent(new Event('cartUpdated'));
+    window.dispatchEvent(new Event("cartUpdated"));
   };
 
   return (
     <div
       onClick={() => router.push(`/ProductoDetailPage/${id}`)}
-      className="cursor-pointer relative w-full max-w-xs  border border-[#ECECEC] rounded-[15px] overflow-hidden p-4 flex flex-col justify-between shadow-sm transition-transform duration-200 ease-in-out hover:scale-[1.015] hover:shadow-lg"
-      style={{background: "var(--bgweb)", color:"var(--color-primary-text)"}}
+      className="cursor-pointer relative w-full max-w-xs border border-[#ECECEC] rounded-[15px] overflow-hidden p-4 flex flex-col justify-between shadow-sm transition-transform duration-200 ease-in-out hover:scale-[1.015] hover:shadow-lg"
+      style={{ background: "var(--bgweb)", color: "var(--color-primary-text)" }}
     >
       {finalBadge && (
         <span
-          className={`absolute top-0 left-0 px-3 py-1 text-xs font-semibold rounded-tl-[15px] ${finalBadge.color} ${finalBadge.textColor }`}
-          style={{ borderBottomRightRadius: 0, borderTopRightRadius: 0, borderBottomLeftRadius: 0 , color:"var(--color-tertiary-text)"}}
+          className={`absolute top-0 left-0 px-3 py-1 text-xs font-semibold rounded-tl-[15px] ${finalBadge.color} ${finalBadge.textColor}`}
+          style={{
+            borderBottomRightRadius: 0,
+            borderTopRightRadius: 0,
+            borderBottomLeftRadius: 0,
+            color: "var(--color-tertiary-text)",
+          }}
         >
           {finalBadge.label}
         </span>
@@ -84,18 +91,28 @@ const ProductCard: FC<ProductCardProps> = ({
       </div>
 
       <div className="mt-3 flex-grow">
-        {category && <p className=" text-xs mb-1" style={{ color:"var(--color-secondary-text)"}}>{category}</p>}
+        {category && (
+          <p className="text-xs mb-1" style={{ color: "var(--color-secondary-text)" }}>
+            {category}
+          </p>
+        )}
 
-        <h3 className="text-[16px] font-semiboldleading-snug mb-1" style={{ color:"var(--color-primary-text)"}}>
+        <h3
+          className="text-[16px] font-semibold leading-snug mb-1"
+          style={{ color: "var(--color-primary-text)" }}
+        >
           {title}
         </h3>
 
-        <div className="flex items-center text-sm  mb-1" style={{ color:"var(--color-secondary-text)"}}>
+        <div
+          className="flex items-center text-sm mb-1"
+          style={{ color: "var(--color-secondary-text)" }}
+        >
           <span className="text-yellow-400 text-[16px]">★</span>
           <span className="ml-1 text-[14px]">({rating.toFixed(1)})</span>
         </div>
 
-        <p className="text-sm mb-2" style={{ color:"var(--color-secondary-text)"}}>
+        <p className="text-sm mb-2" style={{ color: "var(--color-secondary-text)" }}>
           By <span className="text-text1">{seller}</span>
         </p>
 
@@ -104,7 +121,10 @@ const ProductCard: FC<ProductCardProps> = ({
             ${currentPrice.toFixed(2)}
           </span>
           {hasDiscount && (
-            <span className=" line-through text-sm" style={{ color:"var(--color-secondary-text)"}}>
+            <span
+              className="line-through text-sm"
+              style={{ color: "var(--color-secondary-text)" }}
+            >
               ${oldPrice.toFixed(2)}
             </span>
           )}
@@ -112,18 +132,25 @@ const ProductCard: FC<ProductCardProps> = ({
       </div>
 
       <button
+        onMouseEnter={() => setHoveredBtn(true)}
+        onMouseLeave={() => setHoveredBtn(false)}
         onClick={handleAddToCart}
-        className="cursor-pointer  w-full flex items-center justify-center gap-2 text-sm font-medium py-2 rounded-md transition"
-        style={{ color:"var(--color-tertiary-text)",background: "var(--color-primary-bg)" }}
+        className="cursor-pointer w-full flex items-center justify-center gap-2 text-sm font-medium py-2 rounded-md transition"
+        style={{
+          background: hoveredBtn
+            ? "var(--color-secondary-bg)"
+            : "var(--color-primary-bg)",
+          color: hoveredBtn
+            ? "var(--color-tertiary-text)"
+            : "var(--color-tertiary-text)",
+        }}
       >
         <ShoppingCart className="w-4 h-4" />
         Agregar
       </button>
 
       {added && (
-        <p className="text-center text-sm text-text1 mt-2">
-          ¡Agregado al carrito!
-        </p>
+        <p className="text-center text-sm text-text1 mt-2">¡Agregado al carrito!</p>
       )}
     </div>
   );
