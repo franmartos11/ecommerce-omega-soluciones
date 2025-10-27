@@ -9,18 +9,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { addToCart } from "@/utils/CartUtils";
 
 interface DetailProducts extends Product {
-  description : string,
-  stock: number,
-  tags: string[],
-  mfg:string,
-  life:string
+  description: string;
+  stock: number;
+  tags: string[];
+  mfg: string;
+  life: string;
 }
 
 const mockProducts: DetailProducts[] = [
   {
     id: "1",
     title: "Resma Papel A5 x500 Hoja 80gr",
-    imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+    imageUrl:
+      "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
     currentPrice: 5849,
     oldPrice: 6290,
     rating: 4.5,
@@ -38,7 +39,8 @@ const mockProducts: DetailProducts[] = [
   {
     id: "2",
     title: "Resma Papel A5 x500 Hoja 80gr",
-    imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+    imageUrl:
+      "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
     currentPrice: 5849,
     oldPrice: 6290,
     rating: 4.5,
@@ -56,7 +58,8 @@ const mockProducts: DetailProducts[] = [
   {
     id: "3",
     title: "Resma Papel A5 x500 Hoja 80gr",
-    imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+    imageUrl:
+      "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
     currentPrice: 5849,
     oldPrice: 6290,
     rating: 4.5,
@@ -74,7 +77,8 @@ const mockProducts: DetailProducts[] = [
   {
     id: "4",
     title: "Resma Papel A5 x500 Hoja 80gr",
-    imageUrl: "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+    imageUrl:
+      "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
     currentPrice: 5849,
     oldPrice: 6290,
     rating: 4.5,
@@ -105,7 +109,7 @@ export default function ProductoDetailPage() {
   ];
 
   useEffect(() => {
-    const id = Array.isArray(params?.id) ? params.id[0] : params?.id;
+    const id = Array.isArray(params?.id) ? params.id[0] : (params?.id as string | undefined);
     const found = mockProducts.find((p) => p.id === id);
     setProduct(found || null);
     setSelectedImage(found?.imageUrl || null);
@@ -122,20 +126,23 @@ export default function ProductoDetailPage() {
       },
       quantity
     );
-    window.dispatchEvent(new Event('cartUpdated'));
+    window.dispatchEvent(new Event("cartUpdated"));
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 2000);
   };
 
   if (!product) return <div className="p-6">Producto no encontrado</div>;
-  
-
 
   return (
-    <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)] relative">
+    <div
+      className="min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)] relative"
+      style={{ background: "var(--bgweb)", color: "var(--color-primary-text)" }}
+    >
       <Navbar />
+
       <section className="px-6 py-10 max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row gap-10">
+          {/* Galería */}
           <div className="flex-1 space-y-4">
             <img
               src={selectedImage ?? product.imageUrl}
@@ -153,68 +160,129 @@ export default function ProductoDetailPage() {
                   width={60}
                   height={60}
                   onClick={() => setSelectedImage(thumb)}
-                  className={`cursor-pointer rounded-lg border-2 ${
-                    selectedImage === thumb ? "border-bg1" : "border-transparent"
-                  }`}
+                  className="cursor-pointer rounded-lg border-2"
+                  style={{
+                    borderColor:
+                      selectedImage === thumb
+                        ? "var(--color-primary-bg)"
+                        : "transparent",
+                  }}
                 />
               ))}
             </div>
           </div>
 
+          {/* Info */}
           <div className="flex-1 space-y-4">
-            <span className="text-xs bg-red-100 text-red-500 px-2 py-1 rounded-full w-fit">
+            <span
+              className="text-xs px-2 py-1 rounded-full w-fit"
+              style={{
+                background: "var(--badge-bg, #fee2e2)",
+                color: "var(--badge-text, #ef4444)",
+              }}
+            >
               Sale Off
             </span>
-            <h1 className="text-3xl font-bold text-gray-900">{product.title}</h1>
-            <p className="text-yellow-500 text-sm">★ {product.rating} (32 reviews)</p>
 
-            <div className="flex items-center gap-3">
-              <span className="text-3xl font-bold text-bg1">
-                $ {product.currentPrice}
-              </span>
-              <span className="line-through text-gray-400 text-sm">${product.oldPrice}</span>
-            </div>
+            <h1 className="text-3xl font-bold" style={{ color: "var(--color-primary-text)" }}>
+              {product.title}
+            </h1>
 
-            <p className="text-sm text-gray-600 max-w-lg">
-              Papel multifunción de alta calidad, ideal para impresiones claras y profesionales. Compatible con impresoras láser, inkjet y fotocopiadoras. Resma de 500 hojas tamaño A5, gramaje de 80 gramos, extra blanco.
+            <p className="text-sm" style={{ color: "var(--accent-warning, #eab308)" }}>
+              ★ {product.rating} (32 reviews)
             </p>
 
-            <div className="flex items-center text-black gap-3">
-              <label>Cantidad:</label>
+            <div className="flex items-center gap-3">
+              <span className="text-3xl font-bold" style={{ color: "var(--color-primary-bg)" }}>
+                $ {product.currentPrice}
+              </span>
+              <span className="line-through text-sm" style={{ color: "var(--color-secondary-text)" }}>
+                ${product.oldPrice}
+              </span>
+            </div>
+
+            <p className="text-sm max-w-lg" style={{ color: "var(--color-secondary-text)" }}>
+              Papel multifunción de alta calidad, ideal para impresiones claras y profesionales.
+              Compatible con impresoras láser, inkjet y fotocopiadoras. Resma de 500 hojas tamaño A5,
+              gramaje de 80 gramos, extra blanco.
+            </p>
+
+            <div className="flex items-center gap-3">
+              <label style={{ color: "var(--color-primary-text)" }}>Cantidad:</label>
               <select
-                className="w-16 border text-black border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-bg1"
+                className="w-16 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2
+                           focus:ring-[var(--color-primary-bg)]"
                 value={quantity}
                 onChange={(e) => setQuantity(parseInt(e.target.value))}
+                style={{
+                  color: "var(--color-primary-text)",
+                  background: "var(--surface, #ffffff)",
+                  borderColor: "var(--border, #d1d5db)",
+                }}
               >
                 {[...Array(10)].map((_, i) => (
-                  <option key={i} value={i + 1}>{i + 1}</option>
+                  <option key={i} value={i + 1}>
+                    {i + 1}
+                  </option>
                 ))}
               </select>
+
               <button
                 onClick={handleAddToCart}
-                className=" cursor-pointer bg-bg1 hover:bg-bg2 text-white px-4 py-2 rounded text-sm"
+                className="cursor-pointer px-4 py-2 rounded text-sm transition-colors"
+                style={{
+                  background: "var(--color-primary-bg)",
+                  color: "var(--color-tertiary-text)",
+                }}
+                onMouseEnter={(e) => ((e.currentTarget.style.background = "var(--color-secondary-bg)"))}
+                onMouseLeave={(e) => ((e.currentTarget.style.background = "var(--color-primary-bg)"))}
               >
                 Agregar
               </button>
             </div>
 
-            <div className="text-sm text-gray-800 space-y-1 pt-4">
-              <p><strong>SKU:</strong> FWM15VKT</p>
-              <p><strong>Etiquetas:</strong> {product.tags?.length ? product.tags.join(", ") : "Sin etiquetas"}</p>
-              <p><strong>Stock:</strong> {product.stock} unidades</p>
-              <p><strong>Fabricación:</strong> {product.mfg}</p>
-              <p><strong>Vida útil:</strong> {product.life}</p>
+            <div className="text-sm space-y-1 pt-4">
+              <p>
+                <strong>SKU:</strong> <span style={{ color: "var(--color-secondary-text)" }}>FWM15VKT</span>
+              </p>
+              <p>
+                <strong>Etiquetas:</strong>{" "}
+                <span style={{ color: "var(--color-secondary-text)" }}>
+                  {product.tags?.length ? product.tags.join(", ") : "Sin etiquetas"}
+                </span>
+              </p>
+              <p>
+                <strong>Stock:</strong>{" "}
+                <span style={{ color: "var(--color-secondary-text)" }}>{product.stock} unidades</span>
+              </p>
+              <p>
+                <strong>Fabricación:</strong>{" "}
+                <span style={{ color: "var(--color-secondary-text)" }}>{product.mfg}</span>
+              </p>
+              <p>
+                <strong>Vida útil:</strong>{" "}
+                <span style={{ color: "var(--color-secondary-text)" }}>{product.life}</span>
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="mt-10 border-t pt-6 pb-[3rem]">
-          <h2 className="text-lg font-semibold text-black mb-2">Descripción</h2>
-          <p className="text-gray-700 text-sm leading-relaxed">
-            Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium, diseñadas para ofrecer un rendimiento confiable en todo tipo de impresoras y fotocopiadoras. Su textura uniforme garantiza resultados nítidos tanto en impresión como en escritura manual. Ideal para el uso en oficinas, hogares y centros educativos.
+        <div
+          className="mt-10 border-t pt-6 pb-[3rem]"
+          style={{ borderColor: "var(--border, #e5e7eb)" }}
+        >
+          <h2 className="text-lg font-semibold mb-2" style={{ color: "var(--color-primary-text)" }}>
+            Descripción
+          </h2>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--color-secondary-text)" }}>
+            Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium,
+            diseñadas para ofrecer un rendimiento confiable en todo tipo de impresoras y fotocopiadoras.
+            Su textura uniforme garantiza resultados nítidos tanto en impresión como en escritura manual.
+            Ideal para el uso en oficinas, hogares y centros educativos.
           </p>
         </div>
-        <ProductCardGrid products={mockProducts}></ProductCardGrid>
+
+        <ProductCardGrid products={mockProducts} />
       </section>
 
       <AnimatePresence>
@@ -224,13 +292,14 @@ export default function ProductoDetailPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.4 }}
-            className="fixed bottom-6 right-6 bg-bg1 text-white px-6 py-3 rounded shadow-lg z-50"
+            className="fixed bottom-6 right-6 rounded px-6 py-3 shadow-lg z-50"
+            style={{ background: "var(--color-primary-bg)", color: "var(--color-tertiary-text)" }}
           >
             Producto agregado al carrito 🛒
           </motion.div>
         )}
       </AnimatePresence>
-      
+
       <Footer />
     </div>
   );
