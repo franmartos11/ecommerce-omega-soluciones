@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import ProductCardGrid, { Product } from "@/app/Components/ProductCardGrid/ProductCardGrid";
+import ProductCardGrid, {
+  Product,
+} from "@/app/Components/ProductCardGrid/ProductCardGrid";
 import Navbar from "@/app/Components/NavigationBar/NavBar";
 import Footer from "@/app/Components/Footer/Footer";
 import { motion, AnimatePresence } from "framer-motion";
@@ -109,7 +111,9 @@ export default function ProductoDetailPage() {
   ];
 
   useEffect(() => {
-    const id = Array.isArray(params?.id) ? params.id[0] : (params?.id as string | undefined);
+    const id = Array.isArray(params?.id)
+      ? params.id[0]
+      : (params?.id as string | undefined);
     const found = mockProducts.find((p) => p.id === id);
     setProduct(found || null);
     setSelectedImage(found?.imageUrl || null);
@@ -184,31 +188,46 @@ export default function ProductoDetailPage() {
               Sale Off
             </span>
 
-            <h1 className="text-3xl font-bold" style={{ color: "var(--color-primary-text)" }}>
+            <h1
+              className="text-3xl font-bold"
+              style={{ color: "var(--color-primary-text)" }}
+            >
               {product.title}
             </h1>
 
-            <p className="text-sm" style={{ color: "var(--accent-warning, #eab308)" }}>
+            <p
+              className="text-sm"
+              style={{ color: "var(--accent-warning, #eab308)" }}
+            >
               ★ {product.rating} (32 reviews)
             </p>
 
             <div className="flex items-center gap-3">
-              <span className="text-3xl font-bold" style={{ color: "var(--color-primary-bg)" }}>
+              <span
+                className="text-3xl font-bold"
+                style={{ color: "var(--color-primary-bg)" }}
+              >
                 $ {product.currentPrice}
               </span>
-              <span className="line-through text-sm" style={{ color: "var(--color-secondary-text)" }}>
+              <span
+                className="line-through text-sm"
+                style={{ color: "var(--color-secondary-text)" }}
+              >
                 ${product.oldPrice}
               </span>
             </div>
 
-            <p className="text-sm max-w-lg" style={{ color: "var(--color-secondary-text)" }}>
-              Papel multifunción de alta calidad, ideal para impresiones claras y profesionales.
-              Compatible con impresoras láser, inkjet y fotocopiadoras. Resma de 500 hojas tamaño A5,
-              gramaje de 80 gramos, extra blanco.
+            <p
+              className="text-sm max-w-lg"
+              style={{ color: "var(--color-secondary-text)" }}
+            >
+              ${product.description}
             </p>
 
             <div className="flex items-center gap-3">
-              <label style={{ color: "var(--color-primary-text)" }}>Cantidad:</label>
+              <label style={{ color: "var(--color-primary-text)" }}>
+                Cantidad:
+              </label>
               <select
                 className="w-16 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2
                            focus:ring-[var(--color-primary-bg)]"
@@ -234,8 +253,13 @@ export default function ProductoDetailPage() {
                   background: "var(--color-primary-bg)",
                   color: "var(--color-tertiary-text)",
                 }}
-                onMouseEnter={(e) => ((e.currentTarget.style.background = "var(--color-secondary-bg)"))}
-                onMouseLeave={(e) => ((e.currentTarget.style.background = "var(--color-primary-bg)"))}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.background =
+                    "var(--color-secondary-bg)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.background = "var(--color-primary-bg)")
+                }
               >
                 Agregar
               </button>
@@ -243,25 +267,36 @@ export default function ProductoDetailPage() {
 
             <div className="text-sm space-y-1 pt-4">
               <p>
-                <strong>SKU:</strong> <span style={{ color: "var(--color-secondary-text)" }}>FWM15VKT</span>
+                <strong>SKU:</strong>{" "}
+                <span style={{ color: "var(--color-secondary-text)" }}>
+                  FWM15VKT
+                </span>
               </p>
               <p>
                 <strong>Etiquetas:</strong>{" "}
                 <span style={{ color: "var(--color-secondary-text)" }}>
-                  {product.tags?.length ? product.tags.join(", ") : "Sin etiquetas"}
+                  {product.tags?.length
+                    ? product.tags.join(", ")
+                    : "Sin etiquetas"}
                 </span>
               </p>
               <p>
                 <strong>Stock:</strong>{" "}
-                <span style={{ color: "var(--color-secondary-text)" }}>{product.stock} unidades</span>
+                <span style={{ color: "var(--color-secondary-text)" }}>
+                  {product.stock} unidades
+                </span>
               </p>
               <p>
                 <strong>Fabricación:</strong>{" "}
-                <span style={{ color: "var(--color-secondary-text)" }}>{product.mfg}</span>
+                <span style={{ color: "var(--color-secondary-text)" }}>
+                  {product.mfg}
+                </span>
               </p>
               <p>
                 <strong>Vida útil:</strong>{" "}
-                <span style={{ color: "var(--color-secondary-text)" }}>{product.life}</span>
+                <span style={{ color: "var(--color-secondary-text)" }}>
+                  {product.life}
+                </span>
               </p>
             </div>
           </div>
@@ -271,14 +306,22 @@ export default function ProductoDetailPage() {
           className="mt-10 border-t pt-6 pb-[3rem]"
           style={{ borderColor: "var(--border, #e5e7eb)" }}
         >
-          <h2 className="text-lg font-semibold mb-2" style={{ color: "var(--color-primary-text)" }}>
+          <h2
+            className="text-lg font-semibold mb-2"
+            style={{ color: "var(--color-primary-text)" }}
+          >
             Descripción
           </h2>
-          <p className="text-sm leading-relaxed" style={{ color: "var(--color-secondary-text)" }}>
-            Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium,
-            diseñadas para ofrecer un rendimiento confiable en todo tipo de impresoras y fotocopiadoras.
-            Su textura uniforme garantiza resultados nítidos tanto en impresión como en escritura manual.
-            Ideal para el uso en oficinas, hogares y centros educativos.
+          <p
+            className="text-sm leading-relaxed"
+            style={{ color: "var(--color-secondary-text)" }}
+          >
+            Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta
+            blancura y calidad premium, diseñadas para ofrecer un rendimiento
+            confiable en todo tipo de impresoras y fotocopiadoras. Su textura
+            uniforme garantiza resultados nítidos tanto en impresión como en
+            escritura manual. Ideal para el uso en oficinas, hogares y centros
+            educativos.
           </p>
         </div>
 
@@ -293,7 +336,10 @@ export default function ProductoDetailPage() {
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.4 }}
             className="fixed bottom-6 right-6 rounded px-6 py-3 shadow-lg z-50"
-            style={{ background: "var(--color-primary-bg)", color: "var(--color-tertiary-text)" }}
+            style={{
+              background: "var(--color-primary-bg)",
+              color: "var(--color-tertiary-text)",
+            }}
           >
             Producto agregado al carrito 🛒
           </motion.div>
