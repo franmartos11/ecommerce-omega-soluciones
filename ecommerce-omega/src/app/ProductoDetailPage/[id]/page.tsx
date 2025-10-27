@@ -207,7 +207,7 @@ export default function ProductoDetailPage() {
                 className="text-3xl font-bold"
                 style={{ color: "var(--color-primary-bg)" }}
               >
-                $ {product.currentPrice}
+                ${product.currentPrice}
               </span>
               <span
                 className="line-through text-sm"
@@ -221,7 +221,7 @@ export default function ProductoDetailPage() {
               className="text-sm max-w-lg"
               style={{ color: "var(--color-secondary-text)" }}
             >
-              ${product.description}
+              {product.description}
             </p>
 
             <div className="flex items-center gap-3">
