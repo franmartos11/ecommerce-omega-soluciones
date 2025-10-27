@@ -44,7 +44,7 @@ export default function SearchBar() {
       />
       <button
         onClick={handleSubmit}
-        className="bg-bg1 text-white px-3 py-2 transition-all duration-300 ease-in-out 
+        className=" cursor-pointer bg-bg1 text-white px-3 py-2 transition-all duration-300 ease-in-out 
                    hover:bg-bg2 hover:shadow-lg hover:scale-110 active:scale-95 rounded-l-none"
         aria-label="Buscar"
       >

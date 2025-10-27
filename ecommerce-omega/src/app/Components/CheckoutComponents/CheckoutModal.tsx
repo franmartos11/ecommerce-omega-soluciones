@@ -181,7 +181,8 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
         {step > 1 && (
           <button
             onClick={() => setStep(step - 1)}
-            className="cursor-pointer text-sm text-gray-600 hover:underline mb-4"
+            className="cursor-pointer text-sm  hover:underline mb-4"
+            style={{ color: "var(--color-secondary-text)" }}
           >
             ← Volver
           </button>
