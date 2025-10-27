@@ -14,7 +14,7 @@ import {
   LogOut,
   ChevronDown,
 } from "lucide-react";
-import SearchBar from "./SereachBar"; // <-- si tu archivo se llama SereachBar, corregilo a SearchBar
+import SearchBar from "./SereachBar";
 import { toast } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { getCart } from "@/utils/CartUtils";
