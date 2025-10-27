@@ -28,53 +28,73 @@ export default function PaymentForm({ onNext }: Props) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-white p-6 rounded-md shadow-md space-y-6"
+      className=" p-6 rounded-md shadow-md space-y-6"
+      style={{
+        background: "var(--bgweb)",
+      }}
     >
       <fieldset className="space-y-4">
-        <legend className="text-lg font-medium text-gray-700">
+        <legend
+          className="text-lg font-medium "
+          style={{
+            color: "var(--color-primary-text)",
+          }}
+        >
           Seleccione método de pago
         </legend>
 
-        <div className="flex items-center">
+        <div className="flex items-center cursor-pointer ">
           <input
             type="radio"
             id="mercadopago"
             value="mercadopago"
             {...register("method", { required: true })}
-            className="h-4 w-4 text-bg1 focus:ring-bg1 border-gray-300"
+            className=" h-4 w-4 text-bg1 focus:ring-bg1 border-gray-300 cursor-pointer"
           />
           <label
             htmlFor="mercadopago"
-            className="ml-2 block text-sm text-gray-700"
+            className="ml-2 block text-sm cursor-pointer "
+            style={{
+              color: "var(--color-secondary-text)",
+            }}
           >
             MercadoPago
           </label>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center cursor-pointer">
           <input
             type="radio"
             id="local"
             value="local"
             {...register("method", { required: true })}
-            className="h-4 w-4 text-bg1 focus:ring-bg1 border-gray-300"
+            className="h-4 w-4 text-bg1 focus:ring-bg1 border-gray-300 cursor-pointer"
           />
-          <label htmlFor="local" className="ml-2 block text-sm text-gray-700">
+          <label
+            htmlFor="local"
+            className="ml-2 block text-sm cursor-pointer "
+            style={{
+              color: "var(--color-secondary-text)",
+            }}
+          >
             Pagar en local
           </label>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center cursor-pointer">
           <input
             type="radio"
             id="transfer"
             value="transfer"
             {...register("method", { required: true })}
-            className="h-4 w-4 text-bg1 focus:ring-bg1 border-gray-300"
+            className="h-4 w-4 text-bg1 focus:ring-bg1 border-gray-300 cursor-pointer"
           />
           <label
             htmlFor="transfer"
-            className="ml-2 block text-sm text-gray-700"
+            className="ml-2 block text-sm cursor-pointer "
+            style={{
+              color: "var(--color-secondary-text)",
+            }}
           >
             Transferencia bancaria
           </label>
@@ -89,7 +109,10 @@ export default function PaymentForm({ onNext }: Props) {
         <div>
           <label
             htmlFor="transferReference"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium mb-1"
+            style={{
+              color: "var(--color-secondary-text)",
+            }}
           >
             Referencia de transferencia
           </label>
@@ -100,7 +123,7 @@ export default function PaymentForm({ onNext }: Props) {
               required: "Referencia obligatoria",
               minLength: { value: 5, message: "Mínimo 5 caracteres" },
             })}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-bg1"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-bg)]"
           />
           {errors.transferReference && (
             <p className="text-red-500 text-sm mt-1">

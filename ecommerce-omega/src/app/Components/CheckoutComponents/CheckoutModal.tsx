@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { getCart, clearCart } from '@/utils/CartUtils';
-import ShippingForm, { ShippingData } from './ShippingForm';
-import PaymentForm from './PaymentForm';
-import ReviewOrder from './ReviewOrder';
+import React, { useState, useEffect } from "react";
+import { getCart, clearCart } from "@/utils/CartUtils";
+import ShippingForm, { ShippingData } from "./ShippingForm";
+import PaymentForm from "./PaymentForm";
+import ReviewOrder from "./ReviewOrder";
 
 interface CheckoutModalProps {
   open: boolean;
@@ -22,7 +22,9 @@ type CartItem = {
 export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
   const [step, setStep] = useState(1);
   const [shippingData, setShippingData] = useState<ShippingData | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState<'mercadopago' | 'local' | 'transfer'>('mercadopago');
+  const [paymentMethod, setPaymentMethod] = useState<
+    "mercadopago" | "local" | "transfer"
+  >("mercadopago");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
     setStep(2);
   };
 
-  const handlePayment = (method: 'mercadopago' | 'local' | 'transfer') => {
+  const handlePayment = (method: "mercadopago" | "local" | "transfer") => {
     setPaymentMethod(method);
     setStep(3);
   };
@@ -45,15 +47,15 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
   const handleConfirm = async () => {
     try {
       // 1. Crear orden en tu backend
-      const orderRes = await fetch('/api/orders', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const orderRes = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ shippingData, paymentMethod, cartItems }),
       });
 
       if (!orderRes.ok) {
         const errorText = await orderRes.text();
-        console.error('Error al crear la orden:', {
+        console.error("Error al crear la orden:", {
           status: orderRes.status,
           statusText: orderRes.statusText,
           body: errorText,
@@ -61,20 +63,22 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
         alert(`Error al crear la orden:\n${errorText}`);
         return;
       }
-      
 
       const { id: orderId } = await orderRes.json();
 
       // 2. Si el método es Mercado Pago, crear preferencia y redirigir
-      if (paymentMethod === 'mercadopago') {
-        const prefRes = await fetch('/api/payments/mercadopago', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+      if (paymentMethod === "mercadopago") {
+        const prefRes = await fetch("/api/payments/mercadopago", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ orderId, cartItems }),
         });
 
         if (!prefRes.ok) {
-          console.error('Error creando preferencia MercadoPago', await prefRes.text());
+          console.error(
+            "Error creando preferencia MercadoPago",
+            await prefRes.text()
+          );
           return;
         }
 
@@ -85,42 +89,48 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
       }
 
       // 3. Otros métodos de pago: marcar la orden como pagada directamente
-      const paymentRes = await fetch('/api/payments/confirm', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId, status: 'paid' }),
+      const paymentRes = await fetch("/api/payments/confirm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId, status: "paid" }),
       });
 
       if (!paymentRes.ok) {
-        console.error('Error al notificar el pago', await paymentRes.text());
+        console.error("Error al notificar el pago", await paymentRes.text());
       }
 
       clearCart();
       onClose();
-      window.location.href = '/thank-you';
+      window.location.href = "/thank-you";
     } catch (error) {
-      console.error('Error en el proceso de checkout:', error);
+      console.error("Error en el proceso de checkout:", error);
     }
   };
 
   if (!open) return null;
 
-  const labels = ['Envío', 'Pago', 'Resumen'];
+  const labels = ["Envío", "Pago", "Resumen"];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black opacity-50" onClick={onClose} />
+      <div
+        className="absolute inset-0 opacity-50"
+        style={{ background: "var(--color-tertiary-bg)" }}
+        onClick={onClose}
+      />
 
       {/* Modal */}
       <div
         className="
-          relative bg-white rounded-lg shadow-lg w-full max-w-md sm:max-w-lg lg:max-w-xl mx-auto p-4 sm:p-6 md:p-8 max-h-[90vh] overflow-y-auto
+          relative rounded-lg shadow-lg w-full max-w-md sm:max-w-lg lg:max-w-xl mx-auto p-4 sm:p-6 md:p-8 max-h-[90vh] overflow-y-auto
         "
+        style={{ background: "var(--bgweb)" }}
       >
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl leading-none"
+          className=" cursor-pointer absolute top-3 right-3 text-2xl leading-none"
+          style={{ color: "var(--color-primary-text)" }}
         >
           &times;
         </button>
@@ -130,18 +140,36 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
           {labels.map((label, index) => {
             const stepNumber = index + 1;
             const isActive = stepNumber <= step;
+
+            const circleStyle: React.CSSProperties = isActive
+              ? {
+                  background: "var(--bgweb)",
+                  borderColor: "var(--color-primary-bg)",
+                }
+              : {
+                  background: "var(--white, #fff)",
+                  borderColor: "var(--gray-400, #9ca3af)",
+                };
+
+            const numberStyle: React.CSSProperties = isActive
+              ? { color: "var(--color-primary-bg)" }
+              : { color: "var(--gray-400, #9ca3af)" };
+
+            const labelStyle: React.CSSProperties = isActive
+              ? { color: "var(--color-primary-bg)" }
+              : { color: "var(--gray-400, #9ca3af)" };
+
             return (
               <div key={label} className="flex-1 text-center">
                 <div
-                  className={`mx-auto w-8 h-8 rounded-full border-2 flex items-center justify-center ${
-                    isActive ? 'border-bg2 bg-bg1' : 'border-gray-300 bg-white'
-                  }`}
+                  className="mx-auto w-8 h-8 rounded-full border-2 flex items-center justify-center"
+                  style={circleStyle}
                 >
-                  <span className={`${isActive ? 'text-text2' : 'text-gray-400'} font-semibold`}>
+                  <span className="font-semibold" style={numberStyle}>
                     {stepNumber}
                   </span>
                 </div>
-                <p className={`${isActive ? 'text-text1' : 'text-gray-400'} mt-2 text-sm font-medium`}>
+                <p className="mt-2 text-sm font-medium" style={labelStyle}>
                   {label}
                 </p>
               </div>
