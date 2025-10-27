@@ -3,16 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  Menu,
-  X,
-  ShoppingCart,
-  User,
-  Headphones,
-  LogOut,
-  ChevronDown,
-} from "lucide-react";
-import SearchBar from "./SereachBar";
+import { Menu, X, ShoppingCart, User, Headphones, LogOut, ChevronDown } from "lucide-react";
+import SearchBar from "./SereachBar"; 
 import { toast } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { getCart } from "@/utils/CartUtils";
@@ -39,22 +31,13 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    // Inicializar user
     const storedUser = localStorage.getItem("userLoggedIn");
     if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch {
-        console.error("Error parsing user from localStorage");
-      }
+      try { setUser(JSON.parse(storedUser)); } catch {}
     }
-    // Inicializar contador
     refreshCartCount();
 
-    // Escuchar storage y evento custom
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === "cart") refreshCartCount();
-    };
+    const onStorage = (e: StorageEvent) => { if (e.key === "cart") refreshCartCount(); };
     const onCartUpdated = () => refreshCartCount();
 
     window.addEventListener("storage", onStorage);
@@ -65,22 +48,15 @@ export default function Navbar() {
     };
   }, []);
 
-  useEffect(() => {
-    refreshCartCount();
-  }, [pathname]);
+  useEffect(() => { refreshCartCount(); }, [pathname]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setShowDropdown(false);
       }
     };
-    if (showDropdown)
-      document.addEventListener("mousedown", handleClickOutside);
-    else document.removeEventListener("mousedown", handleClickOutside);
+    if (showDropdown) document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showDropdown]);
 
@@ -99,27 +75,37 @@ export default function Navbar() {
   return (
     <header className="w-full z-50 relative" style={{ background: "var(--bgweb)" }}>
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between gap-4">
+        {/* botón menú mobile */}
         <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden">
           {menuOpen ? (
-            <X className="w-6 h-6 " style={{color:"var(--color-secondary-text)"}} />
+            <X className="w-6 h-6" style={{ color: "var(--color-secondary-text)" }} />
           ) : (
-            <Menu className="w-6 h-6" style={{color:"var(--color-secondary-text)"}}  />
+            <Menu className="w-6 h-6" style={{ color: "var(--color-secondary-text)" }} />
           )}
         </button>
 
-        <Link href="/" className="flex-1 flex items-center gap-6">
-          <div className="text-2xl font-bold" style={{color:"var(--color-primary-text)"}} >Logo</div>
+        {/* Logo + SearchBar separadas (NO dentro del Link) */}
+        <div className="flex-1 flex items-center gap-6">
+          <Link href="/">
+            <div className="text-2xl font-bold" style={{ color: "var(--color-primary-text)" }}>
+              Logo
+            </div>
+          </Link>
           <div className="hidden md:flex flex-1">
             <SearchBar />
           </div>
-        </Link>
+        </div>
 
-        <div className="flex items-center gap-4 text-sm relative" style={{color:"var(--color-secondary-text)"}}>
+        {/* acciones derecha */}
+        <div className="flex items-center gap-4 text-sm relative" style={{ color: "var(--color-secondary-text)" }}>
           <Link href="/Cart">
             <div className="relative flex items-center gap-1">
               <ShoppingCart className="w-5 h-5" />
               <span className="hidden md:inline">Carro</span>
-              <span className="absolute -top-2 -right-3 text-[10px] w-4 h-4 rounded-full flex items-center justify-center" style={{ background: "var(--color-primary-bg)", color:"var(--color-tertiary-text)" }}>
+              <span
+                className="absolute -top-2 -right-3 text-[10px] w-4 h-4 rounded-full flex items-center justify-center"
+                style={{ background: "var(--color-primary-bg)", color: "var(--color-tertiary-text)" }}
+              >
                 {cartCount}
               </span>
             </div>
@@ -142,16 +128,19 @@ export default function Navbar() {
                     exit={{ opacity: 0, y: 5 }}
                     transition={{ duration: 0.2 }}
                     className="absolute top-full right-0 mt-2 border rounded shadow-md z-[9999] w-44 py-2"
-                    style={{ background: "var(--bgweb)" }}>
+                    style={{ background: "var(--bgweb)" }}
+                  >
                     <Link
                       href="/OrdersPanel"
-                      className="block w-full text-left px-4 py-2 text-sm text-black hover:bg-gray-100"
+                      className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                      style={{ color: "var(--color-primary-text)" }}
                     >
                       Mis Compras
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className=" cursor-pointer block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                      className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+                      style={{ color: "var(--color-danger, #dc2626)" }}
                       disabled={loading}
                     >
                       <LogOut className="inline w-4 h-4 mr-2" />
@@ -172,54 +161,56 @@ export default function Navbar() {
         </div>
       </div>
 
-      <div className="hidden md:block border-t border-b border-gray-200 w-full mb-[2rem] "  style={{ background: "var(--bgweb)" }}>
+      {/* barra inferior */}
+      <div className="hidden md:block border-t border-b border-gray-200 w-full mb-[2rem]" style={{ background: "var(--bgweb)" }}>
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
-          <nav className="flex gap-6 text-sm font-medium text-gray-800">
+          <nav className="flex gap-6 text-sm font-medium">
             {navItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className={
+                className={pathname === item.href ? "border-b-2" : ""}
+                style={
                   pathname === item.href
-                    ? "text-text2 border-b-2 border-text2"
-                    : "hover:text-text2"
+                    ? { color: "var(--color-tertiary-text)", borderColor: "var(--color-tertiary-text)" }
+                    : { color: "var(--color-secondary-text)" }
                 }
               >
                 {item.label}
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-2 text-text2 font-semibold text-sm">
-            <Headphones className="w-5 h-5 text-gray-800" />
-            <span className="text-base text-text2">1900 - 888</span>
-            <span className="text-xs text-gray-500 font-normal">
+          <div className="flex items-center gap-2 font-semibold text-sm" style={{ color: "var(--color-tertiary-text)" }}>
+            <Headphones className="w-5 h-5" />
+            <span className="text-base">1900 - 888</span>
+            <span className="text-xs" style={{ color: "var(--color-secondary-text)" }}>
               24/7 Soporte
             </span>
           </div>
         </div>
       </div>
 
+      {/* menú mobile */}
       {menuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-3 border-t relative z-50 " style={{ background: "var(--bgweb)" }}>
+        <div className="md:hidden px-4 pb-4 space-y-3 border-t relative z-50" style={{ background: "var(--bgweb)" }}>
           <SearchBar />
           {navItems.map((item) => (
             <Link
               key={item.label}
               href={item.href}
-              className={`block text-sm font-medium ${
-                pathname === item.href
-                  ? "text-text1"
-                  : "text-gray-800 hover:text-text2"
-              }`}
+              className="block text-sm font-medium"
+              style={pathname === item.href ? { color: "var(--color-primary-text)" } : { color: "var(--color-secondary-text)" }}
               onClick={() => setMenuOpen(false)}
             >
               {item.label}
             </Link>
           ))}
-          <div className="pt-4 text-sm font-medium text-text2 flex items-center gap-2">
-            <Headphones className="w-5 h-5 "  style={{ color: "var(--color-primary-text)" }} />
-            <span className="text-text1">1900 - 888</span>
-            <span className="text-xs text-gray-500">24/7 Soporte</span>
+          <div className="pt-4 text-sm font-medium flex items-center gap-2" style={{ color: "var(--color-tertiary-text)" }}>
+            <Headphones className="w-5 h-5" />
+            <span>1900 - 888</span>
+            <span className="text-xs" style={{ color: "var(--color-secondary-text)" }}>
+              24/7 Soporte
+            </span>
           </div>
         </div>
       )}
