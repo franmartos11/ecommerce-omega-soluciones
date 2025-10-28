@@ -396,16 +396,16 @@
   },
   "DefaultWeb": {
     "Hero": {
-    "Title": "Construimos soluciones que escalan",
-    "SubTitle": "Sitios, apps y SaaS a medida",
-    "Btn1": { "label": "Contactanos", "href": "/Contacto" },
-    "Btn2": "Ver productos",
-    "Img": {
-      "src": "https://cdn.tu-dominio.com/hero/hero-omega.webp",
-      "alt": "Hero Omega",
-      "aspect": "aspect-[16/9]"
-    }
-  },
+      "Title": "Construimos soluciones que escalan",
+      "SubTitle": "Sitios, apps y SaaS a medida",
+      "Btn1": { "label": "Contactanos", "href": "/Contacto" },
+      "Btn2": "Ver productos",
+      "Img": {
+        "src": "https://cdn.tu-dominio.com/hero/hero-omega.webp",
+        "alt": "Hero Omega",
+        "aspect": "aspect-[16/9]"
+      }
+    },
     "TabsSection": {
       "Tabs1Title": "Producto",
       "Tab1Subtitle": "Descripción del producto",
@@ -429,57 +429,96 @@
     },
 
     "MyJourney": {
-    "Title": "Construimos soluciones que escalan",
-    "SubTitle": "Hitos de nuestro camino",
+      "Title": "Construimos soluciones que escalan",
+      "SubTitle": "Hitos de nuestro camino",
 
-    "Year1": "2023",
-    "SubtitleYear1": "Fundación y primeros clientes",
-    "Img1Year1": "/images/hito1.webp",
-    "Img2Year1": "/images/hito2.webp",
+      "Year1": "2023",
+      "SubtitleYear1": "Fundación y primeros clientes",
+      "Img1Year1": "/images/hito1.webp",
+      "Img2Year1": "/images/hito2.webp",
 
-    "Year2": "2024",
-    "SubtitleYear2": "Crecimiento del equipo y nuevas features",
-    "Img1Year2": "https://cdn.tu-dominio.com/hitos/2024-1.jpg",
+      "Year2": "2024",
+      "SubtitleYear2": "Crecimiento del equipo y nuevas features",
+      "Img1Year2": "https://cdn.tu-dominio.com/hitos/2024-1.jpg",
 
-    "Year3": "2025",
-    "SubtitleYear3": "Expansión regional",
-    "Img1Year3": "/images/hito2025-1.webp",
-    "Img2Year3": "/images/hito2025-2.webp"
-  },
+      "Year3": "2025",
+      "SubtitleYear3": "Expansión regional",
+      "Img1Year3": "/images/hito2025-1.webp",
+      "Img2Year3": "/images/hito2025-2.webp"
+    },
     "Contactanos": {
-    "TextoPrincipal": "¡Estamos aquí para ayudarte! Completa el formulario o escribinos y te respondemos en el día.",
-    "Logo": {
-      "src": "https://cdn.tu-dominio.com/brand/logo-contacto.png",
-      "alt": "Omega Soluciones - Contacto"
-    },
-    "Ubicacion": {
-      "direccion": "Av. Siempreviva 123",
-      "ciudad": "Córdoba",
-      "provincia": "Córdoba",
-      "pais": "Argentina",
-      "lat": -31.4201,
-      "lng": -64.1888,
-      "mapsUrl": "https://maps.google.com/?q=-31.4201,-64.1888"
-    },
-    "tel": "+54 9 351 000 0000",
-    "email": "contacto@tu-dominio.com",
-    "Departamentos": [
-      {
-        "title": "Administración",
-        "email": "administracion@omegasoluciones.com.ar",
-        "phone": "+54 9 351 111 1111"
+      "TextoPrincipal": "¡Estamos aquí para ayudarte! Completa el formulario o escribinos y te respondemos en el día.",
+      "Logo": {
+        "src": "https://cdn.tu-dominio.com/brand/logo-contacto.png",
+        "alt": "Omega Soluciones - Contacto"
       },
-      {
-        "title": "Ventas",
-        "email": "ventas@omegasoluciones.com.ar",
-        "phone": "+54 9 351 222 2222"
+      "Ubicacion": {
+        "direccion": "Av. Siempreviva 123",
+        "ciudad": "Córdoba",
+        "provincia": "Córdoba",
+        "pais": "Argentina",
+        "lat": -31.4201,
+        "lng": -64.1888,
+        "mapsUrl": "https://maps.google.com/?q=-31.4201,-64.1888"
       },
-      {
-        "title": "Compras",
-        "email": "compras@omegasoluciones.com.ar",
-        "phone": "+54 9 351 333 3333"
-      }
-    ]
+      "tel": "+54 9 351 000 0000",
+      "email": "contacto@tu-dominio.com",
+      "Departamentos": [
+        {
+          "title": "Administración",
+          "email": "administracion@omegasoluciones.com.ar",
+          "phone": "+54 9 351 111 1111"
+        },
+        {
+          "title": "Ventas",
+          "email": "ventas@omegasoluciones.com.ar",
+          "phone": "+54 9 351 222 2222"
+        },
+        {
+          "title": "Compras",
+          "email": "compras@omegasoluciones.com.ar",
+          "phone": "+54 9 351 333 3333"
+        }
+      ]
+    }
+  },
+  "home": {
+    "omegaShowcase": {
+      "rotateMs": 5000,
+      "defaultActiveId": "omega-soluciones",
+      "backgroundImage": "/SobreNosotros/bgg.webp",
+      "sections": [
+        {
+          "id": "omega-distribuciones",
+          "logo": "/SobreNosotros/33.webp",
+          "title": "OMEGA DISTRIBUCIONES",
+          "description": "Comercialización y distribución de todo tipo de productos y servicios."
+        },
+        {
+          "id": "omega-clean",
+          "logo": "/SobreNosotros/1cc.webp",
+          "title": "OMEGA CLEAN",
+          "description": "Fabricación y envasado de productos de higiene doméstica e institucional."
+        },
+        {
+          "id": "omega-construcciones",
+          "logo": "/SobreNosotros/4c.webp",
+          "title": "OMEGA CONSTRUCCIONES",
+          "description": "Diseño, construcción, remodelación y desarrollo de todo tipo de proyectos."
+        },
+        {
+          "id": "omega-tech",
+          "logo": "/SobreNosotros/2t.webp",
+          "title": "OMEGA TECH",
+          "description": "Desarrollo de software a medida y comercialización de hardware."
+        },
+        {
+          "id": "omega-soluciones",
+          "logo": "/SobreNosotros/1.webp",
+          "title": "OMEGA SOLUCIONES",
+          "description": "Múltiples unidades de negocio diseñadas para satisfacer diferentes necesidades."
+        }
+      ]
+    }
   }
-}
 }

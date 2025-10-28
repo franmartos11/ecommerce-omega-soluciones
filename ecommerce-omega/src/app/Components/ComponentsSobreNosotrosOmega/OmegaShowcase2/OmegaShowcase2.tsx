@@ -1,100 +1,134 @@
+// src/app/(tu-ruta)/OmegaShowcase2.tsx
 "use client";
-import { useState, useEffect, SetStateAction } from "react";
+
+import { useEffect, useMemo, useState, SetStateAction } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
+import { useConfig } from "@/app/ConfigProvider/ConfigProvider";
+import type { Config, OmegaSection } from "@/lib/config.types";
 
-const OmegaShowcase2 = () => {
-  const [activeSection, setActiveSection] = useState("omega-soluciones");
+export default function OmegaShowcase2() {
+  // ✅ tu hook devuelve el Config directo
+  const config: Config = useConfig();
 
-  const sections = [
-    {
-      id: "omega-distribuciones",
-      logo: "/SobreNosotros/33.webp",
-      title: "OMEGA DISTRIBUCIONES",
-      description:
-        "Comercialización y distribución de todo tipo de productos y servicios.",
-    },
-    {
-      id: "omega-clean",
-      logo: "/SobreNosotros/1cc.webp",
-      title: "OMEGA CLEAN",
-      description:
-        "Fabricación y envasado de productos de higiene doméstica e institucional.",
-    },
-    {
-      id: "omega-construcciones",
-      logo: "/SobreNosotros/4c.webp",
-      title: "OMEGA CONSTRUCCIONES",
-      description:
-        "Diseño, construcción, remodelación y desarrollo de todo tipo de proyectos.",
-    },
-    {
-      id: "omega-tech",
-      logo: "/SobreNosotros/2t.webp",
-      title: "OMEGA TECH",
-      description:
-        "Desarrollo de software a medida y comercialización de hardware.",
-    },
-    {
-      id: "omega-soluciones",
-      logo: "/SobreNosotros/1.webp",
-      title: "OMEGA SOLUCIONES",
-      description:
-        "Múltiples unidades de negocio diseñadas para satisfacer diferentes necesidades.",
-    },
-  ];
+  // Fallbacks seguros para build/SSR
+  const showcase = config?.home?.omegaShowcase ?? {
+    rotateMs: 5000,
+    defaultActiveId: "omega-soluciones",
+    backgroundImage: "/SobreNosotros/bgg.webp",
+    sections: [] as OmegaSection[],
+  };
 
+  const sections = useMemo<OmegaSection[]>(() => showcase.sections ?? [], [showcase.sections]);
+
+  // Elegimos el "main" (si hay)
+  const mainSection = useMemo(
+    () => sections.find((s) => s.main) ?? sections.find((s) => s.id === "omega-soluciones"),
+    [sections]
+  );
+
+  // Secciones de esquinas (excluye la main)
+  const cornerSections = useMemo(
+    () => sections.filter((s) => s.id !== mainSection?.id),
+    [sections, mainSection]
+  );
+
+  // Active inicial: defaultActiveId -> existente, sino main -> sino primera
+  const initialActive =
+    (showcase.defaultActiveId &&
+      sections.find((s) => s.id === showcase.defaultActiveId)?.id) ||
+    mainSection?.id ||
+    sections[0]?.id ||
+    "";
+
+  const [activeSection, setActiveSection] = useState<string>(initialActive);
+
+  // Recalcular activo si cambia config/secciones
   useEffect(() => {
+    if (!sections.length) return;
+    if (!sections.find((s) => s.id === activeSection)) {
+      setActiveSection(initialActive);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sections, initialActive]);
+
+  // Rotación automática
+  useEffect(() => {
+    if (sections.length <= 1) return;
+    const ms = Math.max(1000, showcase.rotateMs ?? 5000);
     const interval = setInterval(() => {
       setActiveSection((prev) => {
-        const currentIndex = sections.findIndex((section) => section.id === prev);
-        const nextIndex = (currentIndex + 1) % sections.length;
-        return sections[nextIndex].id;
+        const idx = sections.findIndex((s) => s.id === prev);
+        const nextIdx = (idx + 1) % sections.length;
+        return sections[nextIdx].id;
       });
-    }, 5000);
-
+    }, ms);
     return () => clearInterval(interval);
-  }, []);
+  }, [sections, showcase.rotateMs]);
 
-  const handleLogoClick = (id: SetStateAction<string>) => {
-    setActiveSection(id);
-  };
+  const handleLogoClick = (id: SetStateAction<string>) => setActiveSection(id);
+
+  const activeData = sections.find((s) => s.id === activeSection);
+
+  // 4 esquinas para las secciones que no son "main"
+  const cornerPos = [
+    "absolute top-2 left-2",
+    "absolute top-2 right-2",
+    "absolute bottom-2 left-2",
+    "absolute bottom-2 right-2",
+  ];
 
   return (
     <div
       id="hero"
-      className=" bg-no-repeat bg-cover bg-center flex flex-col lg:flex-row items-center justify-center p-2 lg:p-8 min-h-[80vh]"
+      className="bg-no-repeat bg-cover bg-center flex flex-col lg:flex-row items-center justify-center p-2 lg:p-8 min-h-[80vh]"
     >
+      <div
+        className="relative flex items-center justify-center w-[20rem] lg:w-[29rem] h-[20rem] lg:h-[29rem] bg-center bg-no-repeat bg-cover"
+        style={{ backgroundImage: `url('${showcase.backgroundImage ?? "/SobreNosotros/bgg.webp"}')` }}
+      >
+        {/* Botón central (main) */}
+        {mainSection && (
+          <button
+            key={mainSection.id}
+            onClick={() => handleLogoClick(mainSection.id)}
+            className={`cursor-pointer absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+                        w-[10rem] lg:w-[15rem] h-[10rem] lg:h-[15rem]
+                        rounded-full border-2 ${
+                          activeSection === mainSection.id
+                            ? "shadow-lg shadow-orange-500 border-orange-500 scale-110"
+                            : "shadow-md border-gray-300"
+                        } bg-white transition-all duration-300`}
+            aria-label={mainSection.title}
+          >
+            <img
+              src={mainSection.logo}
+              alt={mainSection.title}
+              className={`w-full h-full object-contain rounded-full ${
+                activeSection === mainSection.id ? "brightness-110" : ""
+              }`}
+            />
+          </button>
+        )}
 
-      <div className="bg-[url('/SobreNosotros/bgg.webp')] bg-center bg-no-repeat bg-cover relative flex items-center justify-center w-[20rem] lg:w-[29rem] h-[20rem] lg:h-[29rem]">
-        {sections.map((section, index) => {
-          const positionClasses = [
-            "absolute top-2 left-2",
-            "absolute top-2 right-2",
-            "absolute bottom-2 left-2",
-            "absolute bottom-2 right-2",
-          ];
-
+        {/* Botones de esquinas */}
+        {cornerSections.map((section, i) => {
           const isActive = section.id === activeSection;
-          const isMainButton = section.id === "omega-soluciones";
-
           return (
             <button
               key={section.id}
               onClick={() => handleLogoClick(section.id)}
-              className={`cursor-pointer ${positionClasses[index]} ${isMainButton
-                  ? "w-[10rem] lg:w-[15rem] h-[10rem] lg:h-[15rem]"
-                  : "w-[5rem] lg:w-[8rem] h-[5rem] lg:h-[8rem]"
-                } rounded-full border-2 ${isActive
-                  ? "shadow-lg shadow-orange-500 border-orange-500 scale-110"
-                  : "shadow-md border-gray-300"
-                } bg-white transition-all duration-300`}
+              className={`cursor-pointer ${cornerPos[i % cornerPos.length]}
+                          w-[5rem] lg:w-[8rem] h-[5rem] lg:h-[8rem]
+                          rounded-full border-2 ${
+                            isActive ? "shadow-lg shadow-orange-500 border-orange-500 scale-110" : "shadow-md border-gray-300"
+                          } bg-white transition-all duration-300`}
+              aria-label={section.title}
             >
               <img
                 src={section.logo}
                 alt={section.title}
-                className={`w-full h-full object-contain rounded-full ${isActive ? "brightness-110" : ""
-                  }`}
+                className={`w-full h-full object-contain rounded-full ${isActive ? "brightness-110" : ""}`}
               />
             </button>
           );
@@ -110,7 +144,7 @@ const OmegaShowcase2 = () => {
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         <h2 className="pt-[1rem] text-3xl lg:text-4xl font-semibold text-[#f86709]">
-          {sections.find((section) => section.id === activeSection)?.title}
+          {activeData?.title ?? ""}
         </h2>
         <motion.p
           className="text-lg lg:text-2xl font-bold text-gray-500 mt-[1rem]"
@@ -118,7 +152,7 @@ const OmegaShowcase2 = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          {sections.find((section) => section.id === activeSection)?.description}
+          {activeData?.description ?? ""}
         </motion.p>
         <div className="pt-[1.5rem]">
           <Link
@@ -133,6 +167,4 @@ const OmegaShowcase2 = () => {
       </motion.div>
     </div>
   );
-};
-
-export default OmegaShowcase2;
+}

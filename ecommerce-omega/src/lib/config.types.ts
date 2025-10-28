@@ -1,4 +1,18 @@
 // src/lib/config.types.ts
+export interface OmegaSection {
+  id: string;
+  logo: string;
+  title: string;
+  description: string;
+  main?: boolean; // opcional: cuál va al centro
+}
+
+export interface OmegaShowcaseConfig {
+  rotateMs?: number;
+  defaultActiveId?: string;
+  backgroundImage?: string;
+  sections: OmegaSection[];
+}
 
 export type BannerItem = {
   id: string;
@@ -82,7 +96,9 @@ export type Config = {
     ColorSecundarioTEXT?: string;
     ColorTerciarioTEXT?: string;
   };
-  
   SEO?: { titulo?: string; descripcion?: string; ogImage?: string };
   DefaultWeb?: Record<string, unknown>;
+  home?: {
+    omegaShowcase?: OmegaShowcaseConfig;
+  };
 };
