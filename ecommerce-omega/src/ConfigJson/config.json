@@ -483,6 +483,17 @@
     }
   },
   "home": {
+    "stats": {
+      "sectionId": "stats",
+      "backgroundImage": "/SobreNosotros/bg-stats.webp",
+      "textColorClass": "text-gray-700",
+      "accentColorClass": "text-orange-500",
+      "items": [
+        { "label": "PRODUCTOS ÚNICOS", "value": 1000, "prefix": "+", "durationMs": 1800 },
+        { "label": "CLIENTES SATISFECHOS", "value": 500, "prefix": "+", "durationMs": 2000 },
+        { "label": "PEDIDOS ENTREGADOS", "value": 5000, "prefix": "+", "durationMs": 2200 }
+      ]
+    },
     "omegaShowcase": {
       "rotateMs": 5000,
       "defaultActiveId": "omega-soluciones",

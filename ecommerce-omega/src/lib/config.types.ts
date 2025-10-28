@@ -6,6 +6,23 @@ export interface OmegaSection {
   description: string;
   main?: boolean;
 }
+export interface StatItem {
+  label: string;             
+  value: number;            
+  prefix?: string;           
+  suffix?: string;          
+  durationMs?: number;      
+  decimals?: number;        
+}
+
+export interface StatsSectionConfig {
+  sectionId?: string;        
+  backgroundImage?: string;  
+  textColorClass?: string;   
+  accentColorClass?: string; 
+  items: StatItem[];         
+}
+
 export interface ContactWhatsappCfg {
   enabled: boolean;
   internationalPrefix?: string;
@@ -151,5 +168,6 @@ export type Config = {
     omegaShowcase?: OmegaShowcaseConfig;
     misionVision?: MisionVisionConfig;
     contact?: ContactSectionConfig;
+    stats?: StatsSectionConfig;
   };
 };
