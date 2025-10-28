@@ -4,19 +4,55 @@ export interface OmegaSection {
   logo: string;
   title: string;
   description: string;
-  main?: boolean; 
+  main?: boolean;
 }
+export interface ContactWhatsappCfg {
+  enabled: boolean;
+  internationalPrefix?: string;
+  defaultText?: string;
+}
+
+export interface ContactEntry {
+  title: string;
+  email?: string;
+  phone?: string;
+  whatsapp?: ContactWhatsappCfg;
+}
+
+export interface ContactLogo {
+  src: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  rounded?: boolean;
+}
+
+export interface ContactMap {
+  iframeSrc: string;
+  height?: number;
+}
+
+export interface ContactSectionConfig {
+  sectionId?: string;
+  backgroundImage?: string;
+  heading?: string;
+  subtitle?: string;
+  logo?: ContactLogo;
+  contacts: ContactEntry[];
+  map?: ContactMap;
+}
+
 export interface MisionVisionBlock {
-  title: string;           
-  text?: string;               
+  title: string;
+  text?: string;
 }
 
 export interface MisionVisionConfig {
-  sectionId?: string;      
+  sectionId?: string;
   backgroundImage?: string;
-  heading?: string;        
-  introTitle?: string;     
-  introSubtitle?: string;  
+  heading?: string;
+  introTitle?: string;
+  introSubtitle?: string;
   mission: MisionVisionBlock;
   vision: MisionVisionBlock;
 }
@@ -114,5 +150,6 @@ export type Config = {
   home?: {
     omegaShowcase?: OmegaShowcaseConfig;
     misionVision?: MisionVisionConfig;
+    contact?: ContactSectionConfig;
   };
 };

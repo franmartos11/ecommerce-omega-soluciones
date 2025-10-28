@@ -7,7 +7,6 @@ import { useConfig } from "@/app/ConfigProvider/ConfigProvider";
 import type { Config, MisionVisionConfig } from "@/lib/config.types";
 
 const MisionVision = () => {
-  // ✅ tu hook devuelve el Config directo
   const config: Config = useConfig();
 
   const cfg: MisionVisionConfig = {

@@ -534,6 +534,49 @@
         "title": "Nuestra Visión",
         "text": "Trabajar en conjunto con las empresas más grandes de la región y convertirnos en un aliado estratégico para su desarrollo."
       }
+    },
+    "contact": {
+      "sectionId": "contactanos",
+      "backgroundImage": "/SobreNosotros/bg-contacto.webp",
+      "heading": "Contáctanos",
+      "subtitle": "Ven a visitarnos o contáctanos por teléfono o correo electrónico.",
+      "logo": {
+        "src": "/SobreNosotros/1.webp",
+        "alt": "Omega Logo",
+        "width": 300,
+        "height": 300,
+        "rounded": true
+      },
+      "contacts": [
+        {
+          "title": "Administración",
+          "email": "administracion@omegasoluciones.com.ar"
+        },
+        {
+          "title": "Ventas",
+          "email": "ventas@omegasoluciones.com.ar",
+          "phone": "+54 9 387 619 5572",
+          "whatsapp": {
+            "enabled": true,
+            "internationalPrefix": "549",
+            "defaultText": "Hola!%20Quisiera%20hacer%20una%20consulta."
+          }
+        },
+        {
+          "title": "Compras",
+          "email": "compras@omegasoluciones.com.ar",
+          "phone": "+54 9 387 210 5425",
+          "whatsapp": {
+            "enabled": true,
+            "internationalPrefix": "549",
+            "defaultText": "Hola!%20Quisiera%20hacer%20una%20consulta."
+          }
+        }
+      ],
+      "map": {
+        "iframeSrc": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4917.1284462890555!2d-65.41137!3d-24.7618653!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x941bc36adcbf6bd9%3A0x9db0642ee2c946ce!2sOmega%20Soluciones!5e0!3m2!1ses-419!2sar!4v1699621807831!5m2!1ses-419!2sar",
+        "height": 300
+      }
     }
   }
 }
