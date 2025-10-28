@@ -1,4 +1,3 @@
-// src/app/(tu-ruta)/OmegaShowcase2.tsx
 "use client";
 
 import { useEffect, useMemo, useState, SetStateAction } from "react";

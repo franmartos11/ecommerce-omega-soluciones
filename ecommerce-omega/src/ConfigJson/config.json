@@ -519,6 +519,21 @@
           "description": "Múltiples unidades de negocio diseñadas para satisfacer diferentes necesidades."
         }
       ]
+    },
+    "misionVision": {
+      "sectionId": "nosotros",
+      "backgroundImage": "/SobreNosotros/bg-nosotros.webp",
+      "heading": "NOSOTROS",
+      "introTitle": "Desde 2019 que ayudamos a nuestros clientes en proyectos públicos y privados.",
+      "introSubtitle": "Enfrentamos todo tipo de desafíos: soporte en inundaciones, sequías, proyectos mineros, campamentos, oficinas, colegios, hospitales, nuevos emprendimientos y más.",
+      "mission": {
+        "title": "Nuestra Misión",
+        "text": "Solucionar los problemas de distinta índole de nuestros clientes, ofreciéndoles todo lo que requieran sin importar el tipo de producto o servicio."
+      },
+      "vision": {
+        "title": "Nuestra Visión",
+        "text": "Trabajar en conjunto con las empresas más grandes de la región y convertirnos en un aliado estratégico para su desarrollo."
+      }
     }
   }
 }

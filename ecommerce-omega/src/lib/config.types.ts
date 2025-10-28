@@ -4,7 +4,21 @@ export interface OmegaSection {
   logo: string;
   title: string;
   description: string;
-  main?: boolean; // opcional: cuál va al centro
+  main?: boolean; 
+}
+export interface MisionVisionBlock {
+  title: string;           
+  text?: string;               
+}
+
+export interface MisionVisionConfig {
+  sectionId?: string;      
+  backgroundImage?: string;
+  heading?: string;        
+  introTitle?: string;     
+  introSubtitle?: string;  
+  mission: MisionVisionBlock;
+  vision: MisionVisionBlock;
 }
 
 export interface OmegaShowcaseConfig {
@@ -40,7 +54,6 @@ export type Badge = {
 export type ProductoConfig = {
   id: string;
   imageUrl: string;
-  /** usar el slug de Categorias ("paginas-web" | "apps" | "saas") */
   category: string;
   title: string;
   rating: number;
@@ -100,5 +113,6 @@ export type Config = {
   DefaultWeb?: Record<string, unknown>;
   home?: {
     omegaShowcase?: OmegaShowcaseConfig;
+    misionVision?: MisionVisionConfig;
   };
 };
