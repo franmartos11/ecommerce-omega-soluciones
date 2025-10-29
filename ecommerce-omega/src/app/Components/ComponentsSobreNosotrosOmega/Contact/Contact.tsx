@@ -1,4 +1,3 @@
-// src/app/(tu-ruta)/ContactComponent.tsx
 "use client";
 
 import React from "react";

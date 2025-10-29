@@ -483,6 +483,22 @@
     }
   },
   "home": {
+    "workProcess": {
+      "sectionId": "workprocess",
+      "backgroundImage": "/SobreNosotros/bg-workprocess.webp",
+      "heading": "FORMA DE TRABAJO",
+      "accentColorClass": "bg-orange-500",
+      "textColorClass": "text-black",
+      "staggerMs": 300,
+      "durationMs": 1000,
+      "steps": [
+        { "title": "NOS CONTACTAS", "icon": "/SobreNosotros/phone.png" },
+        { "title": "ANÁLISIS Y PRESUPUESTO", "icon": "/SobreNosotros/lupa.png" },
+        { "title": "NOS APROBÁS", "icon": "/SobreNosotros/management-icon.png" },
+        { "title": "GESTIÓN Y SEGUIMIENTO", "icon": "/SobreNosotros/tracking-icon.png" },
+        { "title": "FINALIZACIÓN CON GARANTÍA", "icon": "/SobreNosotros/contrato.png" }
+      ]
+    },
     "stats": {
       "sectionId": "stats",
       "backgroundImage": "/SobreNosotros/bg-stats.webp",

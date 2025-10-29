@@ -6,6 +6,24 @@ export interface OmegaSection {
   description: string;
   main?: boolean;
 }
+export interface WorkProcessStep {
+  title: string;          // "NOS CONTACTAS"
+  icon: string;           // "/SobreNosotros/phone.png"
+  // opcionales
+  href?: string;          // si querés que el paso sea clickeable
+  description?: string;   // texto breve debajo del título
+}
+
+export interface WorkProcessConfig {
+  sectionId?: string;         // id del <section>, default "workprocess"
+  backgroundImage?: string;   // url opcional
+  heading?: string;           // "FORMA DE TRABAJO"
+  accentColorClass?: string;  // tailwind para acentos, default "bg-orange-500"
+  textColorClass?: string;    // tailwind para textos, default "text-black"
+  staggerMs?: number;         // demora entre tarjetas (ms), default 300
+  durationMs?: number;        // duración animación (ms), default 1000
+  steps: WorkProcessStep[];
+}
 export interface StatItem {
   label: string;             
   value: number;            
@@ -169,5 +187,6 @@ export type Config = {
     misionVision?: MisionVisionConfig;
     contact?: ContactSectionConfig;
     stats?: StatsSectionConfig;
+    workProcess?: WorkProcessConfig;
   };
 };
