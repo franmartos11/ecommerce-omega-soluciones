@@ -483,6 +483,48 @@
     }
   },
   "home": {
+    "businessTabs": {
+      "sectionId": "tabsDemo",
+      "heading": "UNIDADES DE NEGOCIO",
+      "backgroundImage": "/SobreNosotros/bg-tabs.webp",
+      "accentColorClass": "bg-orange-500",
+      "textColorClass": "text-black",
+      "containerHeights": { "base": "34rem", "md": "37rem" },
+      "items": [
+        {
+          "value": "product",
+          "link": "/carcheck",
+          "logo": "/SobreNosotros/33.webp",
+          "src": "/SobreNosotros/19.png",
+          "alt": "OmegaDistribucionesLogo",
+          "title": "carcheck-data"
+        },
+        {
+          "value": "services",
+          "link": "/auditorias",
+          "logo": "/SobreNosotros/4c.webp",
+          "src": "/SobreNosotros/20.png",
+          "alt": "OmegaConstruccionesLogo",
+          "title": "Auditorias-data"
+        },
+        {
+          "value": "playground",
+          "link": "/desarrollo-web",
+          "logo": "/SobreNosotros/1cc.webp",
+          "src": "/SobreNosotros/21.png",
+          "alt": "OmegaCleanLogo",
+          "title": "Paginas-Web-data"
+        },
+        {
+          "value": "content",
+          "link": "/apps-a-medida",
+          "logo": "/SobreNosotros/2t.webp",
+          "src": "/SobreNosotros/omegatech.png",
+          "alt": "OmegaTechLogo",
+          "title": "Apps-a-Medida-data"
+        }
+      ]
+    },
     "brands": {
       "sectionId": "marcas",
       "heading": "TRABAJAMOS CON LAS MEJORES MARCAS",

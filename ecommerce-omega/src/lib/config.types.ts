@@ -6,6 +6,28 @@ export interface OmegaSection {
   description: string;
   main?: boolean;
 }
+
+export interface BusinessTabItem {
+  value: string;   // "product" | "services" | ...
+  link: string;    // "/carcheck" | "/auditorias" | ...
+  logo: string;    // ruta del logo pequeño
+  src: string;     // imagen grande / card
+  alt: string;     // alt de la imagen
+  title: string;   // slug o key de data ("carcheck-data")
+}
+
+export interface BusinessTabsConfig {
+  sectionId?: string;          // default "tabsDemo"
+  heading?: string;            // default "UNIDADES DE NEGOCIO"
+  backgroundImage?: string;    // opcional
+  accentColorClass?: string;   // default "bg-orange-500"
+  textColorClass?: string;     // default "text-black"
+  containerHeights?: {         // alturas responsivas del contenedor 3D
+    base?: string;             // default "34rem"
+    md?: string;               // default "37rem"
+  };
+  items: BusinessTabItem[];    // tabs
+}
 export interface BrandItem {
   name: string;
   logo: string;
@@ -214,5 +236,6 @@ export type Config = {
     stats?: StatsSectionConfig;
     workProcess?: WorkProcessConfig;
     brands?: BrandsSectionConfig;
+    businessTabs?: BusinessTabsConfig;
   };
 };

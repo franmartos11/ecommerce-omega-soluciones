@@ -86,7 +86,7 @@ export const Tabs = ({
                         )}
                         <span className="relative block">
                             <img
-                                className="justify-center align-middle h-[4rem] w-[4rem] sm:w-[6rem] sm:h-[6rem] rounded-full"
+                                className="cursor-pointer justify-center align-middle h-[4rem] w-[4rem] sm:w-[6rem] sm:h-[6rem] rounded-full"
                                 src={tab.logo}
                                 alt={tab.title}
                             />
