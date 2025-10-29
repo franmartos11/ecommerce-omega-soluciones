@@ -483,6 +483,67 @@
     }
   },
   "home": {
+    "brands": {
+      "sectionId": "marcas",
+      "heading": "TRABAJAMOS CON LAS MEJORES MARCAS",
+      "backgroundImage": "/SobreNosotros/bg-marcas.webp",
+      "accentColorClass": "bg-orange-500",
+      "textColorClass": "text-black",
+      "initialCategory": "Tecnología y Electrónica",
+      "gridCols": { "base": 2, "sm": 4, "lg": 6 },
+      "logoSizeRem": 4,
+      "categories": [
+        { "name": "Tecnología y Electrónica", "order": 1 },
+        { "name": "Herramientas y Equipamiento Industrial", "order": 2 },
+        { "name": "Electrodomésticos", "order": 3 },
+        { "name": "Materiales de Construcción", "order": 4 },
+        { "name": "Cuidado Personal y Familiar", "order": 5 },
+        { "name": "Descartable", "order": 6 },
+        { "name": "Productos Químicos y de Limpieza", "order": 7 }
+      ],
+      "items": [
+        { "name": "Epson", "logo": "/SobreNosotros/epsonLogo.webp", "type": "Tecnología y Electrónica" },
+        { "name": "Brother", "logo": "/SobreNosotros/brotherLogo.webp", "type": "Tecnología y Electrónica" },
+        { "name": "Noblex", "logo": "/SobreNosotros/noblexLogo.png", "type": "Tecnología y Electrónica" },
+        { "name": "Philco", "logo": "/SobreNosotros/philcoLogo.webp", "type": "Tecnología y Electrónica" },
+        { "name": "Kanji", "logo": "/SobreNosotros/kanjiLogo.webp", "type": "Tecnología y Electrónica" },
+        { "name": "LG", "logo": "/SobreNosotros/lg_logo.webp", "type": "Tecnología y Electrónica" },
+        { "name": "Motorola", "logo": "/SobreNosotros/motorolaLogo.png", "type": "Tecnología y Electrónica" },
+        { "name": "Lenovo", "logo": "/SobreNosotros/lenovoLogo.webp", "type": "Tecnología y Electrónica" },
+        { "name": "Hp", "logo": "/SobreNosotros/hpLogo.webp", "type": "Tecnología y Electrónica" },
+        { "name": "Dell", "logo": "/SobreNosotros/dellLogo.webp", "type": "Tecnología y Electrónica" },
+        { "name": "Asus", "logo": "/SobreNosotros/asusLogo.webp", "type": "Tecnología y Electrónica" },
+        { "name": "Intel", "logo": "/SobreNosotros/intelLogo.png", "type": "Tecnología y Electrónica" },
+
+        { "name": "Bosch", "logo": "/SobreNosotros/BoschLogo.png", "type": "Herramientas y Equipamiento Industrial" },
+        { "name": "Cat", "logo": "/SobreNosotros/cat.png", "type": "Herramientas y Equipamiento Industrial" },
+        { "name": "Makita", "logo": "/SobreNosotros/makitaLogo.png", "type": "Herramientas y Equipamiento Industrial" },
+        { "name": "Stihl", "logo": "/SobreNosotros/stihlLogo.png", "type": "Herramientas y Equipamiento Industrial" },
+        { "name": "Biassoni", "logo": "/SobreNosotros/biassoniLogo.png", "type": "Herramientas y Equipamiento Industrial" },
+
+        { "name": "Drean", "logo": "/SobreNosotros/dreanLogo.png", "type": "Electrodomésticos" },
+        { "name": "Noblex", "logo": "/SobreNosotros/noblexLogo.png", "type": "Electrodomésticos" },
+        { "name": "LG", "logo": "/SobreNosotros/lg_logo.webp", "type": "Electrodomésticos" },
+        { "name": "Inelro", "logo": "/SobreNosotros/inelro.png", "type": "Electrodomésticos" },
+
+        { "name": "Tinacos", "logo": "/SobreNosotros/tinacosLogo.webp", "type": "Materiales de Construcción" },
+
+        { "name": "Johnson & Johnson", "logo": "/SobreNosotros/j&j.svg", "type": "Cuidado Personal y Familiar" },
+        { "name": "Pampers", "logo": "/SobreNosotros/pampersLogo.png", "type": "Cuidado Personal y Familiar" },
+        { "name": "Babysec", "logo": "/SobreNosotros/babysecLogo.png", "type": "Cuidado Personal y Familiar" },
+
+        { "name": "Koval", "logo": "/SobreNosotros/kovalplastLogo.png", "type": "Descartable" },
+        { "name": "Cellpack", "logo": "/SobreNosotros/cellpackLogo.png", "type": "Descartable" },
+
+        { "name": "Raid", "logo": "/SobreNosotros/raidLogo.webp", "type": "Productos Químicos y de Limpieza" },
+        { "name": "Sacchi", "logo": "/SobreNosotros/sacchiLogo.png", "type": "Productos Químicos y de Limpieza" },
+        { "name": "Elite", "logo": "/SobreNosotros/eliteLogo.png", "type": "Productos Químicos y de Limpieza" },
+        { "name": "Virulana", "logo": "/SobreNosotros/virulanaLogo3.png", "type": "Productos Químicos y de Limpieza" },
+        { "name": "Wassington", "logo": "/SobreNosotros/wassingtonLogo.webp", "type": "Productos Químicos y de Limpieza" },
+        { "name": "Lysoform", "logo": "/SobreNosotros/lisoform.webp", "type": "Productos Químicos y de Limpieza" },
+        { "name": "Media Naranja", "logo": "/SobreNosotros/mediaNaranjaLogo.webp", "type": "Productos Químicos y de Limpieza" }
+      ]
+    },
     "workProcess": {
       "sectionId": "workprocess",
       "backgroundImage": "/SobreNosotros/bg-workprocess.webp",

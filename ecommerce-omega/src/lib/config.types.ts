@@ -6,6 +6,31 @@ export interface OmegaSection {
   description: string;
   main?: boolean;
 }
+export interface BrandItem {
+  name: string;
+  logo: string;
+  type: string;       // categoría a la que pertenece
+  href?: string;      // opcional: link a la marca
+}
+
+export interface BrandCategory {
+  name: string;       // nombre visible, debe matchear con item.type para ordenar/filtrar
+  slug?: string;      // opcional, por si querés anclas
+  order?: number;     // opcional, para ordenar categorías
+}
+
+export interface BrandsSectionConfig {
+  sectionId?: string;            // id del section (default "marcas")
+  heading?: string;              // título principal
+  backgroundImage?: string;      // opcional
+  accentColorClass?: string;     // tailwind de acentos (default "bg-orange-500")
+  textColorClass?: string;       // tailwind para texto (default "text-black")
+  initialCategory?: string | null; // categoría visible al cargar (default primera encontrada). Si null, empieza cerrado
+  gridCols?: { base?: number; sm?: number; lg?: number }; // columnas responsivas
+  logoSizeRem?: number;          // tamaño del logo en rem (default 4)
+  categories?: BrandCategory[];  // opcional: orden/white-list de categorías
+  items: BrandItem[];            // listado de marcas
+}
 export interface WorkProcessStep {
   title: string;          // "NOS CONTACTAS"
   icon: string;           // "/SobreNosotros/phone.png"
@@ -188,5 +213,6 @@ export type Config = {
     contact?: ContactSectionConfig;
     stats?: StatsSectionConfig;
     workProcess?: WorkProcessConfig;
+    brands?: BrandsSectionConfig;
   };
 };
