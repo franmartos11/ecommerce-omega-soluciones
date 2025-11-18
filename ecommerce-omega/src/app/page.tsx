@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Product } from "./Components/ProductCardGrid/ProductCardGrid";
 import ProductListSection from "./Components/ProductListSection/ProductListSection";
 import Navbar from "./Components/NavigationBar/NavBar";
@@ -151,16 +151,56 @@ function mapConfigProductsToUI(cfgProducts: unknown): Product[] {
 export default function Home() {
   const config = useConfig();
 
-  const products: Product[] = useMemo(() => {
-    // mapper acepta unknown; no hay casts a any
+  // mapper acepta unknown; no hay casts a any
+  const configProducts: Product[] = useMemo(() => {
     return mapConfigProductsToUI(config?.Productos);
   }, [config?.Productos]);
 
+  const [products, setProducts] = useState<Product[]>(configProducts);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadProducts() {
+      try {
+        // TODO: reemplaza por tu llamada real a la API
+        const res = await fetch("https://tu.api/endpoint");
+        if (!res.ok) throw new Error("Network response was not ok");
+        const apiResponse = await res.json();
+
+        // Placeholder: ajusta según el shape real de la API
+        const data: unknown = null;
+        if (Array.isArray(apiResponse) && apiResponse.length > 0) {
+          // Si necesitas transformar la respuesta de la API a Product, hazlo aquí
+          const apiProducts = data as unknown as Product[];
+          if (mounted) setProducts(apiProducts);
+        } else {
+          if (mounted) setProducts(configProducts);
+        }
+      } catch (err) {
+        if (mounted) setProducts(configProducts);
+      }
+    }
+
+    loadProducts();
+    // Si config cambia, actualizar el fallback
+    return () => {
+      mounted = false;
+    };
+  }, [configProducts]);
+
   return (
-    <div className=" min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]" style={{ background: "var(--bgweb)" }}>
+    <div
+      className=" min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]"
+      style={{ background: "var(--bgweb)" }}
+    >
       <Navbar />
       <main className="flex flex-col pt-4 gap-8">
-        <ProductListSection title="Ofertas destacadas" products={products} showFilter />
+        <ProductListSection
+          title="Ofertas destacadas"
+          products={products}
+          showFilter
+        />
       </main>
       <Footer />
     </div>
