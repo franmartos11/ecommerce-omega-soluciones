@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { sendResetEmail } from "../lib/firebase/auth-clients";
 import { FirebaseError } from "firebase/app";
+import Link from "next/link";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -50,8 +51,15 @@ export default function ForgotPasswordPage() {
         <div className="bg-white p-6 rounded-xl shadow w-full max-w-md space-y-2">
           <h1 className="text-xl text-black font-semibold">Revisá tu correo</h1>
           <p className="text-sm text-black">
-            Si el correo existe, recibirás un mensaje con instrucciones para restablecer tu contraseña.
+            Si el correo existe, recibirás un mensaje con instrucciones para
+            restablecer tu contraseña.Ten en cuenta que puede aparecer en spam.
           </p>
+          <Link
+            className="mt-6 bg-bg1 hover:bg-bg2 text-white font-medium px-4 py-2 rounded-md"
+            href={"/"}
+          >
+            Volver al inicio
+          </Link>
         </div>
       </div>
     );
@@ -59,8 +67,13 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-bg2 px-4">
-      <form onSubmit={onSubmit} className="bg-white p-6 rounded-xl shadow w-full max-w-md space-y-4">
-        <h1 className="text-xl font-semibold text-gray-800">Recuperar contraseña</h1>
+      <form
+        onSubmit={onSubmit}
+        className="bg-white p-6 rounded-xl shadow w-full max-w-md space-y-4"
+      >
+        <h1 className="text-xl font-semibold text-gray-800">
+          Recuperar contraseña
+        </h1>
         <input
           type="email"
           placeholder="tu@correo.com"

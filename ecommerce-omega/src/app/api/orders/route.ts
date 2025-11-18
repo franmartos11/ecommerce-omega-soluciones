@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const body = await req.json();
 
-  // Validar datos básicos
   if (!body || !body.cartItems || body.cartItems.length === 0) {
     return NextResponse.json(
       { error: "Carrito vacío o datos faltantes" },

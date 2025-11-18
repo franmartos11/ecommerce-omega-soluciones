@@ -77,13 +77,13 @@ export default function OrdersPanel() {
   const statusColor = (s: Order["status"]): React.CSSProperties => {
     switch (s) {
       case "pendiente":
-        return { color: "var(--accent-warning, #ca8a04)" }; // ≈ yellow-600
+        return { color: "var(--accent-warning, #ca8a04)" }; 
       case "pagado":
-        return { color: "var(--accent-info, #2563eb)" };     // ≈ blue-600
+        return { color: "var(--accent-info, #2563eb)" };     
       case "enviado":
-        return { color: "var(--accent-purple, #7c3aed)" };   // ≈ purple-600
+        return { color: "var(--accent-purple, #7c3aed)" };   
       default:
-        return { color: "var(--accent-success, #16a34a)" };  // fallback
+        return { color: "var(--accent-success, #16a34a)" };  
     }
   };
 
