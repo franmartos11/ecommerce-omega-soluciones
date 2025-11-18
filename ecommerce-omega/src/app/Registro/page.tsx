@@ -86,7 +86,7 @@ export default function RegisterForm() {
       } else if (code === 'auth/weak-password') {
         setErrors({ api: 'Contraseña demasiado débil.' });
       } else {
-        setErrors({ api: 'No se pudo crear la cuenta. Intentá nuevamente.' });
+        router.push('/LogIn');
       }
     } finally {
       setLoading(false);
