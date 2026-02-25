@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import ProductCardGrid, {
   Product,
-} from "@/app/Components/ProductCardGrid/ProductCardGrid";
-import Navbar from "@/app/Components/NavigationBar/NavBar";
-import Footer from "@/app/Components/Footer/Footer";
+} from "@/components/ProductCardGrid/ProductCardGrid";
+import Navbar from "@/components/NavigationBar/NavBar";
+import Footer from "@/components/Footer/Footer";
 import { motion, AnimatePresence } from "framer-motion";
 import { addToCart } from "@/utils/CartUtils";
 
@@ -18,105 +18,202 @@ interface DetailProducts extends Product {
   life: string;
 }
 
+/* MOCKS */
+// Mock single product (fallback si falla la API del producto principal)
+const mockProduct: DetailProducts = {
+  id: "1",
+  title: "Resma Papel A5 x500 Hoja 80gr",
+  imageUrl:
+    "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+  currentPrice: 5849,
+  oldPrice: 6290,
+  rating: 4.5,
+  brand: "Ledesma",
+  category: "Papelería",
+  color: "White",
+  condition: "New",
+  description:
+    "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
+  stock: 8,
+  tags: ["Oficina", "Papel", "Impresión"],
+  mfg: "2022-06-04",
+  life: "70 days",
+};
+
+// Mock list para ProductCardGrid (fallback si falla la API de related products)
 const mockProducts: DetailProducts[] = [
+  mockProduct,
   {
-    id: "1",
-    title: "Resma Papel A5 x500 Hoja 80gr",
-    imageUrl:
-      "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    currentPrice: 5849,
-    oldPrice: 6290,
-    rating: 4.5,
-    brand: "Ledesma",
-    category: "Papelería",
-    color: "White",
-    condition: "New",
-    description:
-      "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
-    stock: 8,
-    tags: ["Oficina", "Papel", "Impresión"],
-    mfg: "2022-06-04",
-    life: "70 days",
-  },
-  {
+    ...mockProduct,
     id: "2",
-    title: "Resma Papel A5 x500 Hoja 80gr",
-    imageUrl:
-      "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    currentPrice: 5849,
-    oldPrice: 6290,
-    rating: 4.5,
-    brand: "Ledesma",
-    category: "Papelería",
-    color: "White",
-    condition: "New",
-    description:
-      "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
-    stock: 8,
-    tags: ["Oficina", "Papel", "Impresión"],
-    mfg: "2022-06-04",
-    life: "70 days",
+    title: "Cartucho de Tinta Negra HP 301",
+    currentPrice: 3999,
   },
   {
+    ...mockProduct,
     id: "3",
-    title: "Resma Papel A5 x500 Hoja 80gr",
-    imageUrl:
-      "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    currentPrice: 5849,
-    oldPrice: 6290,
-    rating: 4.5,
-    brand: "Ledesma",
-    category: "Papelería",
-    color: "White",
-    condition: "New",
-    description:
-      "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
-    stock: 8,
-    tags: ["Oficina", "Papel", "Impresión"],
-    mfg: "2022-06-04",
-    life: "70 days",
+    title: "Bloc de Notas A4 80 hojas",
+    currentPrice: 1299,
   },
   {
+    ...mockProduct,
     id: "4",
-    title: "Resma Papel A5 x500 Hoja 80gr",
-    imageUrl:
-      "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    currentPrice: 5849,
-    oldPrice: 6290,
-    rating: 4.5,
-    brand: "Ledesma",
-    category: "Papelería",
-    color: "White",
-    condition: "New",
-    description:
-      "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
-    stock: 8,
-    tags: ["Oficina", "Papel", "Impresión"],
-    mfg: "2022-06-04",
-    life: "70 days",
+    title: "Resma Papel A4 x500 Hoja 80gr",
+    currentPrice: 7499,
   },
 ];
 
 export default function ProductoDetailPage() {
   const params = useParams();
   const [product, setProduct] = useState<DetailProducts | null>(null);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>(
+    mockProducts
+  );
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [relatedError, setRelatedError] = useState<string | null>(null);
 
   const thumbnails = [
     product?.imageUrl || "",
-    "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-    "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
+    mockProduct.imageUrl,
+    mockProduct.imageUrl,
   ];
 
   useEffect(() => {
     const id = Array.isArray(params?.id)
       ? params.id[0]
       : (params?.id as string | undefined);
-    const found = mockProducts.find((p) => p.id === id);
-    setProduct(found || null);
-    setSelectedImage(found?.imageUrl || null);
+
+    let abort = false;
+    const controller = new AbortController();
+
+    async function fetchProductById(productId?: string) {
+      // Inicializamos con el mock (fallback inmediato)
+      setProduct(mockProduct);
+      setSelectedImage(mockProduct.imageUrl);
+
+      if (!productId) {
+        setApiError("No se proporcionó ID de producto. Mostrando datos mock.");
+        return;
+      }
+
+      setLoading(true);
+      setApiError(null);
+
+      try {
+        // Endpoint principal: /api/products/:id
+        const res = await fetch(
+          `/api/products/${encodeURIComponent(productId)}`,
+          {
+            method: "GET",
+            signal: controller.signal,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+
+        if (abort) return;
+
+        if (res.ok) {
+          const data: DetailProducts = await res.json();
+          setProduct(data);
+          setSelectedImage(data.imageUrl ?? null);
+        } else {
+          console.warn(
+            `API /api/products/${productId} respondió ${res.status}. Usando mock.`
+          );
+          setApiError(
+            `No se encontró producto en la API (status ${res.status}). Usando datos mock.`
+          );
+          // product ya está en mockProduct
+        }
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        console.error("Error fetching product:", err);
+        setApiError("Error al conectar con la API. Mostrando datos mock.");
+        // product ya está en mockProduct
+      } finally {
+        if (!abort) setLoading(false);
+      }
+    }
+
+    fetchProductById(id);
+
+    return () => {
+      abort = true;
+      controller.abort();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params]);
+
+  // Fetch para productos relacionados (grid). Si falla, usamos mockProducts
+  useEffect(() => {
+    const id = Array.isArray(params?.id)
+      ? params.id[0]
+      : (params?.id as string | undefined);
+
+    let abort = false;
+    const controller = new AbortController();
+
+    async function fetchRelated(productId?: string) {
+      // Inicial: mostramos mockProducts mientras carga/fallback
+      setRelatedProducts(mockProducts);
+      setRelatedError(null);
+
+      if (!productId) {
+        setRelatedError("No se proporcionó ID para related products. Usando mock.");
+        return;
+      }
+
+      try {
+        // Endpoint sugerido: /api/products?relatedTo=<id>
+        const res = await fetch(
+          `/api/products?relatedTo=${encodeURIComponent(productId)}`,
+          {
+            method: "GET",
+            signal: controller.signal,
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+
+        if (abort) return;
+
+        if (res.ok) {
+          const data: Product[] = await res.json();
+          // Si la API devuelve un array válido lo usamos; si no, queda el mock
+          if (Array.isArray(data) && data.length > 0) {
+            setRelatedProducts(data);
+          } else {
+            console.warn("API related devolvió array vacío, usando mock.");
+            setRelatedProducts(mockProducts);
+            setRelatedError("API related devolvió vacío. Usando mock.");
+          }
+        } else {
+          console.warn(
+            `/api/products?relatedTo=${productId} respondió ${res.status}. Usando mock.`
+          );
+          setRelatedProducts(mockProducts);
+          setRelatedError(
+            `No se encontraron productos relacionados (status ${res.status}). Usando mock.`
+          );
+        }
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        console.error("Error fetching related products:", err);
+        setRelatedProducts(mockProducts);
+        setRelatedError("Error al conectar con la API related. Usando mock.");
+      }
+    }
+
+    fetchRelated(id);
+
+    return () => {
+      abort = true;
+      controller.abort();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
   const handleAddToCart = () => {
@@ -135,6 +232,7 @@ export default function ProductoDetailPage() {
     setTimeout(() => setShowPopup(false), 2000);
   };
 
+  if (!product && loading) return <div className="p-6">Cargando producto...</div>;
   if (!product) return <div className="p-6">Producto no encontrado</div>;
 
   return (
@@ -145,6 +243,18 @@ export default function ProductoDetailPage() {
       <Navbar />
 
       <section className="px-6 py-10 max-w-6xl mx-auto">
+        {/* Mensajes de fallo */}
+        {apiError && (
+          <div className="mb-4 text-sm text-yellow-700 bg-yellow-100 p-2 rounded">
+            {apiError}
+          </div>
+        )}
+        {relatedError && (
+          <div className="mb-4 text-sm text-yellow-700 bg-yellow-100 p-2 rounded">
+            {relatedError}
+          </div>
+        )}
+
         <div className="flex flex-col md:flex-row gap-10">
           {/* Galería */}
           <div className="flex-1 space-y-4">
@@ -325,7 +435,8 @@ export default function ProductoDetailPage() {
           </p>
         </div>
 
-        <ProductCardGrid products={mockProducts} />
+        {/* ProductCardGrid recibe un array: relatedProducts (o mockProducts como fallback) */}
+        <ProductCardGrid products={relatedProducts} />
       </section>
 
       <AnimatePresence>

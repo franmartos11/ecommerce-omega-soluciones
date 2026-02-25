@@ -1,11 +1,11 @@
 "use client";
 
-import ImageWithContent2AboutUs from "../Components/AboutUS/ImageWithContent2AboutUs";
-import ImageWithContentAboutUs from "../Components/AboutUS/ImageWithContentAboutUs";
-import Footer from "../Components/Footer/Footer";
-import { SkeletonFour } from "../Components/Globe/SkeletonFour";
-import MoovingLogos from "../Components/MoovingLogos/MoovingLogos";
-import Navbar from "../Components/NavigationBar/NavBar";
+import ImageWithContent2AboutUs from "@/components/AboutUS/ImageWithContent2AboutUs";
+import ImageWithContentAboutUs from "@/components/AboutUS/ImageWithContentAboutUs";
+import Footer from "@/components/Footer/Footer";
+import { SkeletonFour } from "@/components/Globe/SkeletonFour";
+import MoovingLogos from "@/components/MoovingLogos/MoovingLogos";
+import Navbar from "@/components/NavigationBar/NavBar";
 
 export default function about() {
     return (

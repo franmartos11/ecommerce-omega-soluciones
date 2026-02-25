@@ -10,7 +10,7 @@
   },
 
   "Logo": {
-    "src": "https://cdn.tu-dominio.com/brand/logo.png",
+    "src": "https://dummyimage.com/600x400/000/fff",
     "alt": "Omega Soluciones"
   },
   "Colores": {
@@ -71,7 +71,7 @@
     "items": [
       {
         "id": "bnr1",
-        "src": "https://cdn.tu-dominio.com/banners/hero-1.jpg",
+        "src": "https://dummyimage.com/600x400/000/fff",
         "alt": "Lanzamiento",
         "href": "/promociones/lanzamiento",
         "orden": 1,
@@ -80,7 +80,7 @@
       },
       {
         "id": "bnr2",
-        "src": "https://cdn.tu-dominio.com/banners/hero-2.jpg",
+        "src": "https://dummyimage.com/600x400/000/fff",
         "alt": "Descuentos",
         "href": "/descuentos",
         "orden": 2,
@@ -88,7 +88,7 @@
       },
       {
         "id": "bnr3",
-        "src": "https://cdn.tu-dominio.com/banners/hero-2.jpg",
+        "src": "https://dummyimage.com/600x400/000/fff",
         "alt": "Descuentos",
         "href": "/descuentos",
         "orden": 2,
@@ -96,7 +96,7 @@
       },
       {
         "id": "bnr2",
-        "src": "https://cdn.tu-dominio.com/banners/hero-2.jpg",
+        "src": "https://dummyimage.com/600x400/000/fff",
         "alt": "Descuentos",
         "href": "/descuentos",
         "orden": 2,
@@ -367,7 +367,7 @@
   "Contactanos": {
     "TextoPrincipal": "¡Estamos aquí para ayudarte! Completa el formulario a continuación y con gusto responderemos tus preguntas, hablaremos sobre posibles colaboraciones o exploraremos tus ideas.",
     "Logo": {
-      "src": "https://cdn.tu-dominio.com/brand/logo-contacto.png",
+      "src": "https://dummyimage.com/600x400/000/fff",
       "alt": "Aspa Contacto"
     },
     "Ubicacion": {
@@ -386,13 +386,13 @@
   "SobreNosotros": {
     "titulo": "Construimos soluciones que escalan",
     "contenido": "Somos un equipo enfocado en desarrollar software y productos digitales que mejoran procesos y escalan negocios.",
-    "imagen": "https://cdn.tu-dominio.com/about/cover.jpg"
+    "imagen": "https://dummyimage.com/600x400/000/fff"
   },
 
   "SEO": {
     "titulo": "Omega Soluciones",
     "descripcion": "Desarrollamos sitios web, apps y soluciones SaaS para hacer crecer tu negocio.",
-    "ogImage": "https://cdn.tu-dominio.com/og/og-image.png"
+    "ogImage": "https://dummyimage.com/600x400/000/fff"
   },
   "DefaultWeb": {
     "Hero": {
@@ -401,7 +401,7 @@
       "Btn1": { "label": "Contactanos", "href": "/Contacto" },
       "Btn2": "Ver productos",
       "Img": {
-        "src": "https://cdn.tu-dominio.com/hero/hero-omega.webp",
+        "src": "https://dummyimage.com/600x400/000/fff",
         "alt": "Hero Omega",
         "aspect": "aspect-[16/9]"
       }
@@ -409,7 +409,7 @@
     "TabsSection": {
       "Tabs1Title": "Producto",
       "Tab1Subtitle": "Descripción del producto",
-      "Tab1Img": "https://cdn.tu-dominio.com/imagenes/prod-1.jpg",
+      "Tab1Img": "https://dummyimage.com/600x400/000/fff",
 
       "Tabs2Title": "Servicios",
       "Tab2Subtitle": "Qué ofrecemos",
@@ -439,7 +439,7 @@
 
       "Year2": "2024",
       "SubtitleYear2": "Crecimiento del equipo y nuevas features",
-      "Img1Year2": "https://cdn.tu-dominio.com/hitos/2024-1.jpg",
+      "Img1Year2": "https://dummyimage.com/600x400/000/fff",
 
       "Year3": "2025",
       "SubtitleYear3": "Expansión regional",
@@ -449,7 +449,7 @@
     "Contactanos": {
       "TextoPrincipal": "¡Estamos aquí para ayudarte! Completa el formulario o escribinos y te respondemos en el día.",
       "Logo": {
-        "src": "https://cdn.tu-dominio.com/brand/logo-contacto.png",
+        "src": "https://dummyimage.com/600x400/000/fff",
         "alt": "Omega Soluciones - Contacto"
       },
       "Ubicacion": {

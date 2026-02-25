@@ -1,12 +1,12 @@
-import Footer from "../Components/Footer/Footer";
-import MisionVision from "../Components/ComponentsSobreNosotrosOmega/MisionVision/MisionVision";
-import Navbar from "../Components/NavigationBar/NavBar";
-import OmegaShowcase2 from "../Components/ComponentsSobreNosotrosOmega/OmegaShowcase2/OmegaShowcase2";
-import { TabsDemo } from "../Components/ComponentsSobreNosotrosOmega/TabsMenu/TabsDemo";
-import WorkComponent from "../Components/ComponentsSobreNosotrosOmega/workProcess/WorkComponent";
-import StatsComponent from "../Components/ComponentsSobreNosotrosOmega/Stats/StatsComponent";
-import BrandsComponentDivition from "../Components/ComponentsSobreNosotrosOmega/BrandsComponent/BrandsConponentDivition";
-import { ContactComponent } from "../Components/ComponentsSobreNosotrosOmega/Contact/Contact";
+import Footer from "@/components/Footer/Footer";
+import MisionVision from "@/components/ComponentsSobreNosotrosOmega/MisionVision/MisionVision";
+import Navbar from "@/components/NavigationBar/NavBar";
+import OmegaShowcase2 from "@/components/ComponentsSobreNosotrosOmega/OmegaShowcase2/OmegaShowcase2";
+import { TabsDemo } from "@/components/ComponentsSobreNosotrosOmega/TabsMenu/TabsDemo";
+import WorkComponent from "@/components/ComponentsSobreNosotrosOmega/workProcess/WorkComponent";
+import StatsComponent from "@/components/ComponentsSobreNosotrosOmega/Stats/StatsComponent";
+import BrandsComponentDivition from "@/components/ComponentsSobreNosotrosOmega/BrandsComponent/BrandsConponentDivition";
+import { ContactComponent } from "@/components/ComponentsSobreNosotrosOmega/Contact/Contact";
 
 export default function Home() {
 

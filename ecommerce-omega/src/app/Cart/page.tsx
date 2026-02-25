@@ -8,9 +8,9 @@ import {
   updateCartQty,
   clearCart,
 } from "@/utils/CartUtils";
-import Navbar from "../Components/NavigationBar/NavBar";
-import Footer from "../Components/Footer/Footer";
-import CheckoutModal from "../Components/CheckoutComponents/CheckoutModal";
+import Navbar from "@/components/NavigationBar/NavBar";
+import Footer from "@/components/Footer/Footer";
+import CheckoutModal from "@/components/CheckoutComponents/CheckoutModal";
 
 interface CartItem {
   id: string;

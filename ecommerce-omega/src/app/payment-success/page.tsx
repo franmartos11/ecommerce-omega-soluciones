@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import Navbar from "../Components/NavigationBar/NavBar";
-import Footer from "../Components/Footer/Footer";
+import Navbar from "@/components/NavigationBar/NavBar";
+import Footer from "@/components/Footer/Footer";
 
 export default function PaymentSuccess() {
   const searchParams = useSearchParams();

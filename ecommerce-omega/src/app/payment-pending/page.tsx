@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Footer from "../Components/Footer/Footer";
-import Navbar from "../Components/NavigationBar/NavBar";
+import Footer from "@/components/Footer/Footer";
+import Navbar from "@/components/NavigationBar/NavBar";
 
 export default function PaymentPending() {
   const router = useRouter();

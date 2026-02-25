@@ -1,6 +1,6 @@
-import { ContactComponent } from "../Components/ComponentsSobreNosotrosOmega/Contact/ContactDefaultWeb";
-import Footer from "../Components/Footer/Footer";
-import Navbar from "../Components/NavigationBar/NavBar";
+import { ContactComponent } from "@/components/ComponentsSobreNosotrosOmega/Contact/ContactDefaultWeb";
+import Footer from "@/components/Footer/Footer";
+import Navbar from "@/components/NavigationBar/NavBar";
 import { HeroDWFromConfig } from "./Hero/HeroDW";
 import { TabsSection } from "./TabsSection/TabsSection";
 import { TimelineSection } from "./TimelineSection/TimelineSection";
