@@ -6,6 +6,7 @@ import ProductCardGrid, { Product } from "../ProductCardGrid/ProductCardGrid";
 import CategoryFilter, { Category } from "../CategoryFilter/CategoryFilter";
 import ProductFilterSidebar from "../ProductFilter/ProductFilter";
 import CarouselBanner from "../CarrouselImgs/CarrouselBanner";
+import Fuse from "fuse.js";
 
 
 type DbCategory = {
@@ -122,7 +123,8 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
 
   // Filtrado local (asume que Product.category guarda el slug)
   const productosFiltrados = useMemo(() => {
-    return products.filter((p) => {
+    // 1. Filtros exactos y de rangos
+    let filtered = products.filter((p) => {
       const matchesCategory =
         !filters.categorySlug ||
         (p.category?.toLowerCase() ?? "") === filters.categorySlug.toLowerCase();
@@ -143,19 +145,33 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
         p.currentPrice >= filters.priceRange[0] &&
         p.currentPrice <= filters.priceRange[1];
 
-      const matchesSearch =
-        !filters.search || p.title.toLowerCase().includes(filters.search);
-
       return (
         matchesCategory &&
         matchesColor &&
         matchesBrand &&
         matchesTag &&
         matchesStock &&
-        matchesPrice &&
-        matchesSearch
+        matchesPrice
       );
     });
+
+    // 2. Búsqueda Difusa (Fuzzy Search) sobre los resultados previos
+    if (filters.search) {
+      const fuse = new Fuse(filtered, {
+        keys: [
+          { name: "title", weight: 0.6 },
+          { name: "mfg", weight: 0.2 },
+          { name: "category", weight: 0.1 },
+          { name: "tags", weight: 0.1 }
+        ],
+        threshold: 0.35, // Permite errores de tipeo moderados
+        ignoreLocation: true, // No importa si la palabra está al final del título
+      });
+      // fuse.search devuelve { item, refIndex }
+      filtered = fuse.search(filters.search).map(result => result.item);
+    }
+
+    return filtered;
   }, [products, filters]);
 
   return (

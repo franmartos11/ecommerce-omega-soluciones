@@ -16,6 +16,7 @@
     "cobe": "^0.6.5",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.7.4",
+    "fuse.js": "^7.1.0",
     "lucide-react": "^0.488.0",
     "mercadopago": "^2.8.0",
     "motion": "^12.10.4",
