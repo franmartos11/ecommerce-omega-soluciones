@@ -1,16 +1,14 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { onAuthStateChanged, type User } from "firebase/auth";
-import { auth } from "../lib/firebase/auth-clients";
+import { supabase } from "../lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
-// 👇 Este es el ÚNICO tipo que exportamos para el contexto
 export type AuthContextValue = {
   user: User | null;
   loading: boolean;
 };
 
-// createContext recibe undefined para obligar a usar el provider
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -18,11 +16,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // onAuthStateChanged devuelve un unsubscribe que retornamos
-    return onAuthStateChanged(auth, (u) => {
-      setUser(u);
+    // 1. Obtener la sesión activa inmediatamente
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
       setLoading(false);
     });
+
+    // 2. Escuchar cambios de autenticación en tiempo real
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   return (
@@ -32,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Hook seguro y tipado (evita useContext<AuthContext...> y el error de namespace)
+// Hook seguro
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);
   if (!ctx) throw new Error("useAuth debe usarse dentro de <AuthProvider>");

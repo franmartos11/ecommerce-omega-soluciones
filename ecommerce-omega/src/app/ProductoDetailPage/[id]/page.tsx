@@ -16,71 +16,27 @@ interface DetailProducts extends Product {
   tags: string[];
   mfg: string;
   life: string;
+  badgeText?: string | null;
+  badgeColor?: string | null;
+  galleryUrls?: string[];
 }
 
-/* MOCKS */
-// Mock single product (fallback si falla la API del producto principal)
-const mockProduct: DetailProducts = {
-  id: "1",
-  title: "Resma Papel A5 x500 Hoja 80gr",
-  imageUrl:
-    "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
-  currentPrice: 5849,
-  oldPrice: 6290,
-  rating: 4.5,
-  brand: "Ledesma",
-  category: "Papelería",
-  color: "White",
-  condition: "New",
-  description:
-    "Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta blancura y calidad premium...",
-  stock: 8,
-  tags: ["Oficina", "Papel", "Impresión"],
-  mfg: "2022-06-04",
-  life: "70 days",
-};
 
-// Mock list para ProductCardGrid (fallback si falla la API de related products)
-const mockProducts: DetailProducts[] = [
-  mockProduct,
-  {
-    ...mockProduct,
-    id: "2",
-    title: "Cartucho de Tinta Negra HP 301",
-    currentPrice: 3999,
-  },
-  {
-    ...mockProduct,
-    id: "3",
-    title: "Bloc de Notas A4 80 hojas",
-    currentPrice: 1299,
-  },
-  {
-    ...mockProduct,
-    id: "4",
-    title: "Resma Papel A4 x500 Hoja 80gr",
-    currentPrice: 7499,
-  },
-];
 
 export default function ProductoDetailPage() {
   const params = useParams();
   const [product, setProduct] = useState<DetailProducts | null>(null);
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>(
-    mockProducts
-  );
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [showPopup, setShowPopup] = useState(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [apiError, setApiError] = useState<string | null>(null);
   const [relatedError, setRelatedError] = useState<string | null>(null);
 
-  const thumbnails = [
-    product?.imageUrl || "",
-    mockProduct.imageUrl,
-    mockProduct.imageUrl,
-  ];
+  const thumbnails = product 
+    ? [product.imageUrl, ...(product.galleryUrls || [])].filter(url => Boolean(url))
+    : [];
 
   useEffect(() => {
     const id = Array.isArray(params?.id)
@@ -91,12 +47,9 @@ export default function ProductoDetailPage() {
     const controller = new AbortController();
 
     async function fetchProductById(productId?: string) {
-      // Inicializamos con el mock (fallback inmediato)
-      setProduct(mockProduct);
-      setSelectedImage(mockProduct.imageUrl);
-
       if (!productId) {
-        setApiError("No se proporcionó ID de producto. Mostrando datos mock.");
+        setApiError("No se proporcionó ID de producto.");
+        setLoading(false);
         return;
       }
 
@@ -104,7 +57,6 @@ export default function ProductoDetailPage() {
       setApiError(null);
 
       try {
-        // Endpoint principal: /api/products/:id
         const res = await fetch(
           `/api/products/${encodeURIComponent(productId)}`,
           {
@@ -121,19 +73,11 @@ export default function ProductoDetailPage() {
           setProduct(data);
           setSelectedImage(data.imageUrl ?? null);
         } else {
-          console.warn(
-            `API /api/products/${productId} respondió ${res.status}. Usando mock.`
-          );
-          setApiError(
-            `No se encontró producto en la API (status ${res.status}). Usando datos mock.`
-          );
-          // product ya está en mockProduct
+          setApiError(`No se encontró el producto (status ${res.status}).`);
         }
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
-        console.error("Error fetching product:", err);
-        setApiError("Error al conectar con la API. Mostrando datos mock.");
-        // product ya está en mockProduct
+        setApiError("Error al conectar con la API.");
       } finally {
         if (!abort) setLoading(false);
       }
@@ -158,17 +102,13 @@ export default function ProductoDetailPage() {
     const controller = new AbortController();
 
     async function fetchRelated(productId?: string) {
-      // Inicial: mostramos mockProducts mientras carga/fallback
-      setRelatedProducts(mockProducts);
       setRelatedError(null);
 
       if (!productId) {
-        setRelatedError("No se proporcionó ID para related products. Usando mock.");
         return;
       }
 
       try {
-        // Endpoint sugerido: /api/products?relatedTo=<id>
         const res = await fetch(
           `/api/products?relatedTo=${encodeURIComponent(productId)}`,
           {
@@ -182,28 +122,19 @@ export default function ProductoDetailPage() {
 
         if (res.ok) {
           const data: Product[] = await res.json();
-          // Si la API devuelve un array válido lo usamos; si no, queda el mock
           if (Array.isArray(data) && data.length > 0) {
             setRelatedProducts(data);
           } else {
-            console.warn("API related devolvió array vacío, usando mock.");
-            setRelatedProducts(mockProducts);
-            setRelatedError("API related devolvió vacío. Usando mock.");
+            setRelatedProducts([]);
           }
         } else {
-          console.warn(
-            `/api/products?relatedTo=${productId} respondió ${res.status}. Usando mock.`
-          );
-          setRelatedProducts(mockProducts);
-          setRelatedError(
-            `No se encontraron productos relacionados (status ${res.status}). Usando mock.`
-          );
+          setRelatedProducts([]);
+          setRelatedError(`No se encontraron productos relacionados (status ${res.status}).`);
         }
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
-        console.error("Error fetching related products:", err);
-        setRelatedProducts(mockProducts);
-        setRelatedError("Error al conectar con la API related. Usando mock.");
+        setRelatedProducts([]);
+        setRelatedError("Error al conectar con la API de productos relacionados.");
       }
     }
 
@@ -288,15 +219,25 @@ export default function ProductoDetailPage() {
 
           {/* Info */}
           <div className="flex-1 space-y-4">
-            <span
-              className="text-xs px-2 py-1 rounded-full w-fit"
-              style={{
-                background: "var(--badge-bg, #fee2e2)",
-                color: "var(--badge-text, #ef4444)",
-              }}
-            >
-              Sale Off
-            </span>
+            {(product.badgeText || product.oldPrice > product.currentPrice) && (
+              <span
+                className={`text-xs px-2 py-1 rounded-full w-fit font-semibold tracking-wide ${
+                  product.badgeColor || ""
+                }`}
+                style={
+                  !product.badgeColor
+                    ? {
+                        background: "var(--badge-bg, #fee2e2)",
+                        color: "var(--badge-text, #ef4444)",
+                      }
+                    : {}
+                }
+              >
+                {product.badgeText 
+                  ? product.badgeText 
+                  : `-${Math.round(((product.oldPrice - product.currentPrice) / product.oldPrice) * 100)}% OFF`}
+              </span>
+            )}
 
             <h1
               className="text-3xl font-bold"
@@ -319,12 +260,14 @@ export default function ProductoDetailPage() {
               >
                 ${product.currentPrice}
               </span>
-              <span
-                className="line-through text-sm"
-                style={{ color: "var(--color-secondary-text)" }}
-              >
-                ${product.oldPrice}
-              </span>
+              {product.oldPrice > product.currentPrice && (
+                <span
+                  className="line-through text-sm"
+                  style={{ color: "var(--color-secondary-text)" }}
+                >
+                  ${product.oldPrice}
+                </span>
+              )}
             </div>
 
             <p
@@ -426,17 +369,12 @@ export default function ProductoDetailPage() {
             className="text-sm leading-relaxed"
             style={{ color: "var(--color-secondary-text)" }}
           >
-            Esta resma de papel A5 de 80 gramos contiene 500 hojas de alta
-            blancura y calidad premium, diseñadas para ofrecer un rendimiento
-            confiable en todo tipo de impresoras y fotocopiadoras. Su textura
-            uniforme garantiza resultados nítidos tanto en impresión como en
-            escritura manual. Ideal para el uso en oficinas, hogares y centros
-            educativos.
+            {product.description || "Este producto no tiene una descripción detallada cargada."}
           </p>
         </div>
 
-        {/* ProductCardGrid recibe un array: relatedProducts (o mockProducts como fallback) */}
-        <ProductCardGrid products={relatedProducts} />
+        {/* ProductCardGrid recibe un array: relatedProducts */}
+        {relatedProducts.length > 0 && <ProductCardGrid products={relatedProducts} />}
       </section>
 
       <AnimatePresence>

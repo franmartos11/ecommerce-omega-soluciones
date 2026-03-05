@@ -9,12 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.98.0",
     "@tabler/icons-react": "^3.35.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cobe": "^0.6.5",
     "embla-carousel-react": "^8.6.0",
-    "firebase": "^12.1.0",
     "framer-motion": "^12.7.4",
     "lucide-react": "^0.488.0",
     "mercadopago": "^2.8.0",
@@ -42,7 +42,6 @@
     "@types/react-scroll": "^1.8.10",
     "eslint": "^9",
     "eslint-config-next": "15.2.6",
-    "firebase-admin": "^13.5.0",
     "firebase-tools": "^14.15.1",
     "tailwindcss": "^4.1.6",
     "tsx": "^4.20.5",

@@ -1,43 +1,30 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ProductCardGrid, { Product } from "../ProductCardGrid/ProductCardGrid";
 import CategoryFilter, { Category } from "../CategoryFilter/CategoryFilter";
 import ProductFilterSidebar from "../ProductFilter/ProductFilter";
 import CarouselBanner from "../CarrouselImgs/CarrouselBanner";
-import { useConfig } from "@/app/ConfigProvider/ConfigProvider";
 
 
-/* Tipos auxiliares (coinciden con tu config.json) */
-type ConfigCategoria = {
+type DbCategory = {
   id: string;
   nombre: string;
   slug: string;
-  // NOTA: tu JSON no trae iconUrl; si algún día lo agregás, podés extender acá con:
-  // iconUrl?: string;
+  icon_url?: string;
 };
 
-/* Type guards sin `any` */
-function isCategoriasArray(v: unknown): v is ConfigCategoria[] {
-  return Array.isArray(v) && v.every(
-    (x) =>
-      typeof x === "object" &&
-      x !== null &&
-      "id" in x &&
-      "nombre" in x &&
-      "slug" in x
-  );
-}
+
 
 /* Helpers label <-> slug */
-function nombreFromSlug(slug: string | null, cats: ConfigCategoria[]): string | null {
+function nombreFromSlug(slug: string | null, cats: DbCategory[]): string | null {
   if (!slug) return null;
   const f = cats.find((c) => c.slug.toLowerCase() === slug.toLowerCase());
   return f?.nombre ?? null;
 }
 
-function slugFromNombre(nombre: string | null, cats: ConfigCategoria[]): string | null {
+function slugFromNombre(nombre: string | null, cats: DbCategory[]): string | null {
   if (!nombre) return null;
   const f = cats.find((c) => c.nombre === nombre);
   return f?.slug ?? null;
@@ -55,29 +42,41 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const config = useConfig();
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [dbCategorias, setDbCategorias] = useState<DbCategory[]>([]);
 
-  // Leemos categorías del config con guard (sin `any`)
-  const categorias: ConfigCategoria[] = useMemo(() => {
-    return isCategoriasArray(config?.Categorias) ? config!.Categorias : [];
-  }, [config?.Categorias]);
+  // Leemos categorías de la base de datos
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await fetch("/api/categories");
+        if (res.ok) {
+          const data = await res.json();
+          setDbCategorias(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories", error);
+      }
+    }
+    fetchCategories();
+  }, []);
 
   // Derivamos categorías para el CategoryFilter (usa {label, iconUrl})
   const categories: Category[] = useMemo(() => {
-    return categorias.map((c) => ({
+    return dbCategorias.map((c) => ({
       label: c.nombre,
-      // ✅ Como tu JSON no trae iconUrl, generamos un fallback por slug:
-      iconUrl: `/icons/${c.slug}.svg`,
+      iconUrl: c.icon_url || `/icons/${c.slug}.svg`, // Prefiere DB, fallback a slug estático
     }));
-  }, [categorias]);
+  }, [dbCategorias]);
 
   // Filtros desde la URL (slug como fuente de verdad)
   const filters = {
     categorySlug: searchParams.get("categoria") || null,
     colors: searchParams.getAll("color"),
-    conditions: searchParams.getAll("condicion"),
+    brands: searchParams.getAll("marca"),
+    tags: searchParams.getAll("tag"),
+    inStock: searchParams.get("stock") === "true",
     priceRange: [
       Number(searchParams.get("precio_min")) || 0,
       Number(searchParams.get("precio_max")) || 20000,
@@ -87,15 +86,17 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
 
   // Label seleccionado para CategoryFilter (CategoryFilter.selected espera label)
   const selectedLabel = useMemo(
-    () => nombreFromSlug(filters.categorySlug, categorias),
-    [filters.categorySlug, categorias]
+    () => nombreFromSlug(filters.categorySlug, dbCategorias),
+    [filters.categorySlug, dbCategorias]
   );
 
   // Push de filtros a la URL (guardamos slug)
   const applyAllFilters = (f: {
     priceRange: number[];
     colors: string[];
-    conditions: string[];
+    brands: string[];
+    tags: string[];
+    inStock: boolean;
     categorySlug?: string | null;
   }) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -103,13 +104,17 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
     params.delete("precio_min");
     params.delete("precio_max");
     params.delete("color");
-    params.delete("condicion");
+    params.delete("marca");
+    params.delete("tag");
+    params.delete("stock");
     params.delete("categoria");
 
     params.set("precio_min", String(f.priceRange[0]));
     params.set("precio_max", String(f.priceRange[1]));
     f.colors.forEach((c) => params.append("color", c));
-    f.conditions.forEach((c) => params.append("condicion", c));
+    f.brands.forEach((c) => params.append("marca", c));
+    f.tags.forEach((c) => params.append("tag", c));
+    if (f.inStock) params.set("stock", "true");
     if (f.categorySlug) params.set("categoria", f.categorySlug);
 
     router.push(`?${params.toString()}`);
@@ -125,9 +130,14 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
       const matchesColor =
         filters.colors.length === 0 || filters.colors.includes(p.color || "");
 
-      const matchesCondition =
-        filters.conditions.length === 0 ||
-        filters.conditions.includes(p.condition || "");
+      const matchesBrand =
+        filters.brands.length === 0 || filters.brands.includes(p.mfg || "");
+
+      const matchesTag =
+        filters.tags.length === 0 || filters.tags.some(tag => (p.tags || []).includes(tag));
+
+      const matchesStock = 
+        !filters.inStock || p.stock > 0;
 
       const matchesPrice =
         p.currentPrice >= filters.priceRange[0] &&
@@ -139,7 +149,9 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
       return (
         matchesCategory &&
         matchesColor &&
-        matchesCondition &&
+        matchesBrand &&
+        matchesTag &&
+        matchesStock &&
         matchesPrice &&
         matchesSearch
       );
@@ -170,13 +182,16 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
                   applyAllFilters({
                     priceRange: filters.priceRange,
                     colors: filters.colors,
-                    conditions: filters.conditions,
-                    categorySlug: slugFromNombre(labelOrNull, categorias),
+                    brands: filters.brands,
+                    tags: filters.tags,
+                    inStock: filters.inStock,
+                    categorySlug: slugFromNombre(labelOrNull, dbCategorias),
                   })
                 }
               />
 
               <ProductFilterSidebar
+                products={products}
                 onFilter={(f) => {
                   applyAllFilters({
                     ...f,
@@ -201,13 +216,16 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
                   applyAllFilters({
                     priceRange: filters.priceRange,
                     colors: filters.colors,
-                    conditions: filters.conditions,
-                    categorySlug: slugFromNombre(labelOrNull, categorias),
+                    brands: filters.brands,
+                    tags: filters.tags,
+                    inStock: filters.inStock,
+                    categorySlug: slugFromNombre(labelOrNull, dbCategorias),
                   })
                 }
               />
 
               <ProductFilterSidebar
+                products={products}
                 onFilter={(f) => {
                   applyAllFilters({
                     ...f,

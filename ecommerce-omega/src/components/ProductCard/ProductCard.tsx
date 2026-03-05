@@ -20,6 +20,8 @@ export interface ProductCardProps {
   brand: string;
   currentPrice: number;
   oldPrice: number;
+  badgeText?: string | null;
+  badgeColor?: string | null;
   badge?: BadgeProps;
 }
 
@@ -32,6 +34,8 @@ const ProductCard: FC<ProductCardProps> = ({
   brand: seller,
   currentPrice,
   oldPrice,
+  badgeText,
+  badgeColor,
   badge,
 }) => {
   const router = useRouter();
@@ -44,11 +48,17 @@ const ProductCard: FC<ProductCardProps> = ({
     : 0;
 
   const autoBadge: BadgeProps | undefined =
-    !badge && hasDiscount
+    badgeText
+      ? {
+          label: badgeText,
+          color: badgeColor ? badgeColor.split(" ")[0] : "bg-red-500",
+          textColor: badgeColor ? badgeColor.split(" ")[1] : "text-white",
+        }
+      : (!badge && hasDiscount)
       ? {
           label: `-${discountPercent}%`,
           color: "bg-orange-400",
-          textColor: "text-white ",
+          textColor: "text-white",
         }
       : undefined;
 
@@ -65,7 +75,7 @@ const ProductCard: FC<ProductCardProps> = ({
   return (
     <div
       onClick={() => router.push(`/ProductoDetailPage/${id}`)}
-      className="cursor-pointer relative w-full max-w-xs border border-[#ECECEC] rounded-[15px] overflow-hidden p-4 flex flex-col justify-between shadow-sm transition-transform duration-200 ease-in-out hover:scale-[1.015] hover:shadow-lg"
+      className="cursor-pointer relative w-full h-full max-w-xs border border-[#ECECEC] rounded-[15px] overflow-hidden p-4 flex flex-col justify-between shadow-sm transition-transform duration-200 ease-in-out hover:scale-[1.015] hover:shadow-lg"
       style={{ background: "var(--bgweb)", color: "var(--color-primary-text)" }}
     >
       {finalBadge && (
@@ -90,44 +100,48 @@ const ProductCard: FC<ProductCardProps> = ({
         />
       </div>
 
-      <div className="mt-3 flex-grow">
-        {category && (
-          <p className="text-xs mb-1" style={{ color: "var(--color-secondary-text)" }}>
-            {category}
-          </p>
-        )}
+      <div className="mt-3 flex-grow flex flex-col">
+        <div className="min-h-[16px] mb-1">
+          {category && (
+            <p className="text-xs" style={{ color: "var(--color-secondary-text)" }}>
+              {category}
+            </p>
+          )}
+        </div>
 
         <h3
-          className="text-[16px] font-semibold leading-snug mb-1"
+          className="text-[16px] font-semibold leading-snug mb-1 line-clamp-2 min-h-[44px]"
           style={{ color: "var(--color-primary-text)" }}
         >
           {title}
         </h3>
 
-        <div
-          className="flex items-center text-sm mb-1"
-          style={{ color: "var(--color-secondary-text)" }}
-        >
-          <span className="text-yellow-400 text-[16px]">★</span>
-          <span className="ml-1 text-[14px]">({rating.toFixed(1)})</span>
-        </div>
+        <div className="mt-auto">
+          <div
+            className="flex items-center text-sm mb-1"
+            style={{ color: "var(--color-secondary-text)" }}
+          >
+            <span className="text-yellow-400 text-[16px]">★</span>
+            <span className="ml-1 text-[14px]">({rating.toFixed(1)})</span>
+          </div>
 
-        <p className="text-sm mb-2" style={{ color: "var(--color-secondary-text)" }}>
-          By <span className="text-text1">{seller}</span>
-        </p>
+          <p className="text-sm mb-2" style={{ color: "var(--color-secondary-text)" }}>
+            By <span className="text-text1">{seller}</span>
+          </p>
 
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-text1 font-bold text-[18px]">
-            ${currentPrice.toFixed(2)}
-          </span>
-          {hasDiscount && (
-            <span
-              className="line-through text-sm"
-              style={{ color: "var(--color-secondary-text)" }}
-            >
-              ${oldPrice.toFixed(2)}
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-text1 font-bold text-[18px]">
+              ${currentPrice.toFixed(2)}
             </span>
-          )}
+            {hasDiscount && (
+              <span
+                className="line-through text-sm"
+                style={{ color: "var(--color-secondary-text)" }}
+              >
+                ${oldPrice.toFixed(2)}
+              </span>
+            )}
+          </div>
         </div>
       </div>
 

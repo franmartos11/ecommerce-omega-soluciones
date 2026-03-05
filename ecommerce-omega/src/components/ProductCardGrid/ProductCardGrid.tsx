@@ -4,8 +4,11 @@ import ProductCard, { ProductCardProps } from "../ProductCard/ProductCard";
 import { motion } from "framer-motion";
 
 export interface Product extends ProductCardProps {
-  color: string;
-  condition: string;
+  color?: string;
+  condition?: string;
+  mfg?: string;
+  tags?: string[];
+  stock: number;
   id: string;
 }
 
@@ -34,6 +37,7 @@ const ProductCardGrid: FC<ProductCardGridProps> = ({ products }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
+            className="flex w-full h-full"
           >
             
               <ProductCard {...product} />

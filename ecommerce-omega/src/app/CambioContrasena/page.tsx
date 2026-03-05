@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { sendResetEmail } from "../lib/firebase/auth-clients";
-import { FirebaseError } from "firebase/app";
+import { sendResetEmail } from "../lib/supabase/auth-clients";
 import Link from "next/link";
 
 export default function ForgotPasswordPage() {
@@ -26,16 +25,15 @@ export default function ForgotPasswordPage() {
       const continueUrl = `${window.location.origin}/reset-password`;
       await sendResetEmail(email, continueUrl);
       setSent(true);
-    } catch (error: unknown) {
-      // ⬇️ Narrowing del error sin usar 'any'
-      const code = error instanceof FirebaseError ? error.code : undefined;
+    } catch (error: any) {
+      const msg = error?.message || "";
 
-      if (code === "auth/user-not-found") {
+      if (msg.includes("User not found")) {
         // Por seguridad, respondemos como si se hubiese enviado
         setSent(true);
-      } else if (code === "auth/invalid-email") {
+      } else if (msg.includes("Invalid login credentials") || msg.includes("invalid-email")) {
         setErr("El correo es inválido.");
-      } else if (code === "auth/too-many-requests") {
+      } else if (msg.includes("rate limit")) {
         setErr("Demasiados intentos. Probá más tarde.");
       } else {
         setErr("No se pudo enviar el email. Intentá más tarde.");

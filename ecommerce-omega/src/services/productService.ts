@@ -5,7 +5,20 @@ import { Product } from "@/components/ProductCardGrid/ProductCardGrid";
  * Encapsula la lógica de fetching para limpiar los componentes.
  */
 export async function fetchProducts(): Promise<Product[] | null> {
-  // TODO: reemplaza por tu llamada real a la API (Ej: Firebase)
-  // Por ahora devolvemos null para que el fallback del config.json tome el control
-  return null;
+  try {
+    const res = await fetch("/api/products", {
+      next: { revalidate: 60 } // Cache for 1 min
+    });
+    
+    if (!res.ok) {
+      console.warn("Error fetching products from API, falling back to config.json");
+      return null;
+    }
+    
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return null;
+  }
 }

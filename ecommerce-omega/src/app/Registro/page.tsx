@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import { Mail, Lock, User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FirebaseError } from 'firebase/app';
-import { signUpEmail } from '../lib/firebase/auth-clients'; 
+import { signUpEmail } from '../lib/supabase/auth-clients'; 
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -66,27 +65,26 @@ export default function RegisterForm() {
 
     setLoading(true);
     try {
-      // Crea el usuario en Firebase Auth y (opcional) el doc en Firestore
+      // Crea el usuario en Supabase Auth y la tabla PostgreSQL via Triggers o API directa
       await signUpEmail({
         email: form.email,
         password: form.password,
         displayName: form.name,
-        createProfileDoc: true, // deja en true si querés /users/{uid}
       });
 
       // Redirige al login (o al dashboard si preferís)
       router.push('/LogIn');
-    } catch (error: unknown) {
-      const code = error instanceof FirebaseError ? error.code : undefined;
+    } catch (error: any) {
+      const msg = error?.message || "";
 
-      if (code === 'auth/email-already-in-use') {
+      if (msg.includes('already registered')) {
         setErrors({ api: 'Ese email ya está registrado.' });
-      } else if (code === 'auth/invalid-email') {
+      } else if (msg.includes('invalid email')) {
         setErrors({ api: 'Email inválido.' });
-      } else if (code === 'auth/weak-password') {
+      } else if (msg.includes('weak password') || msg.includes('Password should be')) {
         setErrors({ api: 'Contraseña demasiado débil.' });
       } else {
-        router.push('/LogIn');
+        setErrors({ api: 'Ocurrió un error en el registro.' });
       }
     } finally {
       setLoading(false);

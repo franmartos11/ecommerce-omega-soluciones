@@ -5,16 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { FirebaseError } from "firebase/app";
-
-// Firebase (ajustá paths si no usás alias "@/")
-import { signInEmail } from "../lib/firebase/auth-clients";
-import { auth } from "../lib/firebase/firebase";
-import {
-  setPersistence,
-  browserLocalPersistence,
-  browserSessionPersistence,
-} from "firebase/auth";
+import { signInEmail } from "../lib/supabase/auth-clients";
 
 type FormErrors = { email?: string; password?: string; api?: string };
 
@@ -71,28 +62,19 @@ export default function LoginForm() {
     try {
       setSubmitting(true);
 
-      // Persistencia según “Recordarme”
-      await setPersistence(
-        auth,
-        remember ? browserLocalPersistence : browserSessionPersistence
-      );
-
-      // Login Firebase
+      // Login Supabase (Supabase auto-maneja persistencia por defecto)
       await signInEmail({ email, password });
 
       // (Opcional) Flag local propio
       localStorage.setItem("userLoggedIn", JSON.stringify({ email, remember }));
 
       router.push("/");
-    } catch (err: unknown) {
-      const code = err instanceof FirebaseError ? err.code : undefined;
+    } catch (err: any) {
       let msg = "Error al iniciar sesión";
-      if (code === "auth/invalid-credential" || code === "auth/wrong-password") {
+      if (err?.message?.includes("Invalid login credentials")) {
         msg = "Credenciales incorrectas";
-      } else if (code === "auth/user-not-found") {
-        msg = "No existe un usuario con ese email";
-      } else if (code === "auth/too-many-requests") {
-        msg = "Demasiados intentos. Probá más tarde.";
+      } else if (err?.message?.includes("Email not confirmed")) {
+        msg = "Por favor confirma tu correo electrónico primero.";
       }
       setErrors(prev => ({ ...prev, api: msg }));
       setShake(true);

@@ -1,15 +1,30 @@
-
 import useEmblaCarousel from "embla-carousel-react";
-import { useEffect } from "react";
-
-const images = [
-  "/banner1.webp",
-  "/banner2.webp",
-  "/banner3.webp",
-];
+import { useEffect, useState } from "react";
 
 const CarouselBanner = () => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [images, setImages] = useState<string[]>([
+    "/banner1.webp",
+    "/banner2.webp",
+    "/banner3.webp",
+  ]);
+
+  useEffect(() => {
+    async function fetchBanners() {
+      try {
+        const res = await fetch("/api/settings");
+        if (res.ok) {
+          const settings = await res.json();
+          if (settings.hero_banners && Array.isArray(settings.hero_banners) && settings.hero_banners.length > 0) {
+            setImages(settings.hero_banners);
+          }
+        }
+      } catch (error) {
+        console.error("Error cargando banners:", error);
+      }
+    }
+    fetchBanners();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,6 +33,8 @@ const CarouselBanner = () => {
 
     return () => clearInterval(interval);
   }, [emblaApi]);
+
+  if (images.length === 0) return null;
 
   return (
     <div className="overflow-hidden rounded-xl mb-8 w-full">

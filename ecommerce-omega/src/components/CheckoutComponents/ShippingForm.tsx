@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useForm } from "react-hook-form";
+import { ArrowRight, MapPin, User, Building2, Smartphone } from "lucide-react";
 
 export type ShippingData = {
   firstName: string;
@@ -21,64 +22,82 @@ export default function ShippingForm({ onNext }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<ShippingData>({ mode: "onBlur" });
+    formState: { errors, isSubmitting },
+  } = useForm<ShippingData>({ mode: "onTouched" });
+
+  const inputClasses = 
+    "w-full border-2 border-gray-100 rounded-xl px-4 py-3 pl-11 focus:outline-none transition-all duration-200 outline-none";
 
   return (
     <form
       onSubmit={handleSubmit(onNext)}
-      className="p-6 rounded-md shadow-md space-y-6"
-      style={{ background: "var(--bgweb)" }}
+      className="space-y-6"
     >
       {/* Nombre y Apellido */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="space-y-1">
           <label
             htmlFor="firstName"
-            className="block text-sm font-medium  mb-1"
+            className="block text-sm font-semibold ml-1"
             style={{ color: "var(--color-secondary-text)" }}
           >
             Nombre
           </label>
-          <input
-            id="firstName"
-            type="text"
-            {...register("firstName", {
-              required: "Nombre obligatorio",
-              minLength: { value: 2, message: "Mínimo 2 caracteres" },
-              maxLength: { value: 30, message: "Máximo 30 caracteres" },
-            })}
-            className="w-full border border-gray-300  rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-bg)]"
-            style={{ color: "var(--color-secondary-text)" }}
-          />
+          <div className="relative">
+            <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 opacity-70" />
+            <input
+              id="firstName"
+              type="text"
+              placeholder="Tu nombre"
+              {...register("firstName", {
+                required: "Nombre obligatorio",
+                minLength: { value: 2, message: "Mínimo 2 caracteres" },
+                maxLength: { value: 30, message: "Máximo 30 caracteres" },
+              })}
+              className={`${inputClasses} ${errors.firstName ? 'border-red-400 bg-red-50/20' : 'bg-gray-50/50 hover:bg-gray-50 focus:bg-white'} focus-within:ring-2`}
+              style={{ 
+                color: "var(--color-primary-text)", 
+                borderColor: errors.firstName ? undefined : "var(--color-border, #f3f4f6)",
+                outlineColor: "var(--color-primary-bg)"
+              }}
+            />
+          </div>
           {errors.firstName && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs font-medium mt-1 ml-1 animate-in slide-in-from-top-1">
               {errors.firstName.message}
             </p>
           )}
         </div>
 
-        <div>
+        <div className="space-y-1">
           <label
             htmlFor="lastName"
-            className="block text-sm font-medium mb-1"
+            className="block text-sm font-semibold ml-1"
             style={{ color: "var(--color-secondary-text)" }}
           >
             Apellido
           </label>
-          <input
-            id="lastName"
-            type="text"
-            {...register("lastName", {
-              required: "Apellido obligatorio",
-              minLength: { value: 2, message: "Mínimo 2 caracteres" },
-              maxLength: { value: 30, message: "Máximo 30 caracteres" },
-            })}
-            className="w-full border border-gray-300  rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-bg)]"
-            style={{ color: "var(--color-secondary-text)" }}
-          />
+          <div className="relative">
+            <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 opacity-70" />
+            <input
+              id="lastName"
+              type="text"
+              placeholder="Tu apellido"
+              {...register("lastName", {
+                required: "Apellido obligatorio",
+                minLength: { value: 2, message: "Mínimo 2 caracteres" },
+                maxLength: { value: 30, message: "Máximo 30 caracteres" },
+              })}
+              className={`${inputClasses} ${errors.lastName ? 'border-red-400 bg-red-50/20' : 'bg-gray-50/50 hover:bg-gray-50 focus:bg-white'} focus-within:ring-2`}
+              style={{ 
+                color: "var(--color-primary-text)", 
+                borderColor: errors.lastName ? undefined : "var(--color-border, #f3f4f6)",
+                outlineColor: "var(--color-primary-bg)"
+              }}
+            />
+          </div>
           {errors.lastName && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs font-medium mt-1 ml-1 animate-in slide-in-from-top-1">
               {errors.lastName.message}
             </p>
           )}
@@ -86,93 +105,125 @@ export default function ShippingForm({ onNext }: Props) {
       </div>
 
       {/* Dirección */}
-      <div>
+      <div className="space-y-1">
         <label
           htmlFor="address"
-          className="block text-sm font-medium  mb-1"
+          className="block text-sm font-semibold ml-1"
           style={{ color: "var(--color-secondary-text)" }}
         >
-          Dirección
+          Dirección de entrega
         </label>
-        <input
-          id="address"
-          type="text"
-          {...register("address", {
-            required: "Dirección obligatoria",
-            minLength: { value: 5, message: "Mínimo 5 caracteres" },
-          })}
-          className="w-full border border-gray-300  rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-bg)]"
-          style={{ color: "var(--color-secondary-text)" }}
-        />
+        <div className="relative">
+          <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 opacity-70" />
+          <input
+            id="address"
+            type="text"
+            placeholder="Ej: Av. Siempreviva 742"
+            {...register("address", {
+              required: "Dirección obligatoria",
+              minLength: { value: 5, message: "Mínimo 5 caracteres" },
+            })}
+            className={`${inputClasses} ${errors.address ? 'border-red-400 bg-red-50/20' : 'bg-gray-50/50 hover:bg-gray-50 focus:bg-white'} focus-within:ring-2`}
+            style={{ 
+              color: "var(--color-primary-text)", 
+              borderColor: errors.address ? undefined : "var(--color-border, #f3f4f6)",
+              outlineColor: "var(--color-primary-bg)"
+            }}
+          />
+        </div>
         {errors.address && (
-          <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>
+          <p className="text-red-500 text-xs font-medium mt-1 ml-1 animate-in slide-in-from-top-1">{errors.address.message}</p>
         )}
       </div>
 
       {/* Ciudad, Provincia, Código Postal */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="space-y-1">
           <label
             htmlFor="city"
-            className="block text-sm font-medium  mb-1"
+            className="block text-sm font-semibold ml-1"
             style={{ color: "var(--color-secondary-text)" }}
           >
             Ciudad
           </label>
-          <input
-            id="city"
-            type="text"
-            {...register("city", { required: "Ciudad obligatoria" })}
-            className="w-full border border-gray-300  rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-bg)]"
-            style={{ color: "var(--color-secondary-text)" }}
-          />
+          <div className="relative">
+            <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 opacity-70" />
+            <input
+              id="city"
+              type="text"
+              placeholder="Tu ciudad"
+              {...register("city", { required: "Obligatoria" })}
+              className={`${inputClasses} ${errors.city ? 'border-red-400 bg-red-50/20' : 'bg-gray-50/50 hover:bg-gray-50 focus:bg-white'} focus-within:ring-2`}
+              style={{ 
+                color: "var(--color-primary-text)", 
+                borderColor: errors.city ? undefined : "var(--color-border, #f3f4f6)",
+                outlineColor: "var(--color-primary-bg)"
+              }}
+            />
+          </div>
           {errors.city && (
-            <p className="text-red-500 text-sm mt-1">{errors.city.message}</p>
+            <p className="text-red-500 text-xs font-medium mt-1 ml-1 animate-in slide-in-from-top-1">{errors.city.message}</p>
           )}
         </div>
 
-        <div>
+        <div className="space-y-1">
           <label
             htmlFor="province"
-            className="block text-sm font-medium  mb-1"
+            className="block text-sm font-semibold ml-1"
             style={{ color: "var(--color-secondary-text)" }}
           >
             Provincia
           </label>
-          <input
-            id="province"
-            type="text"
-            {...register("province", { required: "Provincia obligatoria" })}
-            className="w-full border border-gray-300  rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-bg)]"
-            style={{ color: "var(--color-secondary-text)" }}
-          />
+          <div className="relative">
+            <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 opacity-70" />
+            <input
+              id="province"
+              type="text"
+              placeholder="Tu provincia"
+              {...register("province", { required: "Obligatoria" })}
+              className={`${inputClasses} ${errors.province ? 'border-red-400 bg-red-50/20' : 'bg-gray-50/50 hover:bg-gray-50 focus:bg-white'} focus-within:ring-2`}
+              style={{ 
+                color: "var(--color-primary-text)", 
+                borderColor: errors.province ? undefined : "var(--color-border, #f3f4f6)",
+                outlineColor: "var(--color-primary-bg)"
+              }}
+            />
+          </div>
           {errors.province && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs font-medium mt-1 ml-1 animate-in slide-in-from-top-1">
               {errors.province.message}
             </p>
           )}
         </div>
 
-        <div>
+        <div className="space-y-1">
           <label
             htmlFor="postalCode"
-            className="block text-sm font-medium  mb-1"
+            className="block text-sm font-semibold ml-1"
             style={{ color: "var(--color-secondary-text)" }}
           >
-            Código Postal
+            Cód. Postal
           </label>
-          <input
-            id="postalCode"
-            type="text"
-            {...register("postalCode", {
-              required: "Código postal obligatorio",
-              pattern: { value: /^[0-9]{4,10}$/, message: "Formato inválido" },
-            })}
-            className="w-full border border-gray-300  rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-bg)]"
-            style={{ color: "var(--color-secondary-text)" }}
-          />
+          <div className="relative">
+             <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 opacity-70" />
+             <input
+              id="postalCode"
+              type="text"
+              placeholder="Ej: 1424"
+              {...register("postalCode", {
+                required: "Requerido",
+                pattern: { value: /^[0-9A-Za-z\s-]{3,10}$/, message: "Inválido" },
+              })}
+              className={`${inputClasses} ${errors.postalCode ? 'border-red-400 bg-red-50/20' : 'bg-gray-50/50 hover:bg-gray-50 focus:bg-white'} focus-within:ring-2`}
+              style={{ 
+                color: "var(--color-primary-text)", 
+                borderColor: errors.postalCode ? undefined : "var(--color-border, #f3f4f6)",
+                outlineColor: "var(--color-primary-bg)"
+              }}
+            />
+          </div>
           {errors.postalCode && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-xs font-medium mt-1 ml-1 animate-in slide-in-from-top-1">
               {errors.postalCode.message}
             </p>
           )}
@@ -180,40 +231,51 @@ export default function ShippingForm({ onNext }: Props) {
       </div>
 
       {/* Teléfono */}
-      <div>
+      <div className="space-y-1">
         <label
           htmlFor="phone"
-          className="block text-sm font-medium  mb-1"
+          className="block text-sm font-semibold ml-1"
           style={{ color: "var(--color-secondary-text)" }}
         >
-          Teléfono
+          Teléfono / Celular
         </label>
-        <input
-          id="phone"
-          type="tel"
-          {...register("phone", {
-            required: "Teléfono obligatorio",
-            pattern: { value: /^\+?\d{7,15}$/, message: "Número inválido" },
-          })}
-          className="w-full border border-gray-300  rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-bg)]"
-          style={{ color: "var(--color-secondary-text)" }}
-        />
+        <div className="relative">
+          <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 opacity-70" />
+          <input
+            id="phone"
+            type="tel"
+            placeholder="+54 9 11 1234-5678"
+            {...register("phone", {
+              required: "Teléfono obligatorio",
+              pattern: { value: /^\+?[\d\s-]{7,20}$/, message: "Número inválido" },
+            })}
+            className={`${inputClasses} ${errors.phone ? 'border-red-400 bg-red-50/20' : 'bg-gray-50/50 hover:bg-gray-50 focus:bg-white'} focus-within:ring-2`}
+            style={{ 
+              color: "var(--color-primary-text)", 
+              borderColor: errors.phone ? undefined : "var(--color-border, #f3f4f6)",
+              outlineColor: "var(--color-primary-bg)"
+            }}
+          />
+        </div>
         {errors.phone && (
-          <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+          <p className="text-red-500 text-xs font-medium mt-1 ml-1 animate-in slide-in-from-top-1">{errors.phone.message}</p>
         )}
       </div>
 
-      {/* Botón Continuar */}
-      <button
-        type="submit"
-        className=" cursor-pointer w-full font-medium py-2 rounded-md transition"
-        style={{
-          color: "var(--color-tertiary-text)",
-          background: "var(--color-primary-bg)",
-        }}
-      >
-        Continuar
-      </button>
+      <div className="pt-4 border-t border-gray-100">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="cursor-pointer group w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-lg transition-all shadow-md hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+          style={{
+            color: "var(--color-tertiary-text, #fff)",
+            backgroundColor: "var(--color-primary-bg, var(--bg1))",
+          }}
+        >
+          Continuar al Pago
+          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+        </button>
+      </div>
     </form>
   );
 }

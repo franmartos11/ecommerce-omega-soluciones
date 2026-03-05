@@ -5,6 +5,7 @@ import { getCart, clearCart } from "@/utils/CartUtils";
 import ShippingForm, { ShippingData } from "./ShippingForm";
 import PaymentForm from "./PaymentForm";
 import ReviewOrder from "./ReviewOrder";
+import { X, ArrowLeft, Check } from "lucide-react";
 
 interface CheckoutModalProps {
   open: boolean;
@@ -31,7 +32,14 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
     if (open) {
       setCartItems(getCart());
       setStep(1);
+      document.body.style.overflow = "hidden"; // Prevent background scrolling
+    } else {
+      document.body.style.overflow = "auto";
     }
+    
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [open]);
 
   const handleShipping = (data: ShippingData) => {
@@ -101,7 +109,8 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
       clearCart();
       onClose();
-      window.location.href = "/thank-you";
+      // Redirect dynamically to the specific receipt page
+      window.location.href = `/checkout/success/${orderId}`;
     } catch (error) {
       console.error("Error en el proceso de checkout:", error);
     }
@@ -109,96 +118,125 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
   if (!open) return null;
 
-  const labels = ["Envío", "Pago", "Resumen"];
+  const labels = ["Envío", "Pago", "Confirmación"];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Overlay */}
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
+      {/* Overlay with blur effect */}
       <div
-        className="absolute inset-0 opacity-50"
-        style={{ background: "var(--color-tertiary-bg)" }}
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
-      {/* Modal */}
+      {/* Modal Container */}
       <div
         className="
-          relative rounded-lg shadow-lg w-full max-w-md sm:max-w-lg lg:max-w-xl mx-auto p-4 sm:p-6 md:p-8 max-h-[90vh] overflow-y-auto
+          relative w-full max-w-2xl mx-auto rounded-3xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300
+          flex flex-col max-h-[90vh] sm:max-h-[85vh]
         "
         style={{ background: "var(--bgweb)" }}
       >
-        <button
-          onClick={onClose}
-          className=" cursor-pointer absolute top-3 right-3 text-2xl leading-none"
-          style={{ color: "var(--color-primary-text)" }}
-        >
-          &times;
-        </button>
-
-        {/* Stepper */}
-        <div className="flex justify-between mb-6">
-          {labels.map((label, index) => {
-            const stepNumber = index + 1;
-            const isActive = stepNumber <= step;
-
-            const circleStyle: React.CSSProperties = isActive
-              ? {
-                  background: "var(--bgweb)",
-                  borderColor: "var(--color-primary-bg)",
-                }
-              : {
-                  background: "var(--white, #fff)",
-                  borderColor: "var(--gray-400, #9ca3af)",
-                };
-
-            const numberStyle: React.CSSProperties = isActive
-              ? { color: "var(--color-primary-bg)" }
-              : { color: "var(--gray-400, #9ca3af)" };
-
-            const labelStyle: React.CSSProperties = isActive
-              ? { color: "var(--color-primary-bg)" }
-              : { color: "var(--gray-400, #9ca3af)" };
-
-            return (
-              <div key={label} className="flex-1 text-center">
-                <div
-                  className="mx-auto w-8 h-8 rounded-full border-2 flex items-center justify-center"
-                  style={circleStyle}
-                >
-                  <span className="font-semibold" style={numberStyle}>
-                    {stepNumber}
-                  </span>
-                </div>
-                <p className="mt-2 text-sm font-medium" style={labelStyle}>
-                  {label}
-                </p>
-              </div>
-            );
-          })}
+        {/* Header Ribbon & Close Button */}
+        <div className="flex items-center justify-between p-6 pb-2">
+          <h2 className="text-2xl font-bold tracking-tight" style={{ color: "var(--color-primary-text)" }}>
+            Finalizar Compra
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2"
+            style={{ "--tw-ring-color": "var(--color-primary-bg)" } as React.CSSProperties}
+            title="Cerrar"
+          >
+            <X className="w-6 h-6" />
+          </button>
         </div>
 
-        {/* Botón volver */}
-        {step > 1 && (
-          <button
-            onClick={() => setStep(step - 1)}
-            className="cursor-pointer text-sm  hover:underline mb-4"
-            style={{ color: "var(--color-secondary-text)" }}
-          >
-            ← Volver
-          </button>
-        )}
+        {/* Stepper */}
+        <div className="px-6 sm:px-10 pt-5 pb-8 mb-2 bg-gray-50/50 border-y border-gray-100">
+          <div className="relative flex justify-between items-center max-w-sm mx-auto">
+            {/* Lines Container */}
+            <div className="absolute top-1/2 left-5 right-5 h-1 -translate-y-1/2 z-0">
+              {/* Background line connecting the steps */}
+              <div className="absolute inset-0 bg-gray-200 rounded-full" />
+              
+              {/* Active progress line */}
+              <div 
+                className="absolute top-0 left-0 h-full rounded-full transition-all duration-500 ease-in-out" 
+                style={{ width: `${((step - 1) / (labels.length - 1)) * 100}%`, backgroundColor: "var(--color-primary-bg, var(--bg1))" }}
+              />
+            </div>
 
-        {/* Contenido por paso */}
-        {step === 1 && <ShippingForm onNext={handleShipping} />}
-        {step === 2 && <PaymentForm onNext={handlePayment} />}
-        {step === 3 && shippingData && (
-          <ReviewOrder
-            shipping={shippingData}
-            cartItems={cartItems}
-            paymentMethod={paymentMethod}
-            onConfirm={handleConfirm}
-          />
-        )}
+            {labels.map((label, index) => {
+              const stepNumber = index + 1;
+              const isPast = stepNumber < step;
+              const isActive = stepNumber === step;
+              const isFuture = stepNumber > step;
+
+              return (
+                <div key={label} className="relative z-10 flex justify-center items-center w-10">
+                  <div
+                    className={`
+                      w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300
+                      ${isPast ? "text-white shadow-md scale-100" : ""}
+                      ${isActive ? "text-white ring-4 scale-110 shadow-lg" : ""}
+                      ${isFuture ? "bg-white text-gray-400 border-2 border-gray-200" : ""}
+                    `}
+                    style={
+                      isPast || isActive 
+                        ? { 
+                            backgroundColor: "var(--color-primary-bg, var(--bg1))",
+                            color: "var(--color-tertiary-text, #fff)",
+                            "--tw-ring-color": "var(--color-primary-bg)",
+                            "--tw-ring-opacity": "0.3"
+                          } as React.CSSProperties 
+                        : {}
+                    }
+                  >
+                    {isPast ? <Check className="w-5 h-5" /> : stepNumber}
+                  </div>
+                  <span 
+                    className={`absolute top-full mt-2 text-xs font-semibold whitespace-nowrap transition-colors duration-300
+                      ${isPast ? "text-gray-700" : "text-gray-400"}
+                    `}
+                    style={isActive ? { color: "var(--color-primary-bg)" } : {}}
+                  >
+                    {label}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Form Scrollable Area */}
+        <div className="flex-grow overflow-y-auto px-6 sm:px-10 py-6 custom-scrollbar">
+          
+          {/* Botón volver interno (solo visible si > 1) */}
+          {step > 1 && (
+            <button
+              onClick={() => setStep(step - 1)}
+              className="group flex items-center gap-1.5 text-sm font-semibold mb-6 transition-colors hover:opacity-80"
+              style={{ color: "var(--color-primary-bg)" }}
+            >
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              Volver atrás
+            </button>
+          )}
+
+          {/* Contenido por paso */}
+          <div className="pb-4">
+            {step === 1 && <ShippingForm onNext={handleShipping} />}
+            {step === 2 && <PaymentForm onNext={handlePayment} />}
+            {step === 3 && shippingData && (
+              <ReviewOrder
+                shipping={shippingData}
+                cartItems={cartItems}
+                paymentMethod={paymentMethod}
+                onConfirm={handleConfirm}
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

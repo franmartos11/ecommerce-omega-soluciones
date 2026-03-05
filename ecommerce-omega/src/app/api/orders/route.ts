@@ -1,19 +1,52 @@
 import { NextResponse } from "next/server";
+import { supabase } from "@/app/lib/supabase/client";
 
 export async function POST(req: Request) {
-  const body = await req.json();
+  try {
+    const body = await req.json();
 
-  if (!body || !body.cartItems || body.cartItems.length === 0) {
+    if (!body || !body.cartItems || body.cartItems.length === 0) {
+      return NextResponse.json(
+        { error: "Carrito vacío o datos faltantes" },
+        { status: 400 }
+      );
+    }
+
+    // Calcular el total a partir de los items para evitar manipulaciones
+    const total = body.cartItems.reduce(
+      (acc: number, item: any) => acc + item.price * item.quantity,
+      0
+    );
+
+    // Preparar el documento de la orden
+    const orderData = {
+      items: body.cartItems,
+      shipping: body.shippingData,
+      payment_method: body.paymentData?.method || "unknown", // Nota: snake_case para db
+      total: total,
+      status: "pendiente",
+      // created_at y updated_at los maneja postgres automáticamente via defaults
+      reference: body.paymentData?.transferReference || null,
+    };
+
+    // Guardar en Supabase -> tabla "orders"
+    const { data, error } = await supabase
+      .from("orders")
+      .insert([orderData])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("[POST /api/orders] Error insertando en Supabase:", error);
+      throw error;
+    }
+
+    return NextResponse.json({ id: data.id, status: "success" });
+  } catch (error: any) {
+    console.error("[POST /api/orders] Error procesando la orden:", error);
     return NextResponse.json(
-      { error: "Carrito vacío o datos faltantes" },
-      { status: 400 }
+      { error: "Ha ocurrido un error al procesar la orden." },
+      { status: 500 }
     );
   }
-
-  // Aquí normalmente guardarías en tu DB.
-  // Ejemplo:
-  // const newOrder = await db.order.create({ data: { ... } });
-
-  // Por ahora, devolvemos un ID simulado:
-  return NextResponse.json({ id: "order_" + Date.now() });
 }
