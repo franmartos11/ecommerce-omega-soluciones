@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { MessageCircle, Star, Trash2, Check, X, ExternalLink } from "lucide-react";
+import { MessageCircle, Star, Trash2, Check, X, ExternalLink, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 interface Review {
@@ -81,8 +81,9 @@ export default function AdminReviews() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-full">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="flex flex-col justify-center items-center h-full min-h-[50vh]">
+        <Loader2 className="w-8 h-8 text-blue-600 animate-spin mb-4" />
+        <p className="text-sm text-gray-500 font-medium">Cargando reseñas...</p>
       </div>
     );
   }

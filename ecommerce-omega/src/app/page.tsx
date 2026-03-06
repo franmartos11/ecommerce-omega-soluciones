@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Product } from "@/components/ProductCardGrid/ProductCardGrid";
 import ProductListSection from "@/components/ProductListSection/ProductListSection";
+import PromoCategoryCarousel from "@/components/PromoCategoryCarousel/PromoCategoryCarousel";
 import Navbar from "@/components/NavigationBar/NavBar";
 import Footer from "@/components/Footer/Footer";
 import { useConfig } from "./ConfigProvider/ConfigProvider";
@@ -56,6 +57,40 @@ export default function Home() {
           products={products}
           showFilter
         />
+
+        {/* Dynamic Category Promo Carousels */}
+        {config?.home?.promoCategories
+          ?.filter((promo) => promo.active)
+          .map((promo) => {
+            let categoryProducts: Product[] = [];
+            
+            if (promo.productIds && promo.productIds.length > 0) {
+              // Filtrar por IDs específicos si están configurados
+              categoryProducts = products.filter((p) => promo.productIds!.includes(p.id));
+            } else {
+              // Caso contrario, caer en el filtro por categoría
+              categoryProducts = products.filter((p) => {
+                if (!p.category) return false;
+                return p.category.toLowerCase() === promo.categorySlug.toLowerCase();
+              });
+            }
+            
+            // Si la categoría no tiene productos para mostrar (ej: en dev inicial), 
+            // mostramos todos los productos para que no quede vació el carrusel
+            const displayProducts = categoryProducts.length > 0 ? categoryProducts : products;
+
+            return (
+              <div key={promo.id} className="-mx-4 sm:-mx-8 lg:-mx-12 px-4 sm:px-8 lg:px-12 bg-white/50 border-y border-gray-100 mt-8">
+                <PromoCategoryCarousel
+                  title={promo.title}
+                  bannerImage={promo.bannerImage}
+                  bannerLink={promo.bannerLink}
+                  products={displayProducts}
+                />
+              </div>
+            );
+          })}
+
       </main>
       <Footer />
     </div>

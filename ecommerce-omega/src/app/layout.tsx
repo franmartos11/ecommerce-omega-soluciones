@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { AuthProvider } from "./context/AuthContext";
 import { getConfig } from "@/lib/config.server";
 import { Metadata } from "next";
+import { Loader2 } from "lucide-react";
 import type { Config } from "@/lib/config.types";                 // ✅ tipo desde lib
 import { ConfigProvider } from "./ConfigProvider/ConfigProvider"; // ✅ solo el provider
 
@@ -96,7 +97,12 @@ export default async function RootLayout({
         <AuthProvider>
           {/* Pasamos exactamente `Config` */}
           <ConfigProvider initialConfig={cfg}>
-            <Suspense fallback={<div className="p-6">Cargando...</div>}>
+            <Suspense fallback={
+              <div className="flex flex-col items-center justify-center min-h-[60vh]">
+                <Loader2 className="w-8 h-8 text-blue-500 animate-spin mb-4" />
+                <p className="text-sm text-gray-500 font-medium">Cargando...</p>
+              </div>
+            }>
               {children}
             </Suspense>
           </ConfigProvider>

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "actualizadoEn": "2025-09-11T11:00:00-03:00",
+  "actualizadoEn": "2026-03-06T16:22:35.807Z",
   "sitio": {
     "nombre": "Omega Soluciones",
     "dominio": "https://www.tu-dominio.com",
@@ -8,7 +8,6 @@
     "moneda": "ARS",
     "timezone": "America/Argentina/Cordoba"
   },
-
   "Logo": {
     "src": "https://dummyimage.com/600x400/000/fff",
     "alt": "Omega Soluciones"
@@ -25,15 +24,24 @@
       "--color-tertiary-text": "#FFFFFF"
     }
   },
-
   "NumTelefonoSoporte": "+54 9 351 000-0000",
-
   "Categorias": [
-    { "id": "web", "nombre": "Páginas Web", "slug": "paginas-web" },
-    { "id": "apps", "nombre": "Aplicaciones", "slug": "apps" },
-    { "id": "saas", "nombre": "SaaS", "slug": "saas" }
+    {
+      "id": "web",
+      "nombre": "Páginas Web",
+      "slug": "paginas-web"
+    },
+    {
+      "id": "apps",
+      "nombre": "Aplicaciones",
+      "slug": "apps"
+    },
+    {
+      "id": "saas",
+      "nombre": "SaaS",
+      "slug": "saas"
+    }
   ],
-
   "Filtros": {
     "precio": {
       "tipo": "range",
@@ -49,10 +57,22 @@
       "tipo": "multi",
       "paramKey": "color",
       "opciones": [
-        { "label": "Azul", "value": "azul" },
-        { "label": "Negro", "value": "negro" },
-        { "label": "Blanco", "value": "blanco" },
-        { "label": "Rojo", "value": "rojo" }
+        {
+          "label": "Azul",
+          "value": "azul"
+        },
+        {
+          "label": "Negro",
+          "value": "negro"
+        },
+        {
+          "label": "Blanco",
+          "value": "blanco"
+        },
+        {
+          "label": "Rojo",
+          "value": "rojo"
+        }
       ]
     },
     "condicion": {
@@ -60,13 +80,21 @@
       "tipo": "single",
       "paramKey": "condicion",
       "opciones": [
-        { "label": "Nuevo", "value": "nuevo" },
-        { "label": "Usado", "value": "usado" },
-        { "label": "Reacondicionado", "value": "reacondicionado" }
+        {
+          "label": "Nuevo",
+          "value": "nuevo"
+        },
+        {
+          "label": "Usado",
+          "value": "usado"
+        },
+        {
+          "label": "Reacondicionado",
+          "value": "reacondicionado"
+        }
       ]
     }
   },
-
   "Banner": {
     "items": [
       {
@@ -76,7 +104,10 @@
         "href": "/promociones/lanzamiento",
         "orden": 1,
         "visible": true,
-        "vigencia": { "desde": "2025-09-01", "hasta": "2025-10-01" }
+        "vigencia": {
+          "desde": "2025-09-01",
+          "hasta": "2025-10-01"
+        }
       },
       {
         "id": "bnr2",
@@ -104,18 +135,20 @@
       }
     ]
   },
-
   "Productos": [
     {
       "id": "1",
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Seeds of Change Organic Quinoa",
-      "rating": 4.0,
+      "rating": 4,
       "brand": "NestFood",
       "currentPrice": 28.85,
       "oldPrice": 32.8,
-      "badge": { "label": "Sale", "color": "bg-blue-500" },
+      "badge": {
+        "label": "Sale",
+        "color": "bg-blue-500"
+      },
       "color": "Red",
       "condition": "New"
     },
@@ -124,7 +157,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Foster Farms Takeout Crispy Classic",
-      "rating": 4.0,
+      "rating": 4,
       "brand": "NestFood",
       "currentPrice": 17.85,
       "oldPrice": 19.8,
@@ -136,7 +169,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 4.0,
+      "rating": 4,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -148,7 +181,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 4.0,
+      "rating": 4,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -160,7 +193,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 4.0,
+      "rating": 4,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -172,7 +205,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 4.0,
+      "rating": 4,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -184,7 +217,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 4.0,
+      "rating": 4,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -196,7 +229,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -208,7 +241,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -220,7 +253,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -232,7 +265,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -244,7 +277,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -256,7 +289,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -268,7 +301,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -280,7 +313,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -292,7 +325,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -304,7 +337,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -316,7 +349,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -328,7 +361,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -340,7 +373,7 @@
       "imageUrl": "https://arcencohogar.vtexassets.com/arquivos/ids/351229-1200-1200?v=638174404648170000&width=1200&height=1200&aspect=true",
       "category": "apps",
       "title": "Blue Diamond Almonds Lightly",
-      "rating": 5.0,
+      "rating": 5,
       "brand": "NestFood",
       "currentPrice": 23.85,
       "oldPrice": 25.8,
@@ -348,14 +381,12 @@
       "condition": "Refurbished"
     }
   ],
-
   "Soporte": {
     "tel": "+54 9 351 000-0000",
     "email": "soporte@tu-dominio.com",
     "horario": "Lun a Vie, 9:00–18:00",
     "whatsapp": "https://wa.me/5493510000000"
   },
-
   "Redes": {
     "Facebook": "https://www.facebook.com/tu-pagina",
     "Instagram": "https://www.instagram.com/tu-usuario",
@@ -363,7 +394,6 @@
     "YouTube": "https://www.youtube.com/@tu-canal",
     "LinkedIn": "https://www.linkedin.com/company/tu-empresa"
   },
-
   "Contactanos": {
     "TextoPrincipal": "¡Estamos aquí para ayudarte! Completa el formulario a continuación y con gusto responderemos tus preguntas, hablaremos sobre posibles colaboraciones o exploraremos tus ideas.",
     "Logo": {
@@ -382,13 +412,11 @@
     "tel": "+54 9 351 000-0000",
     "email": "contacto@tu-dominio.com"
   },
-
   "SobreNosotros": {
     "titulo": "Construimos soluciones que escalan",
     "contenido": "Somos un equipo enfocado en desarrollar software y productos digitales que mejoran procesos y escalan negocios.",
     "imagen": "https://dummyimage.com/600x400/000/fff"
   },
-
   "SEO": {
     "titulo": "Omega Soluciones",
     "descripcion": "Desarrollamos sitios web, apps y soluciones SaaS para hacer crecer tu negocio.",
@@ -398,7 +426,10 @@
     "Hero": {
       "Title": "Construimos soluciones que escalan",
       "SubTitle": "Sitios, apps y SaaS a medida",
-      "Btn1": { "label": "Contactanos", "href": "/Contacto" },
+      "Btn1": {
+        "label": "Contactanos",
+        "href": "/Contacto"
+      },
       "Btn2": "Ver productos",
       "Img": {
         "src": "https://dummyimage.com/600x400/000/fff",
@@ -410,37 +441,29 @@
       "Tabs1Title": "Producto",
       "Tab1Subtitle": "Descripción del producto",
       "Tab1Img": "https://dummyimage.com/600x400/000/fff",
-
       "Tabs2Title": "Servicios",
       "Tab2Subtitle": "Qué ofrecemos",
       "Tab2Img": "/images/servicios.webp",
-
       "Tabs3Title": "Playground",
       "Tab3Subtitle": "Experimentá",
       "Tab3Img": "/images/playground.webp",
-
       "Tabs4Title": "Playgroundd",
       "Tab4Subtitle": "Experimentá",
       "Tab4Img": "/images/playground.webp",
-
       "Tabs5Title": "Playgrounddd",
       "Tab5Subtitle": "Experimentá",
       "Tab5Img": "/images/playground.webp"
     },
-
     "MyJourney": {
       "Title": "Construimos soluciones que escalan",
       "SubTitle": "Hitos de nuestro camino",
-
       "Year1": "2023",
       "SubtitleYear1": "Fundación y primeros clientes",
       "Img1Year1": "/images/hito1.webp",
       "Img2Year1": "/images/hito2.webp",
-
       "Year2": "2024",
       "SubtitleYear2": "Crecimiento del equipo y nuevas features",
       "Img1Year2": "https://dummyimage.com/600x400/000/fff",
-
       "Year3": "2025",
       "SubtitleYear3": "Expansión regional",
       "Img1Year3": "/images/hito2025-1.webp",
@@ -483,13 +506,32 @@
     }
   },
   "home": {
+    "promoCategories": [
+      {
+        "id": "promo-clima",
+        "title": "Termotanques y Calefones: agua caliente todo el año",
+        "bannerImage": "https://dummyimage.com/600x900/333/fff&text=Promo+Clima",
+        "categorySlug": "electrdomesticos",
+        "active": true
+      },
+      {
+        "id": "promo-celulares",
+        "title": "Tecnología a tu alcance",
+        "bannerImage": "https://dummyimage.com/600x900/0044cc/fff&text=Promo+Tech",
+        "categorySlug": "tecnologia",
+        "active": true
+      }
+    ],
     "businessTabs": {
       "sectionId": "tabsDemo",
       "heading": "UNIDADES DE NEGOCIO",
       "backgroundImage": "/SobreNosotros/bg-tabs.webp",
       "accentColorClass": "bg-orange-500",
       "textColorClass": "text-black",
-      "containerHeights": { "base": "34rem", "md": "37rem" },
+      "containerHeights": {
+        "base": "34rem",
+        "md": "37rem"
+      },
       "items": [
         {
           "value": "product",
@@ -532,58 +574,213 @@
       "accentColorClass": "bg-orange-500",
       "textColorClass": "text-black",
       "initialCategory": "Tecnología y Electrónica",
-      "gridCols": { "base": 2, "sm": 4, "lg": 6 },
+      "gridCols": {
+        "base": 2,
+        "sm": 4,
+        "lg": 6
+      },
       "logoSizeRem": 4,
       "categories": [
-        { "name": "Tecnología y Electrónica", "order": 1 },
-        { "name": "Herramientas y Equipamiento Industrial", "order": 2 },
-        { "name": "Electrodomésticos", "order": 3 },
-        { "name": "Materiales de Construcción", "order": 4 },
-        { "name": "Cuidado Personal y Familiar", "order": 5 },
-        { "name": "Descartable", "order": 6 },
-        { "name": "Productos Químicos y de Limpieza", "order": 7 }
+        {
+          "name": "Tecnología y Electrónica",
+          "order": 1
+        },
+        {
+          "name": "Herramientas y Equipamiento Industrial",
+          "order": 2
+        },
+        {
+          "name": "Electrodomésticos",
+          "order": 3
+        },
+        {
+          "name": "Materiales de Construcción",
+          "order": 4
+        },
+        {
+          "name": "Cuidado Personal y Familiar",
+          "order": 5
+        },
+        {
+          "name": "Descartable",
+          "order": 6
+        },
+        {
+          "name": "Productos Químicos y de Limpieza",
+          "order": 7
+        }
       ],
       "items": [
-        { "name": "Epson", "logo": "/SobreNosotros/epsonLogo.webp", "type": "Tecnología y Electrónica" },
-        { "name": "Brother", "logo": "/SobreNosotros/brotherLogo.webp", "type": "Tecnología y Electrónica" },
-        { "name": "Noblex", "logo": "/SobreNosotros/noblexLogo.png", "type": "Tecnología y Electrónica" },
-        { "name": "Philco", "logo": "/SobreNosotros/philcoLogo.webp", "type": "Tecnología y Electrónica" },
-        { "name": "Kanji", "logo": "/SobreNosotros/kanjiLogo.webp", "type": "Tecnología y Electrónica" },
-        { "name": "LG", "logo": "/SobreNosotros/lg_logo.webp", "type": "Tecnología y Electrónica" },
-        { "name": "Motorola", "logo": "/SobreNosotros/motorolaLogo.png", "type": "Tecnología y Electrónica" },
-        { "name": "Lenovo", "logo": "/SobreNosotros/lenovoLogo.webp", "type": "Tecnología y Electrónica" },
-        { "name": "Hp", "logo": "/SobreNosotros/hpLogo.webp", "type": "Tecnología y Electrónica" },
-        { "name": "Dell", "logo": "/SobreNosotros/dellLogo.webp", "type": "Tecnología y Electrónica" },
-        { "name": "Asus", "logo": "/SobreNosotros/asusLogo.webp", "type": "Tecnología y Electrónica" },
-        { "name": "Intel", "logo": "/SobreNosotros/intelLogo.png", "type": "Tecnología y Electrónica" },
-
-        { "name": "Bosch", "logo": "/SobreNosotros/BoschLogo.png", "type": "Herramientas y Equipamiento Industrial" },
-        { "name": "Cat", "logo": "/SobreNosotros/cat.png", "type": "Herramientas y Equipamiento Industrial" },
-        { "name": "Makita", "logo": "/SobreNosotros/makitaLogo.png", "type": "Herramientas y Equipamiento Industrial" },
-        { "name": "Stihl", "logo": "/SobreNosotros/stihlLogo.png", "type": "Herramientas y Equipamiento Industrial" },
-        { "name": "Biassoni", "logo": "/SobreNosotros/biassoniLogo.png", "type": "Herramientas y Equipamiento Industrial" },
-
-        { "name": "Drean", "logo": "/SobreNosotros/dreanLogo.png", "type": "Electrodomésticos" },
-        { "name": "Noblex", "logo": "/SobreNosotros/noblexLogo.png", "type": "Electrodomésticos" },
-        { "name": "LG", "logo": "/SobreNosotros/lg_logo.webp", "type": "Electrodomésticos" },
-        { "name": "Inelro", "logo": "/SobreNosotros/inelro.png", "type": "Electrodomésticos" },
-
-        { "name": "Tinacos", "logo": "/SobreNosotros/tinacosLogo.webp", "type": "Materiales de Construcción" },
-
-        { "name": "Johnson & Johnson", "logo": "/SobreNosotros/j&j.svg", "type": "Cuidado Personal y Familiar" },
-        { "name": "Pampers", "logo": "/SobreNosotros/pampersLogo.png", "type": "Cuidado Personal y Familiar" },
-        { "name": "Babysec", "logo": "/SobreNosotros/babysecLogo.png", "type": "Cuidado Personal y Familiar" },
-
-        { "name": "Koval", "logo": "/SobreNosotros/kovalplastLogo.png", "type": "Descartable" },
-        { "name": "Cellpack", "logo": "/SobreNosotros/cellpackLogo.png", "type": "Descartable" },
-
-        { "name": "Raid", "logo": "/SobreNosotros/raidLogo.webp", "type": "Productos Químicos y de Limpieza" },
-        { "name": "Sacchi", "logo": "/SobreNosotros/sacchiLogo.png", "type": "Productos Químicos y de Limpieza" },
-        { "name": "Elite", "logo": "/SobreNosotros/eliteLogo.png", "type": "Productos Químicos y de Limpieza" },
-        { "name": "Virulana", "logo": "/SobreNosotros/virulanaLogo3.png", "type": "Productos Químicos y de Limpieza" },
-        { "name": "Wassington", "logo": "/SobreNosotros/wassingtonLogo.webp", "type": "Productos Químicos y de Limpieza" },
-        { "name": "Lysoform", "logo": "/SobreNosotros/lisoform.webp", "type": "Productos Químicos y de Limpieza" },
-        { "name": "Media Naranja", "logo": "/SobreNosotros/mediaNaranjaLogo.webp", "type": "Productos Químicos y de Limpieza" }
+        {
+          "name": "Epson",
+          "logo": "/SobreNosotros/epsonLogo.webp",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "Brother",
+          "logo": "/SobreNosotros/brotherLogo.webp",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "Noblex",
+          "logo": "/SobreNosotros/noblexLogo.png",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "Philco",
+          "logo": "/SobreNosotros/philcoLogo.webp",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "Kanji",
+          "logo": "/SobreNosotros/kanjiLogo.webp",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "LG",
+          "logo": "/SobreNosotros/lg_logo.webp",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "Motorola",
+          "logo": "/SobreNosotros/motorolaLogo.png",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "Lenovo",
+          "logo": "/SobreNosotros/lenovoLogo.webp",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "Hp",
+          "logo": "/SobreNosotros/hpLogo.webp",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "Dell",
+          "logo": "/SobreNosotros/dellLogo.webp",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "Asus",
+          "logo": "/SobreNosotros/asusLogo.webp",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "Intel",
+          "logo": "/SobreNosotros/intelLogo.png",
+          "type": "Tecnología y Electrónica"
+        },
+        {
+          "name": "Bosch",
+          "logo": "/SobreNosotros/BoschLogo.png",
+          "type": "Herramientas y Equipamiento Industrial"
+        },
+        {
+          "name": "Cat",
+          "logo": "/SobreNosotros/cat.png",
+          "type": "Herramientas y Equipamiento Industrial"
+        },
+        {
+          "name": "Makita",
+          "logo": "/SobreNosotros/makitaLogo.png",
+          "type": "Herramientas y Equipamiento Industrial"
+        },
+        {
+          "name": "Stihl",
+          "logo": "/SobreNosotros/stihlLogo.png",
+          "type": "Herramientas y Equipamiento Industrial"
+        },
+        {
+          "name": "Biassoni",
+          "logo": "/SobreNosotros/biassoniLogo.png",
+          "type": "Herramientas y Equipamiento Industrial"
+        },
+        {
+          "name": "Drean",
+          "logo": "/SobreNosotros/dreanLogo.png",
+          "type": "Electrodomésticos"
+        },
+        {
+          "name": "Noblex",
+          "logo": "/SobreNosotros/noblexLogo.png",
+          "type": "Electrodomésticos"
+        },
+        {
+          "name": "LG",
+          "logo": "/SobreNosotros/lg_logo.webp",
+          "type": "Electrodomésticos"
+        },
+        {
+          "name": "Inelro",
+          "logo": "/SobreNosotros/inelro.png",
+          "type": "Electrodomésticos"
+        },
+        {
+          "name": "Tinacos",
+          "logo": "/SobreNosotros/tinacosLogo.webp",
+          "type": "Materiales de Construcción"
+        },
+        {
+          "name": "Johnson & Johnson",
+          "logo": "/SobreNosotros/j&j.svg",
+          "type": "Cuidado Personal y Familiar"
+        },
+        {
+          "name": "Pampers",
+          "logo": "/SobreNosotros/pampersLogo.png",
+          "type": "Cuidado Personal y Familiar"
+        },
+        {
+          "name": "Babysec",
+          "logo": "/SobreNosotros/babysecLogo.png",
+          "type": "Cuidado Personal y Familiar"
+        },
+        {
+          "name": "Koval",
+          "logo": "/SobreNosotros/kovalplastLogo.png",
+          "type": "Descartable"
+        },
+        {
+          "name": "Cellpack",
+          "logo": "/SobreNosotros/cellpackLogo.png",
+          "type": "Descartable"
+        },
+        {
+          "name": "Raid",
+          "logo": "/SobreNosotros/raidLogo.webp",
+          "type": "Productos Químicos y de Limpieza"
+        },
+        {
+          "name": "Sacchi",
+          "logo": "/SobreNosotros/sacchiLogo.png",
+          "type": "Productos Químicos y de Limpieza"
+        },
+        {
+          "name": "Elite",
+          "logo": "/SobreNosotros/eliteLogo.png",
+          "type": "Productos Químicos y de Limpieza"
+        },
+        {
+          "name": "Virulana",
+          "logo": "/SobreNosotros/virulanaLogo3.png",
+          "type": "Productos Químicos y de Limpieza"
+        },
+        {
+          "name": "Wassington",
+          "logo": "/SobreNosotros/wassingtonLogo.webp",
+          "type": "Productos Químicos y de Limpieza"
+        },
+        {
+          "name": "Lysoform",
+          "logo": "/SobreNosotros/lisoform.webp",
+          "type": "Productos Químicos y de Limpieza"
+        },
+        {
+          "name": "Media Naranja",
+          "logo": "/SobreNosotros/mediaNaranjaLogo.webp",
+          "type": "Productos Químicos y de Limpieza"
+        }
       ]
     },
     "workProcess": {
@@ -595,11 +792,26 @@
       "staggerMs": 300,
       "durationMs": 1000,
       "steps": [
-        { "title": "NOS CONTACTAS", "icon": "/SobreNosotros/phone.png" },
-        { "title": "ANÁLISIS Y PRESUPUESTO", "icon": "/SobreNosotros/lupa.png" },
-        { "title": "NOS APROBÁS", "icon": "/SobreNosotros/management-icon.png" },
-        { "title": "GESTIÓN Y SEGUIMIENTO", "icon": "/SobreNosotros/tracking-icon.png" },
-        { "title": "FINALIZACIÓN CON GARANTÍA", "icon": "/SobreNosotros/contrato.png" }
+        {
+          "title": "NOS CONTACTAS",
+          "icon": "/SobreNosotros/phone.png"
+        },
+        {
+          "title": "ANÁLISIS Y PRESUPUESTO",
+          "icon": "/SobreNosotros/lupa.png"
+        },
+        {
+          "title": "NOS APROBÁS",
+          "icon": "/SobreNosotros/management-icon.png"
+        },
+        {
+          "title": "GESTIÓN Y SEGUIMIENTO",
+          "icon": "/SobreNosotros/tracking-icon.png"
+        },
+        {
+          "title": "FINALIZACIÓN CON GARANTÍA",
+          "icon": "/SobreNosotros/contrato.png"
+        }
       ]
     },
     "stats": {
@@ -608,9 +820,24 @@
       "textColorClass": "text-gray-700",
       "accentColorClass": "text-orange-500",
       "items": [
-        { "label": "PRODUCTOS ÚNICOS", "value": 1000, "prefix": "+", "durationMs": 1800 },
-        { "label": "CLIENTES SATISFECHOS", "value": 500, "prefix": "+", "durationMs": 2000 },
-        { "label": "PEDIDOS ENTREGADOS", "value": 5000, "prefix": "+", "durationMs": 2200 }
+        {
+          "label": "PRODUCTOS ÚNICOS",
+          "value": 1000,
+          "prefix": "+",
+          "durationMs": 1800
+        },
+        {
+          "label": "CLIENTES SATISFECHOS",
+          "value": 500,
+          "prefix": "+",
+          "durationMs": 2000
+        },
+        {
+          "label": "PEDIDOS ENTREGADOS",
+          "value": 5000,
+          "prefix": "+",
+          "durationMs": 2200
+        }
       ]
     },
     "omegaShowcase": {

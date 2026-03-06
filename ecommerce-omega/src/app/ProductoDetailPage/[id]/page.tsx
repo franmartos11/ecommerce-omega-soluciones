@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { Loader2 } from "lucide-react";
 import ProductCardGrid, {
   Product,
 } from "@/components/ProductCardGrid/ProductCardGrid";
@@ -174,7 +175,14 @@ export default function ProductoDetailPage() {
     setTimeout(() => setShowPopup(false), 2000);
   };
 
-  if (!product && loading) return <div className="p-6">Cargando producto...</div>;
+  if (!product && loading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <Loader2 className="w-8 h-8 text-blue-500 animate-spin mb-4" />
+        <p className="text-sm text-gray-500 font-medium">Cargando producto...</p>
+      </div>
+    );
+  }
   if (!product) return <div className="p-6">Producto no encontrado</div>;
 
   return (

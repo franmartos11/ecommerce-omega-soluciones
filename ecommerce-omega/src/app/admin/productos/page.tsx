@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Plus, Edit2, Trash2, Search, X, ImageIcon, AlertCircle, Upload } from "lucide-react";
+import { Plus, Edit2, Trash2, Search, X, ImageIcon, AlertCircle, Upload, Loader2 } from "lucide-react";
 import { supabase } from "@/app/lib/supabase/client";
 
 type Product = {
@@ -355,8 +355,8 @@ export default function AdminProductsPage() {
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-gray-400">
                     <div className="flex flex-col items-center justify-center">
-                      <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></div>
-                      Cargando catálogo...
+                      <Loader2 className="w-6 h-6 text-blue-500 animate-spin mb-3" />
+                      <p className="text-sm text-gray-500 font-medium">Cargando catálogo...</p>
                     </div>
                   </td>
                 </tr>

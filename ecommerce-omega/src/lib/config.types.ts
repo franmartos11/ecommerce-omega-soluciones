@@ -163,6 +163,16 @@ export type Categoria = {
   // iconUrl?: string; // opcional
 };
 
+export interface PromoCategoryConfig {
+  id: string;
+  title: string;
+  bannerImage: string;
+  categorySlug: string;
+  bannerLink?: string;
+  active?: boolean;
+  productIds?: string[]; // Array de IDs de productos para sobreescribir la categoría
+}
+
 export type Badge = {
   label: string;
   color?: string;
@@ -237,5 +247,6 @@ export type Config = {
     workProcess?: WorkProcessConfig;
     brands?: BrandsSectionConfig;
     businessTabs?: BusinessTabsConfig;
+    promoCategories?: PromoCategoryConfig[];
   };
 };

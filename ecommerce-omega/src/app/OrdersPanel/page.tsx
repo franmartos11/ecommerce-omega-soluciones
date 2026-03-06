@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import OrderDetail from "./OrderDetail";
+import { Loader2 } from "lucide-react";
 import Navbar from "@/components/NavigationBar/NavBar";
 import Footer from "@/components/Footer/Footer";
 
@@ -88,7 +89,10 @@ export default function OrdersPanel() {
         </h2>
 
         {loading ? (
-          <p style={{ color: "var(--color-secondary-text)" }}>Cargando historial...</p>
+          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-xl border border-gray-100 shadow-sm">
+            <Loader2 className="w-8 h-8 text-blue-500 animate-spin mb-4" />
+            <p className="text-sm text-gray-500 font-medium">Cargando historial de compras...</p>
+          </div>
         ) : orders.length === 0 ? (
           <div className="text-center py-20 rounded-xl border shadow-sm" style={{ background: 'var(--surface, #ffffff)', borderColor: 'var(--border, #f3f4f6)' }}>
             <h3 className="text-xl font-medium mb-3" style={{ color: 'var(--color-primary-text)' }}>No hay compras registradas</h3>

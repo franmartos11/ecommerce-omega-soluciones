@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Package, Truck, CheckCircle2, Search, ExternalLink, ChevronDown, ChevronUp, Filter, Calendar } from "lucide-react";
+import { Package, Truck, Search, ChevronDown, ChevronUp, Filter, Calendar, DollarSign, ShoppingCart, Clock, Mail, MessageCircle, ArrowRight } from "lucide-react";
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -93,6 +93,13 @@ export default function AdminOrders() {
     return matchesSearch && matchesStatus && matchesDate;
   });
 
+  // Calculate Metrics from filtered orders
+  const metrics = {
+    totalRevenue: filteredOrders.reduce((acc, order) => acc + (typeof order.total === 'number' ? order.total : parseFloat(order.total || 0)), 0),
+    totalOrders: filteredOrders.length,
+    pendingOrders: filteredOrders.filter(o => o.status === "pendiente").length
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -102,16 +109,51 @@ export default function AdminOrders() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto pb-20">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+    <div className="max-w-7xl mx-auto pb-20 px-4 sm:px-6 lg:px-8">
+      {/* Header section */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 pt-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Ventas y Órdenes</h1>
+          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Ventas y Órdenes</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Gestiona los pedidos de tus clientes de forma interactiva.
+            Gestiona los pedidos, verifica estados y contacta a tus clientes rápidamente.
           </p>
         </div>
-        
-        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+      </div>
+
+      {/* Metrics Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
+          <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center shrink-0">
+            <DollarSign className="w-6 h-6 text-green-600" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-gray-500">Ingresos Totales (Filtro)</p>
+            <h3 className="text-2xl font-bold text-gray-900">${metrics.totalRevenue.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
+          </div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
+          <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center shrink-0">
+            <ShoppingCart className="w-6 h-6 text-blue-600" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-gray-500">Órdenes (Filtro)</p>
+            <h3 className="text-2xl font-bold text-gray-900">{metrics.totalOrders}</h3>
+          </div>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
+          <div className="w-12 h-12 bg-yellow-50 rounded-full flex items-center justify-center shrink-0">
+            <Clock className="w-6 h-6 text-yellow-600" />
+          </div>
+          <div>
+            <p className="text-sm font-medium text-gray-500">Pendientes</p>
+            <h3 className="text-2xl font-bold text-gray-900">{metrics.pendingOrders}</h3>
+          </div>
+        </div>
+      </div>
+
+      {/* Filters Bar */}
+      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
           {/* Status Filter */}
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -156,11 +198,11 @@ export default function AdminOrders() {
           </div>
 
           {/* Search Bar */}
-          <div className="relative w-full sm:w-64">
+          <div className="relative w-full md:w-80">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input 
               type="text" 
-              placeholder="Buscar ID, Cliente, DNI..." 
+              placeholder="Buscar ID, Cliente, DNI, Ciudad..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
@@ -242,52 +284,79 @@ export default function AdminOrders() {
                       {/* Fila expandible con detalles */}
                       {isExpanded && (
                         <tr>
-                          <td colSpan={7} className="px-6 py-4 bg-gray-50/50 border-b border-gray-200">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
-                              {/* Productos */}
-                              <div>
-                                <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                                  <Package className="w-4 h-4 text-gray-400" />
-                                  Productos Comprados
-                                </h4>
-                                <ul className="space-y-2">
-                                  {order.items?.map((item: any, idx: number) => (
-                                    <li key={idx} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-0 text-gray-600">
-                                      <div className="flex items-center gap-3">
-                                        <span className="font-medium text-gray-900 px-2 py-0.5 bg-gray-200 rounded text-xs">{item.quantity}x</span>
-                                        <span className="truncate max-w-[200px]">{item.title}</span>
+                          <td colSpan={7} className="px-6 py-6 bg-gray-50/80 border-b border-gray-200 shadow-inner">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 text-sm mx-4">
+                                  {/* Products */}
+                                  <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm col-span-1 md:col-span-2 lg:col-span-1 h-full">
+                                    <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-2">
+                                      <Package className="w-5 h-5 text-gray-400" />
+                                      Productos Comprados
+                                    </h4>
+                                    <ul className="space-y-3">
+                                      {order.items?.map((item: any, idx: number) => (
+                                        <li key={idx} className="flex justify-between items-start py-2 border-b border-gray-50 last:border-0 text-gray-600">
+                                          <div className="flex items-start gap-3">
+                                            <span className="font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded text-xs mt-0.5 whitespace-nowrap">{item.quantity}x</span>
+                                            <div>
+                                              <span className="line-clamp-2 text-gray-800 font-medium">{item.title}</span>
+                                              {item.color && <span className="text-xs text-gray-500 block mt-1">Color: {item.color}</span>}
+                                            </div>
+                                          </div>
+                                          <span className="font-medium text-gray-900 whitespace-nowrap ml-4">${(item.price * item.quantity).toFixed(2)}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <div className="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center text-gray-900">
+                                      <span className="font-medium">Total de la Orden</span>
+                                      <span className="text-lg font-bold">
+                                        ${typeof order.total === 'number' ? order.total.toFixed(2) : order.total}
+                                      </span>
+                                    </div>
+                                  </div>
+    
+                                  {/* Shipping */}
+                                  <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm col-span-1 h-full">
+                                    <h4 className="font-semibold text-gray-900 mb-4 flex items-center gap-2 border-b border-gray-100 pb-2">
+                                      <Truck className="w-5 h-5 text-gray-400" />
+                                      Datos de Envío y Cliente
+                                    </h4>
+                                    <div className="text-sm text-gray-600 space-y-3">
+                                      <div>
+                                        <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Cliente</p>
+                                        <p className="font-medium text-gray-900">{order.shipping?.firstName} {order.shipping?.lastName}</p>
+                                        <p className="text-gray-500">{order.shipping?.dni ? `DNI/CUIL: ${order.shipping.dni}` : ""}</p>
                                       </div>
-                                      <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-
-                              {/* Envío */}
-                              <div>
-                                <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                                  <Truck className="w-4 h-4 text-gray-400" />
-                                  Detalles de Envío
-                                </h4>
-                                <div className="bg-white p-4 rounded-lg border border-gray-200 text-gray-600 space-y-1">
-                                  <p><span className="font-medium text-gray-900">Nombre:</span> {order.shipping?.firstName} {order.shipping?.lastName}</p>
-                                  <p><span className="font-medium text-gray-900">DNI/CUIL:</span> {order.shipping?.dni || "N/A"}</p>
-                                  <p><span className="font-medium text-gray-900">Teléfono:</span> {order.shipping?.phone}</p>
-                                  <div className="w-full h-px bg-gray-100 my-2" />
-                                  <p><span className="font-medium text-gray-900">Dirección:</span> {order.shipping?.address} {order.shipping?.floorApt ? `(Depto: ${order.shipping.floorApt})` : ""}</p>
-                                  <p><span className="font-medium text-gray-900">Locación:</span> {order.shipping?.city}, {order.shipping?.province} ({order.shipping?.postalCode})</p>
-                                  
-                                  {order.reference && (
-                                    <>
-                                      <div className="w-full h-px bg-gray-100 my-2" />
-                                      <p className="text-blue-700 bg-blue-50 px-2 py-1 rounded-md inline-block">
-                                        <span className="font-bold border-b border-blue-200">Referencia Transferencia:</span> <br />{order.reference}
-                                      </p>
-                                    </>
-                                  )}
+                                      
+                                      <div>
+                                        <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Contacto</p>
+                                        {order.shipping?.phone && (
+                                          <p className="flex items-center gap-2">
+                                            {order.shipping.phone} 
+                                            <a href={`https://wa.me/${order.shipping.phone.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 ml-1 inline-flex items-center gap-1 text-xs font-medium bg-green-50 px-2 py-0.5 rounded-full transition-colors">
+                                              <MessageCircle className="w-3 h-3" /> WhatsApp
+                                            </a>
+                                          </p>
+                                        )}
+                                        {/* If we had email in schema we'd show it here. Add placeholder if we want. */}
+                                      </div>
+                                      
+                                      <div>
+                                        <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Dirección</p>
+                                        <p className="font-medium text-gray-900">{order.shipping?.address} {order.shipping?.floorApt ? `(Depto: ${order.shipping.floorApt})` : ""}</p>
+                                        <p>{order.shipping?.city}, {order.shipping?.province} ({order.shipping?.postalCode})</p>
+                                      </div>
+                                      
+                                      {order.reference && (
+                                        <div className="mt-4 pt-3 border-t border-gray-100">
+                                          <p className="text-xs font-bold text-blue-800 uppercase tracking-wider mb-1">Referencia Transferencia</p>
+                                          <p className="font-mono bg-blue-50 text-blue-900 p-2 rounded border border-blue-100 text-xs break-all">
+                                            {order.reference}
+                                          </p>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
                           </td>
                         </tr>
                       )}
