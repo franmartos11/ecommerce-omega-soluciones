@@ -23,6 +23,7 @@ export async function POST(req: Request) {
       items: body.cartItems,
       shipping: body.shippingData,
       payment_method: body.paymentMethod || "unknown", // Nota: snake_case para db
+      user_email: body.userEmail || null, // Guardamos el usuario logueado
       total: total,
       status: "pendiente",
       // created_at y updated_at los maneja postgres automáticamente via defaults

@@ -7,12 +7,14 @@ import ProductCardGrid, {
 } from "@/components/ProductCardGrid/ProductCardGrid";
 import Navbar from "@/components/NavigationBar/NavBar";
 import Footer from "@/components/Footer/Footer";
+import ProductReviews from "@/components/ProductReviews/ProductReviews";
 import { motion, AnimatePresence } from "framer-motion";
 import { addToCart } from "@/utils/CartUtils";
 
 interface DetailProducts extends Product {
   description: string;
   stock: number;
+  sku?: string;
   tags: string[];
   mfg: string;
   life: string;
@@ -33,6 +35,7 @@ export default function ProductoDetailPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [apiError, setApiError] = useState<string | null>(null);
   const [relatedError, setRelatedError] = useState<string | null>(null);
+  const [averageRating, setAverageRating] = useState<number | null>(null);
 
   const thumbnails = product 
     ? [product.imageUrl, ...(product.galleryUrls || [])].filter(url => Boolean(url))
@@ -72,6 +75,14 @@ export default function ProductoDetailPage() {
           const data: DetailProducts = await res.json();
           setProduct(data);
           setSelectedImage(data.imageUrl ?? null);
+
+          // Obtener dinámicamente el promedio real de las reseñas en cuanto carga
+          fetch(`/api/products/${encodeURIComponent(productId)}/reviews`)
+            .then(r => r.json())
+            .then(d => {
+              if (d.averageRating) setAverageRating(d.averageRating);
+            }).catch(() => {});
+
         } else {
           setApiError(`No se encontró el producto (status ${res.status}).`);
         }
@@ -176,12 +187,12 @@ export default function ProductoDetailPage() {
       <section className="px-6 py-10 max-w-6xl mx-auto">
         {/* Mensajes de fallo */}
         {apiError && (
-          <div className="mb-4 text-sm text-yellow-700 bg-yellow-100 p-2 rounded">
+          <div className="mb-4 text-sm p-2 rounded" style={{ background: 'var(--surface, #fefce8)', color: 'var(--accent-warning, #a16207)' }}>
             {apiError}
           </div>
         )}
         {relatedError && (
-          <div className="mb-4 text-sm text-yellow-700 bg-yellow-100 p-2 rounded">
+          <div className="mb-4 text-sm p-2 rounded" style={{ background: 'var(--surface, #fefce8)', color: 'var(--accent-warning, #a16207)' }}>
             {relatedError}
           </div>
         )}
@@ -250,7 +261,7 @@ export default function ProductoDetailPage() {
               className="text-sm"
               style={{ color: "var(--accent-warning, #eab308)" }}
             >
-              ★ {product.rating} (32 reviews)
+              ★ {averageRating || product.rating}
             </p>
 
             <div className="flex items-center gap-3">
@@ -322,7 +333,7 @@ export default function ProductoDetailPage() {
               <p>
                 <strong>SKU:</strong>{" "}
                 <span style={{ color: "var(--color-secondary-text)" }}>
-                  FWM15VKT
+                  {product.sku || 'N/A'}
                 </span>
               </p>
               <p>
@@ -373,8 +384,16 @@ export default function ProductoDetailPage() {
           </p>
         </div>
 
+        {/* Sección de Reseñas de Clientes */}
+        <ProductReviews productId={product.id} />
+
         {/* ProductCardGrid recibe un array: relatedProducts */}
-        {relatedProducts.length > 0 && <ProductCardGrid products={relatedProducts} />}
+        {relatedProducts.length > 0 && (
+          <div className="mt-12 mb-8 border-t pt-8" style={{ borderColor: "var(--border, #e5e7eb)" }}>
+            <h2 className="text-xl font-bold mb-6" style={{ color: "var(--color-primary-text)" }}>También te podría interesar...</h2>
+            <ProductCardGrid products={relatedProducts} />
+          </div>
+        )}
       </section>
 
       <AnimatePresence>

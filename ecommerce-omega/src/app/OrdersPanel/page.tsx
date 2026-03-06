@@ -20,58 +20,43 @@ type Order = {
 
 export default function OrdersPanel() {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   useEffect(() => {
-    const mockOrders: Order[] = [
-      {
-        id: "a1b2c3d4e5",
-        date: "2025-05-14T13:45:00Z",
-        total: 12345.67,
-        status: "pagado",
-        items: [
-          { id: "prod001", title: "Zapatillas Urbanas", price: 4500, quantity: 2 },
-          { id: "prod002", title: "Campera Impermeable", price: 3350, quantity: 1 },
-        ],
-        shipping: {
-          firstName: "Juan", lastName: "Pérez", address: "Av. Siempre Viva 742",
-          city: "Córdoba", province: "Córdoba", postalCode: "5000",
-          phone: "+54 9 351 1234567",
-        },
-        paymentMethod: "mercadopago",
-      },
-      {
-        id: "f6g7h8i9j0",
-        date: "2025-05-10T09:20:00Z",
-        total: 7890,
-        status: "enviado",
-        items: [
-          { id: "prod010", title: "Remera básica blanca", price: 1500, quantity: 2 },
-          { id: "prod011", title: "Jeans Azul Slim", price: 4890, quantity: 1 },
-        ],
-        shipping: {
-          firstName: "Lucía", lastName: "González", address: "Calle Falsa 123",
-          city: "Rosario", province: "Santa Fe", postalCode: "2000",
-          phone: "+54 9 341 7654321",
-        },
-        paymentMethod: "transfer",
-      },
-      {
-        id: "z9y8x7w6v5",
-        date: "2025-04-30T16:00:00Z",
-        total: 2150,
-        status: "pendiente",
-        items: [{ id: "prod020", title: "Gorra Bordada Negra", price: 2150, quantity: 1 }],
-        shipping: {
-          firstName: "Martín", lastName: "Ruiz", address: "Ruta 9 km 312",
-          city: "Villa María", province: "Córdoba", postalCode: "5900",
-          phone: "+54 9 353 4567890",
-        },
-        paymentMethod: "local",
-      },
-    ];
+    async function loadOrders() {
+      try {
+        const storedUser = localStorage.getItem("userLoggedIn");
+        if (!storedUser) {
+          setLoading(false);
+          return;
+        }
 
-    setOrders(mockOrders);
+        const user = JSON.parse(storedUser);
+        const res = await fetch(`/api/user/orders?email=${encodeURIComponent(user.email)}`);
+
+        if (res.ok) {
+          const data = await res.json();
+          // Map DB response to expected structure
+          const formattedOrders = data.map((o: any) => ({
+            id: o.id,
+            date: o.created_at,
+            total: o.total,
+            status: o.status,
+            items: o.items || [],
+            shipping: o.shipping || {},
+            paymentMethod: o.payment_method,
+          }));
+          setOrders(formattedOrders);
+        }
+      } catch (err) {
+        console.error("Error loading orders", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadOrders();
   }, []);
 
   const statusColor = (s: Order["status"]): React.CSSProperties => {
@@ -102,10 +87,13 @@ export default function OrdersPanel() {
           Mis Compras
         </h2>
 
-        {orders.length === 0 ? (
-          <p style={{ color: "var(--color-secondary-text)" }}>
-            No realizaste compras aún.
-          </p>
+        {loading ? (
+          <p style={{ color: "var(--color-secondary-text)" }}>Cargando historial...</p>
+        ) : orders.length === 0 ? (
+          <div className="text-center py-20 rounded-xl border shadow-sm" style={{ background: 'var(--surface, #ffffff)', borderColor: 'var(--border, #f3f4f6)' }}>
+            <h3 className="text-xl font-medium mb-3" style={{ color: 'var(--color-primary-text)' }}>No hay compras registradas</h3>
+            <p className="max-w-sm mx-auto text-sm" style={{ color: 'var(--color-secondary-text)' }}>Parece que aún no has comprado nada con nosotros, o estabas como invitado. ¡Anímate a explorar la tienda!</p>
+          </div>
         ) : (
           <div className="grid gap-6">
             {orders.map((order) => (

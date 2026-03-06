@@ -52,6 +52,22 @@ export async function signOut() {
   if (error) throw error;
 }
 
+// 👉 Iniciar sesión con Google (OAuth)
+export async function signInWithGoogle() {
+  const redirectTo =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/auth/callback`
+      : "/auth/callback";
+
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo },
+  });
+
+  if (error) throw error;
+}
+
+
 // 👉 Enviar email de recuperación de contraseña
 export async function sendResetEmail(email: string, continueUrl: string) {
   const { error } = await supabase.auth.resetPasswordForEmail(email, {

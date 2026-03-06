@@ -7,21 +7,66 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const relatedTo = searchParams.get('relatedTo');
+    let data: any[] = [];
 
-    let query = supabase
-      .from("products")
-      .select("*")
-      .eq("active", true) // Only fetch active products for the public storefront
-      .order("created_at", { ascending: false });
-
-    // If relatedTo is provided, exclude that product from the list
+    // --- NUEVO: Lógica de Productos Relacionados Inteligente ---
     if (relatedTo) {
-        query = query.neq("id", relatedTo).limit(4);
+      // 1. Obtener la categoría del producto actual
+      const { data: sourceProduct, error: sourceErr } = await supabase
+        .from("products")
+        .select("category")
+        .eq("id", relatedTo)
+        .single();
+        
+      if (sourceErr) console.warn("Related fetch source error:", sourceErr);
+      const sourceCategory = sourceProduct?.category;
+
+      let relatedProducts: any[] = [];
+
+      // 2. Si tiene categoría, buscar hasta 4 de la misma rama
+      if (sourceCategory) {
+        const { data: catMatches } = await supabase
+          .from("products")
+          .select("*")
+          .eq("active", true)
+          .eq("category", sourceCategory)
+          .neq("id", relatedTo)  // No mostrar el mismo producto
+          .limit(4);
+          
+        if (catMatches) relatedProducts = catMatches;
+      }
+
+      // 3. Rellenar si faltan para llegar a 4 (fallback a los más nuevos)
+      if (relatedProducts.length < 4) {
+        const needed = 4 - relatedProducts.length;
+        const excludedIds = [relatedTo, ...relatedProducts.map(p => p.id)];
+        
+        const { data: fallbackMatches } = await supabase
+          .from("products")
+          .select("*")
+          .eq("active", true)
+          .not("id", "in", `(${excludedIds.join(',')})`)
+          .order("created_at", { ascending: false })
+          .limit(needed);
+          
+        if (fallbackMatches) {
+          relatedProducts = [...relatedProducts, ...fallbackMatches];
+        }
+      }
+
+      data = relatedProducts;
+    } else {
+      // --- Lógica Normal Diaria ---
+      const query = supabase
+        .from("products")
+        .select("*")
+        .eq("active", true) // Only fetch active products for the public storefront
+        .order("created_at", { ascending: false });
+
+      const res = await query;
+      data = res.data || [];
+      if (res.error) throw res.error;
     }
-
-    const { data, error } = await query;
-
-    if (error) throw error;
     
     // Map from snake_case to camelCase
     // We add placeholder default values for missing DB columns required by frontend UI

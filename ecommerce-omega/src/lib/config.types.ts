@@ -194,7 +194,7 @@ export type Config = {
     timezone?: string;
   };
 
-  Logo?: { src: string; alt: string };
+  Logo?: { src: string; alt: string; favicon?: string };
   NumTelefonoSoporte?: string;
 
   Categorias: Categoria[];

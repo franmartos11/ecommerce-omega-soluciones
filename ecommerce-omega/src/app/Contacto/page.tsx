@@ -4,7 +4,7 @@ import ContactCardImg from "./ContactCardImg";
 
 export default function Contact() {
     return (
-        <div className="bg-white min-h-screen p-8 pb-0 font-[family-name:var(--font-geist-sans)]">
+        <div className="min-h-screen pb-0 font-[family-name:var(--font-geist-sans)]" style={{ background: "var(--bgweb)" }}>
                 <Navbar/>
                 <ContactCardImg/>
                 <Footer/>

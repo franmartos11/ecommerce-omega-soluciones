@@ -42,6 +42,10 @@ export async function generateMetadata(): Promise<Metadata> {
       locale: cfg.sitio?.idioma ?? "es",
       siteName: cfg.sitio?.nombre ?? titulo,
     },
+    icons: {
+      icon: cfg.Logo?.favicon || "/favicon.ico",
+      apple: cfg.Logo?.favicon || "/favicon.ico",
+    },
     metadataBase: safeMetadataBase(cfg.sitio?.dominio),
   };
 }
@@ -80,7 +84,7 @@ export default async function RootLayout({
   return (
     <html lang={lang} suppressHydrationWarning>
       <head />
-      <body>
+      <body suppressHydrationWarning>
         {/* Variables de tema desde config (solo Colores.vars + defaults) */}
         <style suppressHydrationWarning>{`
           :root{

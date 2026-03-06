@@ -39,6 +39,7 @@ CREATE TABLE public.orders (
   total NUMERIC NOT NULL,
   items JSONB NOT NULL,
   shipping JSONB NOT NULL,
+  user_email TEXT,
   reference TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::TEXT, NOW()),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::TEXT, NOW())
@@ -179,3 +180,23 @@ CREATE POLICY "Permitir all settings a admin" ON public.site_settings FOR ALL US
 INSERT INTO public.site_settings (key, value) 
 VALUES ('hero_banners', '["/banner1.webp", "/banner2.webp", "/banner3.webp"]'::jsonb)
 ON CONFLICT (key) DO NOTHING;
+
+-- ==========================================
+
+-- 8. Reseñas de Productos (Reviews)
+CREATE TABLE IF NOT EXISTS public.reviews (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  product_id UUID REFERENCES public.products(id) ON DELETE CASCADE,
+  user_name TEXT NOT NULL,
+  rating INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  comment TEXT,
+  status TEXT DEFAULT 'approved', -- 'approved', 'pending', 'rejected'
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::TEXT, NOW())
+);
+
+ALTER TABLE public.reviews ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public reviews are viewable by everyone" ON public.reviews FOR SELECT USING (status = 'approved');
+CREATE POLICY "Anyone can insert a review" ON public.reviews FOR INSERT WITH CHECK (true);
+CREATE POLICY "Admin update reviews" ON public.reviews FOR UPDATE USING (true);
+CREATE POLICY "Admin delete reviews" ON public.reviews FOR DELETE USING (true);
+

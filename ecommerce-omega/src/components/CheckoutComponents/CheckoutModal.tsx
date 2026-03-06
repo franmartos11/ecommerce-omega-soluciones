@@ -54,11 +54,22 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
   const handleConfirm = async () => {
     try {
-      // 1. Crear orden en tu backend
+      // 1. Obtener email del usuario si está logueado
+      let userEmail = null;
+      try {
+        const storedUser = localStorage.getItem("userLoggedIn");
+        if (storedUser) {
+          userEmail = JSON.parse(storedUser).email;
+        }
+      } catch (e) {
+        console.warn("Could not parse user logged in data", e);
+      }
+
+      // 2. Crear orden en tu backend
       const orderRes = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ shippingData, paymentMethod, cartItems }),
+        body: JSON.stringify({ shippingData, paymentMethod, cartItems, userEmail }),
       });
 
       if (!orderRes.ok) {
