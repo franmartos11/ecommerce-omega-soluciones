@@ -132,6 +132,7 @@ export function mapConfigProductsToUI(cfgProducts: unknown): Product[] {
       currentPrice,
       oldPrice,
       color,
+      stock: 0, // Mock stock as this is just UI config mapping
       condition,
       badge,
     };

@@ -27,6 +27,7 @@ type OrderData = {
     zip: string;
   };
   paymentMethod: string;
+  reference?: string;
   total: number;
   status: string;
   createdAt: string;

@@ -8,16 +8,57 @@ interface Props {
   shipping: ShippingData;
   paymentMethod: "mercadopago" | "local" | "transfer";
   cartItems: { id: string; title: string; price: number; quantity: number }[];
-  onConfirm: () => void;
+  shippingCost: number;
+  onConfirm: (couponData?: { code: string; amount: number }) => void;
 }
 
 export default function ReviewOrder({
   shipping,
   paymentMethod,
   cartItems,
+  shippingCost,
   onConfirm,
 }: Props) {
-  const total = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const [couponCode, setCouponCode] = React.useState("");
+  const [appliedCoupon, setAppliedCoupon] = React.useState<{ code: string; discount_type: string; discount_value: number } | null>(null);
+  const [couponError, setCouponError] = React.useState("");
+  const [validating, setValidating] = React.useState(false);
+
+  const subtotal = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+  let discountAmount = 0;
+  if (appliedCoupon) {
+    if (appliedCoupon.discount_type === "percentage") {
+      discountAmount = subtotal * (appliedCoupon.discount_value / 100);
+    } else {
+      discountAmount = appliedCoupon.discount_value;
+    }
+  }
+
+  const total = Math.max(0, subtotal - discountAmount) + shippingCost;
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    setValidating(true);
+    setCouponError("");
+    try {
+      const res = await fetch("/api/checkout/validate-coupon", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: couponCode }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Cupón inválido");
+      }
+      setAppliedCoupon(data);
+    } catch (err: any) {
+      setCouponError(err.message);
+      setAppliedCoupon(null);
+    } finally {
+      setValidating(false);
+    }
+  };
 
   const paymentLabels: Record<Props["paymentMethod"], string> = {
     mercadopago: "Mercado Pago",
@@ -100,10 +141,60 @@ export default function ReviewOrder({
           ))}
         </ul>
         
-        <div className="p-4 bg-gray-50/50 border-t border-gray-100">
-          <div className="flex justify-between items-center text-lg font-bold" style={{ color: "var(--color-primary-text)" }}>
-            <span>Total a pagar:</span>
-            <span className="text-xl">${total.toFixed(2)}</span>
+        <div className="p-4 bg-gray-50/50 border-t border-gray-100 flex flex-col gap-3">
+          {/* Formulario Cupón */}
+          {!appliedCoupon ? (
+            <div className="flex gap-2 items-center">
+              <input 
+                type="text"
+                placeholder="Código de descuento"
+                value={couponCode}
+                onChange={e => setCouponCode(e.target.value.toUpperCase().replace(/\s/g, ''))}
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 font-mono uppercase"
+              />
+              <button 
+                onClick={handleApplyCoupon}
+                disabled={validating || !couponCode}
+                className="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-900 disabled:opacity-50 transition"
+              >
+                {validating ? "Validando..." : "Aplicar"}
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center justify-between bg-green-50 border border-green-200 text-green-800 px-3 py-2 rounded-lg text-sm">
+              <span className="font-semibold flex items-center gap-1">
+                 <CheckCircle2 className="w-4 h-4 text-green-600" />
+                 Cupón aplicado: <span className="font-mono">{appliedCoupon.code}</span>
+              </span>
+              <button onClick={() => { setAppliedCoupon(null); setCouponCode(""); }} className="text-red-500 font-bold hover:underline">
+                 Quitar
+              </button>
+            </div>
+          )}
+          {couponError && <p className="text-red-500 text-xs font-medium">{couponError}</p>}
+
+          <div className="flex flex-col gap-1 mt-2">
+            <div className="flex justify-between items-center text-sm text-gray-500">
+              <span>Subtotal:</span>
+              <span>${subtotal.toFixed(2)}</span>
+            </div>
+            
+            {appliedCoupon && (
+              <div className="flex justify-between items-center text-sm font-semibold text-green-600">
+                <span>Descuento ({appliedCoupon.code}):</span>
+                <span>-${discountAmount.toFixed(2)}</span>
+              </div>
+            )}
+
+            <div className="flex justify-between items-center text-sm text-gray-500">
+              <span>Envío:</span>
+              <span>{shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'Gratis'}</span>
+            </div>
+
+            <div className="flex justify-between items-center text-lg font-bold mt-2" style={{ color: "var(--color-primary-text)" }}>
+              <span>Total a pagar:</span>
+              <span className="text-xl">${total.toFixed(2)}</span>
+            </div>
           </div>
         </div>
       </section>
@@ -111,7 +202,7 @@ export default function ReviewOrder({
       {/* Confirmar */}
       <div className="pt-2">
         <button
-          onClick={onConfirm}
+          onClick={() => onConfirm(appliedCoupon ? { code: appliedCoupon.code, amount: discountAmount } : undefined)}
           className="cursor-pointer group w-full flex items-center justify-center gap-3 py-4 rounded-xl font-bold text-lg transition-all transform hover:-translate-y-1 active:translate-y-0 active:scale-95 shadow-lg hover:shadow-xl hover:shadow-green-500/20"
           style={{
             color: "var(--color-tertiary-text, #fff)",

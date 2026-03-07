@@ -15,7 +15,7 @@ export async function GET(
 
     const { data, error } = await supabase
       .from("products")
-      .select("*")
+      .select("*, product_variants(*)")
       .eq("id", id)
       .eq("active", true)
       .single();
@@ -54,6 +54,7 @@ export async function GET(
       badgeText: data.badge_text || null,
       badgeColor: data.badge_color || null,
       condition: "New",
+      variants: data.product_variants || [],
       
       createdAt: data.created_at,
       updatedAt: data.updated_at

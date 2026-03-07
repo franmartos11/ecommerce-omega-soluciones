@@ -1,6 +1,8 @@
 // src/utils/cartUtils.ts
 export interface CartItem {
-    id: string;
+    id: string; // The unique cart item ID (can be productId-variantId)
+    productId?: string;
+    variantId?: string;
     title: string;
     imageUrl: string;
     price: number;

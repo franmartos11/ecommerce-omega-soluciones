@@ -5,7 +5,7 @@ import { getCart, clearCart } from "@/utils/CartUtils";
 import ShippingForm, { ShippingData } from "./ShippingForm";
 import PaymentForm from "./PaymentForm";
 import ReviewOrder from "./ReviewOrder";
-import { X, ArrowLeft, Check } from "lucide-react";
+import { X, ArrowLeft, Check, Loader2 } from "lucide-react";
 
 interface CheckoutModalProps {
   open: boolean;
@@ -18,6 +18,8 @@ type CartItem = {
   price: number;
   quantity: number;
   imageUrl?: string;
+  variantId?: string;
+  productId?: string;
 };
 
 export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
@@ -27,12 +29,15 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
     "mercadopago" | "local" | "transfer"
   >("mercadopago");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [provinceRates, setProvinceRates] = useState<Record<string, number>>({});
+  const [isLoadingRates, setIsLoadingRates] = useState(false);
 
   useEffect(() => {
     if (open) {
       setCartItems(getCart());
       setStep(1);
       document.body.style.overflow = "hidden"; // Prevent background scrolling
+      fetchRates();
     } else {
       document.body.style.overflow = "auto";
     }
@@ -41,6 +46,21 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
       document.body.style.overflow = "auto";
     };
   }, [open]);
+
+  const fetchRates = async () => {
+    try {
+      setIsLoadingRates(true);
+      const res = await fetch("/api/admin/shipping");
+      if (res.ok) {
+        const rates = await res.json();
+        setProvinceRates(rates);
+      }
+    } catch (e) {
+      console.error("Failed to fetch shipping rates", e);
+    } finally {
+      setIsLoadingRates(false);
+    }
+  };
 
   const handleShipping = (data: ShippingData) => {
     setShippingData(data);
@@ -52,8 +72,14 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
     setStep(3);
   };
 
-  const handleConfirm = async () => {
+  const handleConfirm = async (couponData?: { code: string; amount: number }) => {
     try {
+      // Calcular costo de envío dinámico
+      const shippingCost =
+        shippingData?.deliveryMethod === "shipping" && shippingData.province
+          ? provinceRates[shippingData.province] || 0
+          : 0;
+
       // 1. Obtener email del usuario si está logueado
       let userEmail = null;
       try {
@@ -69,7 +95,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
       const orderRes = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ shippingData, paymentMethod, cartItems, userEmail }),
+        body: JSON.stringify({ shippingData, paymentMethod, cartItems, userEmail, coupon: couponData, shippingCost }),
       });
 
       if (!orderRes.ok) {
@@ -90,7 +116,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
         const prefRes = await fetch("/api/payments/mercadopago", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ orderId, cartItems }),
+          body: JSON.stringify({ orderId, cartItems, coupon: couponData, shippingCost }),
         });
 
         if (!prefRes.ok) {
@@ -234,9 +260,8 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
             </button>
           )}
 
-          {/* Contenido por paso */}
           <div className="pb-4">
-            {step === 1 && <ShippingForm onNext={handleShipping} />}
+            {step === 1 && <ShippingForm onNext={handleShipping} provinceRates={provinceRates} />}
             {step === 2 && <PaymentForm onNext={handlePayment} />}
             {step === 3 && shippingData && (
               <ReviewOrder
@@ -244,6 +269,11 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
                 cartItems={cartItems}
                 paymentMethod={paymentMethod}
                 onConfirm={handleConfirm}
+                shippingCost={
+                  shippingData.deliveryMethod === "shipping" && shippingData.province
+                    ? provinceRates[shippingData.province] || 0
+                    : 0
+                }
               />
             )}
           </div>

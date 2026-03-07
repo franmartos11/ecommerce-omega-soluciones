@@ -61,6 +61,7 @@ export async function GET(req: Request) {
         .from("products")
         .select("*")
         .eq("active", true) // Only fetch active products for the public storefront
+        .gt("stock", 0) // Only fetch products with stock > 0
         .order("created_at", { ascending: false });
 
       const res = await query;

@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     console.log("Base URL que está usando:", process.env.NEXT_PUBLIC_BASE_URL);
 
     const body = await req.json();
-    const { orderId, cartItems }: { orderId: string; cartItems: CartItem[] } = body;
+    const { orderId, cartItems, coupon, shippingCost }: { orderId: string; cartItems: CartItem[]; coupon?: { code: string; amount: number }; shippingCost?: number } = body;
 
     if (!orderId || !cartItems || cartItems.length === 0) {
       return NextResponse.json(
@@ -39,15 +39,37 @@ export async function POST(req: Request) {
 
     const preference = new Preference(client);
 
+    const preferenceItems = cartItems.map((item) => ({
+      id: item.id,
+      title: item.title,
+      quantity: item.quantity,
+      currency_id: "ARS",
+      unit_price: item.price,
+    }));
+
+    if (coupon && coupon.amount > 0) {
+      preferenceItems.push({
+        id: "discount",
+        title: `Descuento Cupón (${coupon.code})`,
+        quantity: 1,
+        currency_id: "ARS",
+        unit_price: -Number(coupon.amount),
+      });
+    }
+
+    if (shippingCost && shippingCost > 0) {
+      preferenceItems.push({
+        id: "shipping",
+        title: "Costo de Envío",
+        quantity: 1,
+        currency_id: "ARS",
+        unit_price: Number(shippingCost),
+      });
+    }
+
     const result = await preference.create({
       body: {
-        items: cartItems.map((item) => ({
-          id: item.id,
-          title: item.title,
-          quantity: item.quantity,
-          currency_id: "ARS",
-          unit_price: item.price,
-        })),
+        items: preferenceItems,
         external_reference: orderId,
         back_urls: {
           success: `${baseUrl}/payment-success?orderId=${orderId}`,

@@ -22,6 +22,7 @@ interface DetailProducts extends Product {
   badgeText?: string | null;
   badgeColor?: string | null;
   galleryUrls?: string[];
+  variants?: any[];
 }
 
 
@@ -31,6 +32,7 @@ export default function ProductoDetailPage() {
   const [product, setProduct] = useState<DetailProducts | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<any>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -76,6 +78,10 @@ export default function ProductoDetailPage() {
           const data: DetailProducts = await res.json();
           setProduct(data);
           setSelectedImage(data.imageUrl ?? null);
+          
+          if (data.variants && data.variants.length > 0) {
+            setSelectedVariant(data.variants[0]);
+          }
 
           // Obtener dinámicamente el promedio real de las reseñas en cuanto carga
           fetch(`/api/products/${encodeURIComponent(productId)}/reviews`)
@@ -161,12 +167,21 @@ export default function ProductoDetailPage() {
 
   const handleAddToCart = () => {
     if (!product) return;
+    
+    const stockDisponible = selectedVariant !== null ? selectedVariant.stock : product.stock;
+    if (quantity > stockDisponible) {
+      alert("Lo sentimos, no hay suficiente stock disponible para esta cantidad.");
+      return;
+    }
+
     addToCart(
       {
-        id: product.id,
-        title: product.title,
+        id: selectedVariant ? `${product.id}-${selectedVariant.id}` : product.id,
+        productId: product.id,
+        variantId: selectedVariant?.id,
+        title: selectedVariant ? `${product.title} (${selectedVariant.name})` : product.title,
         imageUrl: product.imageUrl,
-        price: product.currentPrice,
+        price: selectedVariant?.price ? Number(selectedVariant.price) : product.currentPrice,
       },
       quantity
     );
@@ -277,9 +292,9 @@ export default function ProductoDetailPage() {
                 className="text-3xl font-bold"
                 style={{ color: "var(--color-primary-bg)" }}
               >
-                ${product.currentPrice}
+                ${selectedVariant?.price ? Number(selectedVariant.price) : product.currentPrice}
               </span>
-              {product.oldPrice > product.currentPrice && (
+              {(product.oldPrice > (selectedVariant?.price ? Number(selectedVariant.price) : product.currentPrice)) && (
                 <span
                   className="line-through text-sm"
                   style={{ color: "var(--color-secondary-text)" }}
@@ -295,6 +310,34 @@ export default function ProductoDetailPage() {
             >
               {product.description}
             </p>
+
+            {product.variants && product.variants.length > 0 && (
+              <div className="space-y-3 pt-2">
+                <label className="block text-sm font-semibold" style={{ color: "var(--color-primary-text)" }}>
+                  Opciones Disponibles:
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {product.variants.map((v) => {
+                    const isSelected = selectedVariant?.id === v.id;
+                    const outOfStock = v.stock <= 0;
+                    return (
+                      <button
+                        key={v.id}
+                        disabled={outOfStock}
+                        onClick={() => setSelectedVariant(v)}
+                        className={`px-4 py-2 text-sm rounded-lg border-2 transition-all ${
+                          isSelected
+                            ? "border-[var(--color-primary-bg)] bg-[var(--color-primary-bg)] text-[var(--color-tertiary-text)] font-semibold shadow-sm"
+                            : "border-gray-200 bg-white hover:border-gray-300 text-gray-700"
+                        } ${outOfStock ? "opacity-50 cursor-not-allowed bg-gray-100" : "cursor-pointer"}`}
+                      >
+                        {v.name} {outOfStock && "(Agotado)"}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             <div className="flex items-center gap-3">
               <label style={{ color: "var(--color-primary-text)" }}>

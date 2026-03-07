@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Package, Truck, Search, ChevronDown, ChevronUp, Filter, Calendar, DollarSign, ShoppingCart, Clock, Mail, MessageCircle, ArrowRight } from "lucide-react";
+import { Package, Truck, Search, ChevronDown, ChevronUp, Filter, Calendar, DollarSign, ShoppingCart, Clock, MessageCircle, Download, Printer } from "lucide-react";
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -47,6 +47,63 @@ export default function AdminOrders() {
     } catch (e) {
       console.error("Update error", e);
     }
+  };
+
+  // D: CSV Export
+  const handleExportCSV = () => {
+    const headers = ["ID Orden", "Cliente", "DNI", "Teléfono", "Dirección", "Ciudad", "Provincia", "CP", "Total", "Estado", "Fecha", "Método de Pago", "Referencia"];
+    const rows = filteredOrders.map(o => [
+      `#${o.id.slice(0, 8)}`,
+      `${o.shipping?.firstName || ""} ${o.shipping?.lastName || ""}`.trim(),
+      o.shipping?.dni || "",
+      o.shipping?.phone || "",
+      o.shipping?.address || "",
+      o.shipping?.city || "",
+      o.shipping?.province || "",
+      o.shipping?.postalCode || "",
+      typeof o.total === "number" ? o.total.toFixed(2) : o.total || "0",
+      o.status || "",
+      o.created_at ? new Date(o.created_at).toLocaleString("es-AR") : "",
+      o.paymentMethod || o.payment_method || "—",
+      o.reference || "",
+    ]);
+    const csvContent = [headers, ...rows]
+      .map(row => row.map(v => `"${String(v).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `ventas_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // C: Print Receipt
+  const handlePrint = (order: any) => {
+    const itemsHtml = (order.items || []).map((item: any) => `
+      <tr>
+        <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb">${item.quantity}x ${item.title}${item.color ? ` (${item.color})` : ""}</td>
+        <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;text-align:right">$${(item.price * item.quantity).toFixed(2)}</td>
+      </tr>`).join("");
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Comprobante #${order.id.slice(0,8)}</title>
+      <style>body{font-family:sans-serif;max-width:500px;margin:32px auto;color:#111}h1{font-size:18px;margin-bottom:4px}p{margin:2px 0;font-size:13px;color:#555}table{width:100%;border-collapse:collapse;margin-top:16px}th{text-align:left;padding:6px 8px;background:#f3f4f6;font-size:12px;border-bottom:2px solid #e5e7eb}.total{font-size:16px;font-weight:bold;text-align:right;padding-top:12px}@media print{body{margin:0}}</style>
+      </head><body>
+      <h1>Comprobante de Pedido</h1>
+      <p><strong>ID:</strong> #${order.id.slice(0,8)}</p>
+      <p><strong>Fecha:</strong> ${new Date(order.created_at).toLocaleString("es-AR")}</p>
+      <hr style="margin:12px 0;border:none;border-top:1px solid #e5e7eb">
+      <p><strong>Cliente:</strong> ${order.shipping?.firstName || ""} ${order.shipping?.lastName || ""}</p>
+      <p><strong>DNI/CUIL:</strong> ${order.shipping?.dni || "—"}</p>
+      <p><strong>Teléfono:</strong> ${order.shipping?.phone || "—"}</p>
+      <p><strong>Dirección:</strong> ${order.shipping?.address || ""} ${order.shipping?.floorApt ? `(Depto: ${order.shipping.floorApt})` : ""}</p>
+      <p><strong>Localidad:</strong> ${order.shipping?.city || ""}, ${order.shipping?.province || ""} (${order.shipping?.postalCode || ""})</p>
+      ${order.reference ? `<p><strong>Ref. Transferencia:</strong> ${order.reference}</p>` : ""}
+      <table><thead><tr><th>Producto</th><th style="text-align:right">Subtotal</th></tr></thead><tbody>${itemsHtml}</tbody></table>
+      <p class="total">Total: $${typeof order.total === "number" ? order.total.toFixed(2) : order.total}</p>
+      <script>window.onload=()=>{window.print();setTimeout(()=>window.close(),500)}</script></body></html>`;
+    const w = window.open("", "_blank", "width=600,height=700");
+    if (w) { w.document.write(html); w.document.close(); }
   };
 
   const getStatusColor = (status: string) => {
@@ -118,6 +175,14 @@ export default function AdminOrders() {
             Gestiona los pedidos, verifica estados y contacta a tus clientes rápidamente.
           </p>
         </div>
+        <button
+          onClick={handleExportCSV}
+          disabled={filteredOrders.length === 0}
+          className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 shadow-sm transition-colors disabled:opacity-40 shrink-0"
+        >
+          <Download className="w-4 h-4" />
+          Exportar CSV
+        </button>
       </div>
 
       {/* Metrics Cards */}
@@ -271,13 +336,23 @@ export default function AdminOrders() {
                           </select>
                         </td>
                         <td className="px-6 py-4 text-right">
-                          <button 
-                            onClick={() => setExpandedOrderId(isExpanded ? null : order.id)}
-                            className="text-blue-600 hover:text-blue-800 font-medium text-xs flex items-center justify-end gap-1 ml-auto"
-                          >
-                            Detalles
-                            {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                          </button>
+                          <div className="flex flex-col items-end gap-1">
+                            <button 
+                              onClick={() => setExpandedOrderId(isExpanded ? null : order.id)}
+                              className="text-blue-600 hover:text-blue-800 font-medium text-xs flex items-center gap-1"
+                            >
+                              Detalles
+                              {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                            </button>
+                            <button
+                              onClick={() => handlePrint(order)}
+                              className="text-gray-500 hover:text-gray-800 font-medium text-xs flex items-center gap-1 transition-colors"
+                              title="Imprimir comprobante"
+                            >
+                              <Printer className="w-3.5 h-3.5" />
+                              Imprimir
+                            </button>
+                          </div>
                         </td>
                       </tr>
                       

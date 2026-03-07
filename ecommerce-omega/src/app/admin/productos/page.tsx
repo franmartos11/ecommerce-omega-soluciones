@@ -23,6 +23,7 @@ type Product = {
   badgeText?: string;
   badgeColor?: string;
   galleryUrls?: string[];
+  variants?: any[];
   createdAt: string;
 };
 
@@ -61,6 +62,7 @@ export default function AdminProductsPage() {
     color: "",
     badgeText: "",
     badgeColor: "bg-red-500 text-white",
+    variants: [] as any[],
     active: true,
   });
 
@@ -121,6 +123,7 @@ export default function AdminProductsPage() {
         badgeText: product.badgeText || "",
         badgeColor: product.badgeColor || "bg-red-500 text-white",
         galleryUrls: product.galleryUrls || [],
+        variants: product.variants || [],
         active: product.active,
       });
       setImagePreview(product.imageUrl || null);
@@ -143,6 +146,7 @@ export default function AdminProductsPage() {
         color: "",
         badgeText: "",
         badgeColor: "bg-red-500 text-white",
+        variants: [],
         active: true,
       });
       setImagePreview(null);
@@ -227,6 +231,7 @@ export default function AdminProductsPage() {
       tags: formData.tags.split(",").map(t => t.trim()).filter(Boolean),
       imageUrl: finalImageUrl,
       galleryUrls: finalGalleryUrls,
+      variants: formData.variants,
       id: editingId || undefined, // Only pass ID if updating
     };
 
@@ -626,6 +631,52 @@ export default function AdminProductsPage() {
                        </span>
                      </div>
                    )}
+                </div>
+
+                {/* Row 5: Variants */}
+                <div className="pt-4 border-t border-gray-100 mt-6 pb-2">
+                  <div className="flex justify-between items-center mb-3">
+                    <label className="block text-sm font-semibold text-gray-700">Variantes del Producto</label>
+                    <button
+                      type="button"
+                      onClick={() => setFormData((prev) => ({ ...prev, variants: [...prev.variants, { id: "", name: "", sku: "", price: "", stock: "0" }] }))}
+                      className="text-sm text-blue-600 font-medium hover:text-blue-700 flex items-center gap-1 bg-blue-50 px-3 py-1.5 rounded-md"
+                    >
+                      <Plus className="w-4 h-4" /> Añadir Variante
+                    </button>
+                  </div>
+                  
+                  {formData.variants.length === 0 ? (
+                    <p className="text-xs text-gray-400 italic">No hay variantes configuradas. Usa el botón superior para agregar opciones de talles, colores o sabores únicos.</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {formData.variants.map((v, idx) => (
+                        <div key={idx} className="flex gap-2 items-center bg-gray-50 p-3 rounded-lg border border-gray-200 shadow-sm">
+                          <div className="flex-1 grid grid-cols-2 lg:grid-cols-4 gap-3">
+                            <div>
+                              <label className="block text-xs font-medium text-gray-600 mb-1">Nombre *</label>
+                              <input required type="text" placeholder="Ej. Talle L" className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm" value={v.name || ""} onChange={(e) => { const n = [...formData.variants]; n[idx].name = e.target.value; setFormData({...formData, variants: n}) }} />
+                            </div>
+                            <div>
+                              <label className="block text-xs font-medium text-gray-600 mb-1">SKU</label>
+                              <input type="text" placeholder="Opcional" className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm" value={v.sku || ""} onChange={(e) => { const n = [...formData.variants]; n[idx].sku = e.target.value; setFormData({...formData, variants: n}) }} />
+                            </div>
+                            <div>
+                              <label className="block text-xs font-medium text-gray-600 mb-1">Precio Opcional</label>
+                              <input type="number" step="0.01" placeholder="Solo si cambia" className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm" value={v.price || ""} onChange={(e) => { const n = [...formData.variants]; n[idx].price = e.target.value; setFormData({...formData, variants: n}) }} />
+                            </div>
+                            <div>
+                              <label className="block text-xs font-medium text-gray-600 mb-1">Stock *</label>
+                              <input required type="number" placeholder="Ej. 10" className="w-full border border-gray-300 rounded px-2 py-1.5 text-sm" value={v.stock || ""} onChange={(e) => { const n = [...formData.variants]; n[idx].stock = e.target.value; setFormData({...formData, variants: n}) }} />
+                            </div>
+                          </div>
+                          <button type="button" onClick={() => { const n = [...formData.variants]; n.splice(idx, 1); setFormData({...formData, variants: n}); }} className="mt-5 p-1.5 text-red-500 hover:bg-red-100 rounded transition-colors" title="Remove variant">
+                            <Trash2 className="w-5 h-5" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-3">

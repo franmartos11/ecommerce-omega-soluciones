@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const { data, error } = await supabase
       .from("products")
-      .select("*")
+      .select("*, product_variants(*)")
       .order("id", { ascending: false });
 
     if (error) throw error;
@@ -32,6 +32,7 @@ export async function GET() {
       galleryUrls: item.gallery_urls,
       category: item.category,
       active: item.active,
+      variants: item.product_variants || [],
       createdAt: item.created_at,
     }));
 
@@ -77,11 +78,28 @@ export async function POST(req: Request) {
 
     if (error) throw error;
 
+    // Handle variants if any are provided
+    if (body.variants && Array.isArray(body.variants) && body.variants.length > 0) {
+      const variantsToInsert = body.variants.map((v: any) => ({
+        product_id: data.id,
+        name: v.name,
+        sku: v.sku || null,
+        price: v.price || null,
+        stock: v.stock || 0,
+      }));
+
+      const { error: variantError } = await supabase
+        .from("product_variants")
+        .insert(variantsToInsert);
+
+      if (variantError) throw variantError;
+    }
+
     return NextResponse.json({ success: true, product: data }, { status: 201 });
-  } catch (error) {
+  } catch (error: any) {
     console.error("[POST /api/admin/products] Error creating product:", error);
     return NextResponse.json(
-      { error: "Error al crear producto." },
+      { error: "Error al crear producto.", details: error.message || String(error) },
       { status: 500 }
     );
   }
@@ -130,6 +148,45 @@ export async function PUT(req: Request) {
       .eq("id", id);
 
     if (error) throw error;
+
+    // Handle variants sync if provided
+    if (body.variants !== undefined) {
+      if (!Array.isArray(body.variants) || body.variants.length === 0) {
+        // If empty array, delete all variants
+        await supabase.from("product_variants").delete().eq("product_id", id);
+      } else {
+        // Get existing variants
+        const { data: existingVariants } = await supabase
+          .from("product_variants")
+          .select("id")
+          .eq("product_id", id);
+
+        const existingIds = existingVariants?.map((v) => v.id) || [];
+        const incomingIds = body.variants.filter((v: any) => v.id).map((v: any) => v.id);
+
+        // Delete variants that are no longer in the payload
+        const idsToDelete = existingIds.filter((eid) => !incomingIds.includes(eid));
+        if (idsToDelete.length > 0) {
+          await supabase.from("product_variants").delete().in("id", idsToDelete);
+        }
+
+        // Upsert variants
+        const variantsToUpsert = body.variants.map((v: any) => ({
+          ...(v.id ? { id: v.id } : {}), // only include id if it exists
+          product_id: id,
+          name: v.name,
+          sku: v.sku || null,
+          price: v.price || null,
+          stock: v.stock || 0,
+        }));
+
+        const { error: variantError } = await supabase
+          .from("product_variants")
+          .upsert(variantsToUpsert);
+
+        if (variantError) throw variantError;
+      }
+    }
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
