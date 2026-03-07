@@ -18,10 +18,12 @@ import SearchBar from "./SereachBar";
 import { toast } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { getCart } from "@/utils/CartUtils";
+import { supabase } from "@/app/lib/supabase/client";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [user, setUser] = useState<{ email: string } | null>(null);
+  const { user } = useAuth();
   const [cartCount, setCartCount] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,12 +43,6 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("userLoggedIn");
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch {}
-    }
     refreshCartCount();
 
     const onStorage = (e: StorageEvent) => {
@@ -56,6 +52,7 @@ export default function Navbar() {
 
     window.addEventListener("storage", onStorage);
     window.addEventListener("cartUpdated", onCartUpdated as EventListener);
+
     return () => {
       window.removeEventListener("storage", onStorage);
       window.removeEventListener("cartUpdated", onCartUpdated as EventListener);
@@ -80,16 +77,14 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showDropdown]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setLoading(true);
-    setTimeout(() => {
-      localStorage.removeItem("userLoggedIn");
-      setUser(null);
-      setShowDropdown(false);
-      setLoading(false);
-      toast.success("Sesión cerrada correctamente");
-      router.push("/");
-    }, 800);
+    await supabase.auth.signOut();
+    localStorage.removeItem("userLoggedIn");
+    setShowDropdown(false);
+    setLoading(false);
+    toast.success("Sesión cerrada correctamente");
+    router.push("/");
   };
 
   return (

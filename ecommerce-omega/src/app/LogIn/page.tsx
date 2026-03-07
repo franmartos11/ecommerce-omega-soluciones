@@ -86,6 +86,8 @@ export default function LoginForm() {
         ? "Credenciales incorrectas"
         : msg.includes("Email not confirmed")
         ? "Por favor confirmá tu correo electrónico primero."
+        : msg.toLowerCase().includes('rate limit')
+        ? "Servidor saturado (límite de correos). Intentá más tarde."
         : "Error al iniciar sesión";
       setErrors(prev => ({ ...prev, api: display }));
       setShake(true);

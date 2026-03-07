@@ -783,7 +783,7 @@ export default function AdminProductsPage() {
                     type="file"
                     ref={galleryInputRef}
                     onChange={handleGalleryChange}
-                    accept="image/*"
+                    accept="image/jpeg, image/png, image/webp, image/gif"
                     multiple
                     className="hidden"
                   />

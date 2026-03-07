@@ -78,13 +78,15 @@ export default function RegisterForm() {
     setLoading(true);
     try {
       await signUpEmail({ email: form.email, password: form.password, displayName: form.name });
-      router.push('/LogIn');
+      router.push('/');
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : "";
       if (msg.includes('already registered')) setErrors({ api: 'Ese email ya está registrado.' });
       else if (msg.includes('invalid email')) setErrors({ api: 'Email inválido.' });
       else if (msg.includes('weak password') || msg.includes('Password should be'))
         setErrors({ api: 'Contraseña demasiado débil.' });
+      else if (msg.toLowerCase().includes('rate limit'))
+        setErrors({ api: 'Se ha excedido el límite de envíos de correo del servidor. Por favor, intentá más tarde.' });
       else setErrors({ api: 'Ocurrió un error en el registro.' });
     } finally {
       setLoading(false);

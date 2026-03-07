@@ -94,7 +94,7 @@ const ProductCard: FC<ProductCardProps> = ({
 
       <div className="rounded-md p-2">
         <img
-          src={imageUrl}
+          src={imageUrl || undefined}
           alt={title}
           className="w-full h-40 object-contain mx-auto"
         />
