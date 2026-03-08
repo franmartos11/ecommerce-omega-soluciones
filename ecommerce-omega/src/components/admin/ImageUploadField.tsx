@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import NextImage from "next/image";
 import { Image as ImageIcon, Loader2 } from "lucide-react";
 import { supabase } from "@/app/lib/supabase/client";
 
@@ -26,7 +27,7 @@ export function ImageUploadField({ label, subtitle, value, onChange }: ImageUplo
 
       const { data } = supabase.storage.from('products').getPublicUrl(fileName);
       onChange(data.publicUrl);
-    } catch (err) {
+    } catch {
       alert("Hubo un error subiendo la imagen.");
     } finally {
       setIsUploading(false);
@@ -38,7 +39,7 @@ export function ImageUploadField({ label, subtitle, value, onChange }: ImageUplo
     <div className="border border-gray-200 rounded-xl p-4 bg-gray-50 flex flex-col sm:flex-row gap-6 items-start sm:items-center">
       <div className="w-full sm:w-32 h-24 bg-gray-200 rounded-lg flex-shrink-0 flex justify-center items-center overflow-hidden border border-gray-300 relative group">
         {value ? (
-          <img src={value} alt="Preview" className="w-full h-full object-contain p-2" />
+          <NextImage src={value} alt="Preview" fill className="object-contain p-2" unoptimized />
         ) : (
           <ImageIcon className="w-8 h-8 text-gray-400" />
         )}

@@ -66,7 +66,8 @@ export function SalesChart({ orders, days = 14 }: SalesChartProps) {
   }, [orders, days]);
 
   // Custom Formatter for the Tooltip
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  type TooltipPayload = { value: number };
+  const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: TooltipPayload[]; label?: string }) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-white border border-gray-200 p-3 rounded-lg shadow-lg">

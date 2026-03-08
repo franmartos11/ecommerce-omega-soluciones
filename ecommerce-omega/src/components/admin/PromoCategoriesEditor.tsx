@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Plus, X, List, Image as ImageIcon, Loader2 } from "lucide-react";
+import NextImage from "next/image";
+import { Plus, X, List, Loader2 } from "lucide-react";
 import type { Config, PromoCategoryConfig } from "@/lib/config.types";
 import { Product } from "@/components/ProductCardGrid/ProductCardGrid";
 import { supabase } from "@/app/lib/supabase/client";
@@ -47,7 +48,7 @@ export function PromoCategoriesEditor({ config, onChange }: PromoCategoriesEdito
     loadAllProducts();
   }, [config.Productos]);
 
-  const updatePromo = (index: number, key: keyof PromoCategoryConfig, value: any) => {
+  const updatePromo = (index: number, key: keyof PromoCategoryConfig, value: PromoCategoryConfig[typeof key]) => {
     const updated = [...promos];
     updated[index] = { ...updated[index], [key]: value };
     setPromos(updated);
@@ -86,7 +87,7 @@ export function PromoCategoriesEditor({ config, onChange }: PromoCategoriesEdito
 
       const { data } = supabase.storage.from('products').getPublicUrl(fileName);
       updatePromo(index, "bannerImage", data.publicUrl);
-    } catch (err) {
+    } catch {
       alert("Hubo un error subiendo la imagen del banner.");
     }
   };
@@ -195,8 +196,8 @@ export function PromoCategoriesEditor({ config, onChange }: PromoCategoriesEdito
 
                 <div className="pt-2">
                   <label className="block text-sm font-medium text-gray-700 mb-2">Imagen del Banner (Izq.)</label>
-                  <div className="relative group w-full aspect-[2/3] bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
-                    <img src={promo.bannerImage} alt={promo.title} className="w-full h-full object-cover" />
+                   <div className="relative group w-full aspect-[2/3] bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                     <NextImage src={promo.bannerImage} alt={promo.title} fill className="object-cover" unoptimized />
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4">
                        <label className="cursor-pointer bg-white text-gray-900 px-3 py-1.5 rounded-lg text-xs font-semibold shadow hover:bg-gray-100 mb-2">
                          Cambiar Imagen
@@ -296,7 +297,7 @@ export function PromoCategoriesEditor({ config, onChange }: PromoCategoriesEdito
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
                <h3 className="text-lg font-bold text-gray-900">
-                 Seleccionar Productos para "{promos[selectingForPromoIndex].title}"
+                 Seleccionar Productos para &ldquo;{promos[selectingForPromoIndex].title}&rdquo;
                </h3>
                <button onClick={() => setSelectingForPromoIndex(null)} className="p-1.5 text-gray-400 hover:text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100">
                  <X className="w-5 h-5" />
@@ -330,8 +331,8 @@ export function PromoCategoriesEditor({ config, onChange }: PromoCategoriesEdito
                           isSelected ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300 hover:bg-gray-50 bg-white"
                         }`}
                       >
-                        <div className="w-12 h-12 bg-white rounded border border-gray-100 shrink-0 overflow-hidden">
-                           <img src={product.imageUrl} alt={product.title} className="w-full h-full object-contain p-1" />
+                        <div className="relative w-12 h-12 bg-white rounded border border-gray-100 shrink-0 overflow-hidden">
+                           <NextImage src={product.imageUrl} alt={product.title} fill className="object-contain p-1" unoptimized />
                         </div>
                         <div className="flex-1 min-w-0">
                            <p className={`text-sm font-medium truncate ${isSelected ? "text-blue-900" : "text-gray-900"}`}>

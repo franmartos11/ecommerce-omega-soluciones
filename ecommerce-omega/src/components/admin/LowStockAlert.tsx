@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import NextImage from "next/image";
 import { AlertTriangle, PackageOpen, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
@@ -68,7 +69,9 @@ export default function LowStockAlert() {
           {items.map((item) => (
              <li key={item.id} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group transition-colors">
                 {item.imageUrl ? (
-                  <img src={item.imageUrl} alt={item.title} className="w-10 h-10 rounded-md object-cover border border-gray-200 bg-gray-100 flex-shrink-0" />
+                  <div className="relative w-10 h-10 rounded-md overflow-hidden border border-gray-200 bg-gray-100 flex-shrink-0">
+                    <NextImage src={item.imageUrl} alt={item.title} fill className="object-cover" unoptimized />
+                  </div>
                 ) : (
                   <div className="w-10 h-10 rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center flex-shrink-0">
                     <PackageOpen className="w-5 h-5 text-gray-400" />
