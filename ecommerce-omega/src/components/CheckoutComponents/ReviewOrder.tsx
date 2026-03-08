@@ -53,7 +53,7 @@ export default function ReviewOrder({
       }
       setAppliedCoupon(data);
     } catch (err: unknown) {
-      setCouponError(err.message);
+      setCouponError(err instanceof Error ? err.message : "Error desconocido");
       setAppliedCoupon(null);
     } finally {
       setValidating(false);
