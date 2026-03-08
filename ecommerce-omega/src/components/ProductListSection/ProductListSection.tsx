@@ -72,7 +72,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
   }, [dbCategorias]);
 
   // Filtros desde la URL (slug como fuente de verdad)
-  const filters = {
+  const filters = useMemo(() => ({
     categorySlug: searchParams.get("categoria") || null,
     colors: searchParams.getAll("color"),
     brands: searchParams.getAll("marca"),
@@ -83,7 +83,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
       Number(searchParams.get("precio_max")) || 20000,
     ] as [number, number],
     search: (searchParams.get("busqueda") || "").toLowerCase(),
-  };
+  }), [searchParams]);
 
   // Label seleccionado para CategoryFilter (CategoryFilter.selected espera label)
   const selectedLabel = useMemo(

@@ -48,7 +48,8 @@ export default function OrdersPanel() {
         const res = await fetch(`/api/user/orders?email=${encodeURIComponent(user.email)}`);
         if (res.ok) {
           const data = await res.json();
-          const formattedOrders = data.map((o: any) => ({
+          type RawOrder = { id: string; created_at: string; total: number; status: string; items?: unknown[]; shipping?: unknown; paymentMethod?: string; payment_method?: string };
+          const formattedOrders = data.map((o: RawOrder) => ({
             id: o.id,
             date: o.created_at,
             total: o.total,

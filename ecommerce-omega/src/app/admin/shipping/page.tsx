@@ -28,8 +28,8 @@ export default function ShippingAdminPage() {
       if (!res.ok) throw new Error("Error al obtener las tarifas desde el servidor.");
       const data = await res.json();
       setRates(data);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error cargando tarifas");
     } finally {
       setLoading(false);
     }
@@ -102,8 +102,8 @@ export default function ShippingAdminPage() {
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000); // Hide success after 3s
 
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error al guardar los cambios");
     } finally {
       setSaving(false);
     }

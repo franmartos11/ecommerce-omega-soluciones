@@ -23,6 +23,7 @@ type Product = {
   badgeText?: string;
   badgeColor?: string;
   galleryUrls?: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   variants?: any[];
   createdAt: string;
 };
@@ -62,6 +63,7 @@ export default function AdminProductsPage() {
     color: "",
     badgeText: "",
     badgeColor: "bg-red-500 text-white",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     variants: [] as any[],
     active: true,
   });
@@ -87,7 +89,7 @@ export default function AdminProductsPage() {
 
       if (settingsRes.ok) {
         const settingsData = await settingsRes.json();
-        const badgeSetting = settingsData.find((s: any) => s.key === "product_badges");
+        const badgeSetting = settingsData.find((s: { key: string; value: unknown }) => s.key === "product_badges");
         if (badgeSetting && badgeSetting.value) {
            setGlobalBadges(Array.isArray(badgeSetting.value) ? badgeSetting.value : []);
         }
@@ -190,8 +192,9 @@ export default function AdminProductsPage() {
           .getPublicUrl(filePath);
 
         finalImageUrl = publicUrlData.publicUrl;
-      } catch (err: any) {
-        alert(err.message || "Hubo un error al subir la imagen al bucket.");
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : "Error subiendo imagen";
+        alert(msg || "Hubo un error al subir la imagen al bucket.");
         setIsSubmitting(false);
         return;
       }
@@ -212,8 +215,9 @@ export default function AdminProductsPage() {
 
         const newUrls = await Promise.all(uploadPromises);
         finalGalleryUrls = [...finalGalleryUrls, ...newUrls];
-      } catch (err: any) {
-        alert(err.message || "Error al subir la galería de imágenes.");
+      } catch (err: unknown) {
+        const msg2 = err instanceof Error ? err.message : "Error subiendo galería";
+        alert(msg2 || "Error al subir la galería de imágenes.");
         setIsSubmitting(false);
         return;
       }

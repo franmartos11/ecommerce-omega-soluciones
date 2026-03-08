@@ -17,7 +17,12 @@ type UserAddress = {
   is_default: boolean;
 };
 
-export default function ProfileContent({ user }: { user: any }) {
+type UserProfile = {
+  id: string;
+  email?: string;
+};
+
+export default function ProfileContent({ user }: { user: UserProfile }) {
   const [activeSubTab, setActiveSubTab] = useState<"security" | "addresses">("security");
   
   // Security State

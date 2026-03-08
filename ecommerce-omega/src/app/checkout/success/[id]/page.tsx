@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { CheckCircle, Printer, ArrowLeft, Download, RefreshCcw } from "lucide-react";
-import Link from "next/link";
+import { CheckCircle, ArrowLeft, Download, RefreshCcw } from "lucide-react";
 import Image from "next/image";
 
 // Típico formato de orden recibida por nuestra API

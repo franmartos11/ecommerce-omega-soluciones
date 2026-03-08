@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import NextImage from "next/image";
 import { Plus, Edit2, Trash2, Search, X, AlertCircle, ImageIcon, Upload, Loader2 } from "lucide-react";
 import { supabase } from "@/app/lib/supabase/client";
 
@@ -122,8 +123,9 @@ export default function AdminCategoriesPage() {
           .getPublicUrl(filePath);
 
         finalImageUrl = publicUrlData.publicUrl;
-      } catch (err: any) {
-        alert(err.message || "Error al subir la imagen.");
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : "Error subiendo imagen";
+        alert(msg || "Error al subir la imagen.");
         setIsSubmitting(false);
         return;
       }
@@ -152,8 +154,9 @@ export default function AdminCategoriesPage() {
 
       await fetchCategories();
       handleCloseModal();
-    } catch (error: any) {
-      alert(`Hubo un error al guardar la categoría: ${error.message}`);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Error desconocido";
+      alert(`Hubo un error al guardar la categória: ${msg}`);
       console.error(error);
     } finally {
       setIsSubmitting(false);
@@ -251,8 +254,8 @@ export default function AdminCategoriesPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         {cat.icon_url ? (
-                          <div className="w-8 h-8 rounded shrink-0 bg-gray-50 border border-gray-200 overflow-hidden flex items-center justify-center p-1">
-                            <img src={cat.icon_url} alt={cat.nombre} className="w-full h-full object-contain" />
+                          <div className="relative w-8 h-8 rounded shrink-0 bg-gray-50 border border-gray-200 overflow-hidden">
+                            <NextImage src={cat.icon_url} alt={cat.nombre} fill className="object-contain p-1" unoptimized />
                           </div>
                         ) : (
                           <div className="w-8 h-8 rounded shrink-0 bg-gray-50 border border-gray-200 flex items-center justify-center">
@@ -343,8 +346,8 @@ export default function AdminCategoriesPage() {
                   <label className="block text-sm font-semibold text-gray-700">Ícono de Categoría</label>
                   
                   {imagePreview ? (
-                    <div className="relative w-full max-w-24 rounded-lg overflow-hidden border border-gray-200 bg-gray-50 aspect-square flex items-center justify-center p-2">
-                      <img src={imagePreview} alt="Preview" className="w-full h-full object-contain" />
+                    <div className="relative w-full max-w-24 rounded-lg overflow-hidden border border-gray-200 bg-gray-50 aspect-square">
+                      <NextImage src={imagePreview} alt="Preview" fill className="object-contain" unoptimized />
                       <button
                         type="button"
                         onClick={() => {

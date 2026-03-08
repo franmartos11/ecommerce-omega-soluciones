@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Ticket, Plus, Trash2, Calendar, Users, RefreshCcw, Tag } from "lucide-react";
+import { Ticket, Plus, Trash2, Users, RefreshCcw, Tag } from "lucide-react";
 
 type Coupon = {
   id: string;
@@ -76,8 +76,9 @@ export default function AdminMarketing() {
       setMaxUses("");
       setExpiresAt("");
       
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Error desconocido";
+      alert(msg);
     } finally {
       setSubmitting(false);
     }
@@ -138,7 +139,7 @@ export default function AdminMarketing() {
               <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Descuento</label>
               <select 
                 value={type} 
-                onChange={(e) => setType(e.target.value as any)}
+                onChange={(e) => setType(e.target.value as "percentage" | "fixed")}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none"
               >
                 <option value="percentage">Porcentaje (%)</option>

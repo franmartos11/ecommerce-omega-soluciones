@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Settings, Globe, ShoppingBag, LayoutDashboard, Tag, MessageSquare, Menu, X, PackageOpen, Truck } from "lucide-react";
+import { Settings, Globe, ShoppingBag, LayoutDashboard, Tag, MessageSquare, Menu, PackageOpen, Truck } from "lucide-react";
 import { useState } from "react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

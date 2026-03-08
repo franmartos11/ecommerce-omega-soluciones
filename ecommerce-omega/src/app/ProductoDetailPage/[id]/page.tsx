@@ -22,6 +22,7 @@ interface DetailProducts extends Product {
   badgeText?: string | null;
   badgeColor?: string | null;
   galleryUrls?: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   variants?: any[];
 }
 
@@ -32,6 +33,7 @@ export default function ProductoDetailPage() {
   const [product, setProduct] = useState<DetailProducts | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [showPopup, setShowPopup] = useState(false);

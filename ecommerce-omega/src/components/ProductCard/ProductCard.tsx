@@ -1,6 +1,7 @@
 'use client';
 
 import React, { FC, useState } from "react";
+import NextImage from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { addToCart } from "@/utils/CartUtils";
@@ -92,11 +93,13 @@ const ProductCard: FC<ProductCardProps> = ({
         </span>
       )}
 
-      <div className="rounded-md p-2">
-        <img
-          src={imageUrl || undefined}
+      <div className="rounded-md p-2 relative h-40">
+        <NextImage
+          src={imageUrl || "/placeholder.png"}
           alt={title}
-          className="w-full h-40 object-contain mx-auto"
+          fill
+          className="object-contain"
+          unoptimized
         />
       </div>
 

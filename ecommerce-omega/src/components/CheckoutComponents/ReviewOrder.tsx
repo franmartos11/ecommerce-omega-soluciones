@@ -52,7 +52,7 @@ export default function ReviewOrder({
         throw new Error(data.error || "Cupón inválido");
       }
       setAppliedCoupon(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setCouponError(err.message);
       setAppliedCoupon(null);
     } finally {

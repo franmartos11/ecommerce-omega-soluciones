@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import NextImage from "next/image";
 import { PackageSearch, Search, AlertTriangle, Save, RefreshCcw, AlertCircle } from "lucide-react";
 
 type InventoryItem = {
@@ -84,8 +85,8 @@ export default function AdminInventory() {
       }));
       setChanges({});
       
-    } catch (err: any) {
-      alert(err.message || "Error guardando");
+    } catch (err: unknown) {
+      alert(err instanceof Error ? err.message : "Error guardando");
     } finally {
       setSaving(false);
     }
@@ -174,7 +175,9 @@ export default function AdminInventory() {
                       <td className="px-6 py-3">
                         <div className="flex items-center gap-3">
                           {item.imageUrl ? (
-                            <img src={item.imageUrl} alt={item.title} className="w-10 h-10 rounded-md object-cover border border-gray-200 flex-shrink-0" />
+                          <div className="relative w-10 h-10 rounded-md overflow-hidden border border-gray-200 flex-shrink-0">
+                            <NextImage src={item.imageUrl} alt={item.title} fill className="object-cover" unoptimized />
+                          </div>
                           ) : (
                             <div className="w-10 h-10 rounded-md bg-gray-100 border border-gray-200 flex-shrink-0"></div>
                           )}

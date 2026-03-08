@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { Save, Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
 import type { Config } from "@/lib/config.types";
-import { supabase } from "@/app/lib/supabase/client";
 import { PromoCategoriesEditor } from "@/components/admin/PromoCategoriesEditor";
 import { BannersEditor } from "@/components/admin/BannersEditor";
 import { BadgesEditor } from "@/components/admin/BadgesEditor";
@@ -49,8 +48,8 @@ export default function AdminSettingsPage() {
       try {
         payload = JSON.parse(rawJson);
         setJsonError(null);
-      } catch (err: any) {
-        setJsonError(err.message);
+      } catch (err: unknown) {
+        setJsonError(err instanceof Error ? err.message : "JSON inválido");
         setIsSaving(false);
         setMessage({ type: "error", text: "Sintaxis JSON inválida. Corrige el error antes de guardar." });
         return;
@@ -79,14 +78,14 @@ export default function AdminSettingsPage() {
     }
   };
 
-  const updateConfig = (path: string[], value: any) => {
-    setConfig((prev) => {
+  const updateConfig = (path: string[], value: unknown) => {
+    setConfig((prev: Config | null) => {
       if (!prev) return prev;
       const newConfig = { ...prev };
-      let current: any = newConfig;
+      let current: Record<string, unknown> = newConfig as unknown as Record<string, unknown>;
       for (let i = 0; i < path.length - 1; i++) {
         if (!current[path[i]]) current[path[i]] = {};
-        current = current[path[i]];
+        current = current[path[i]] as Record<string, unknown>;
       }
       current[path[path.length - 1]] = value;
       return newConfig;
@@ -148,7 +147,7 @@ export default function AdminSettingsPage() {
             key={tab.id}
             onClick={() => {
               if (activeTab === "advanced" && !jsonError) {
-                 try { setConfig(JSON.parse(rawJson)); } catch(e) {}
+                 try { setConfig(JSON.parse(rawJson)); } catch {} 
               }
               if (tab.id === "advanced") {
                  setRawJson(JSON.stringify(config, null, 2));
@@ -335,6 +334,7 @@ export default function AdminSettingsPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp de Ventas</label>
                 <input 
                   type="text" 
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   value={(config.Soporte as any)?.tel || config.NumTelefonoSoporte || ""} 
                   onChange={(e) => {
                      updateConfig(["Soporte", "tel"], e.target.value);
@@ -348,6 +348,7 @@ export default function AdminSettingsPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Email Principal</label>
                 <input 
                   type="email" 
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   value={(config.Soporte as any)?.email || ""} 
                   onChange={(e) => updateConfig(["Soporte", "email"], e.target.value)}
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
@@ -398,8 +399,8 @@ export default function AdminSettingsPage() {
                 try {
                   JSON.parse(e.target.value);
                   setJsonError(null);
-                } catch (err: any) {
-                  setJsonError(err.message);
+                } catch (err: unknown) {
+                  setJsonError(err instanceof Error ? err.message : "JSON inválido");
                 }
               }}
               className={`flex-1 w-full p-4 font-mono text-sm rounded-xl border-2 outline-none transition-colors resize-none ${

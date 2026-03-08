@@ -3,8 +3,38 @@
 import React, { useEffect, useState } from "react";
 import { Package, Truck, Search, ChevronDown, ChevronUp, Filter, Calendar, DollarSign, ShoppingCart, Clock, MessageCircle, Download, Printer } from "lucide-react";
 
+type OrderItem = {
+  quantity: number;
+  title: string;
+  price: number;
+  color?: string;
+};
+
+type Order = {
+  id: string;
+  total: number | string;
+  status: string;
+  createdAt?: string;
+  created_at?: string;
+  paymentMethod?: string;
+  payment_method?: string;
+  reference?: string;
+  shipping?: {
+    firstName?: string;
+    lastName?: string;
+    city?: string;
+    dni?: string;
+    phone?: string;
+    address?: string;
+    floorApt?: string;
+    province?: string;
+    postalCode?: string;
+  };
+  items?: OrderItem[];
+};
+
 export default function AdminOrders() {
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
   // Filtros
@@ -79,9 +109,8 @@ export default function AdminOrders() {
     URL.revokeObjectURL(url);
   };
 
-  // C: Print Receipt
-  const handlePrint = (order: any) => {
-    const itemsHtml = (order.items || []).map((item: any) => `
+  const handlePrint = (order: Order) => {
+    const itemsHtml = (order.items || []).map((item: OrderItem) => `
       <tr>
         <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb">${item.quantity}x ${item.title}${item.color ? ` (${item.color})` : ""}</td>
         <td style="padding:6px 8px;border-bottom:1px solid #e5e7eb;text-align:right">$${(item.price * item.quantity).toFixed(2)}</td>
@@ -91,7 +120,7 @@ export default function AdminOrders() {
       </head><body>
       <h1>Comprobante de Pedido</h1>
       <p><strong>ID:</strong> #${order.id.slice(0,8)}</p>
-      <p><strong>Fecha:</strong> ${new Date(order.created_at).toLocaleString("es-AR")}</p>
+      <p><strong>Fecha:</strong> ${order.created_at ? new Date(order.created_at).toLocaleString("es-AR") : ""}</p>
       <hr style="margin:12px 0;border:none;border-top:1px solid #e5e7eb">
       <p><strong>Cliente:</strong> ${order.shipping?.firstName || ""} ${order.shipping?.lastName || ""}</p>
       <p><strong>DNI/CUIL:</strong> ${order.shipping?.dni || "—"}</p>
@@ -152,7 +181,7 @@ export default function AdminOrders() {
 
   // Calculate Metrics from filtered orders
   const metrics = {
-    totalRevenue: filteredOrders.reduce((acc, order) => acc + (typeof order.total === 'number' ? order.total : parseFloat(order.total || 0)), 0),
+    totalRevenue: filteredOrders.reduce((acc, order) => acc + (typeof order.total === 'number' ? order.total : parseFloat(String(order.total || 0))), 0),
     totalOrders: filteredOrders.length,
     pendingOrders: filteredOrders.filter(o => o.status === "pendiente").length
   };
@@ -368,7 +397,7 @@ export default function AdminOrders() {
                                       Productos Comprados
                                     </h4>
                                     <ul className="space-y-3">
-                                      {order.items?.map((item: any, idx: number) => (
+                                      {order.items?.map((item: OrderItem, idx: number) => (
                                         <li key={idx} className="flex justify-between items-start py-2 border-b border-gray-50 last:border-0 text-gray-600">
                                           <div className="flex items-start gap-3">
                                             <span className="font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded text-xs mt-0.5 whitespace-nowrap">{item.quantity}x</span>

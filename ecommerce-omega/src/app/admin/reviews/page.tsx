@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import NextImage from "next/image";
 import { MessageCircle, Star, Trash2, Check, X, ExternalLink, Loader2 } from "lucide-react";
 import Link from "next/link";
 
@@ -49,7 +50,7 @@ export default function AdminReviews() {
 
       if (res.ok) {
         setReviews(prev =>
-          prev.map(r => (r.id === reviewId ? { ...r, status: status as any } : r))
+          prev.map(r => (r.id === reviewId ? { ...r, status: status as Review["status"] } : r))
         );
       } else {
         alert("Error al actualizar estado.");
@@ -133,11 +134,9 @@ export default function AdminReviews() {
                     <td className="px-6 py-4">
                       {review.products ? (
                         <div className="flex items-center gap-3">
-                          <img 
-                            src={review.products.image_url} 
-                            alt={review.products.title}
-                            className="w-10 h-10 rounded-md object-cover border border-gray-200"
-                          />
+                          <div className="relative w-10 h-10 rounded-md overflow-hidden border border-gray-200">
+                            <NextImage src={review.products.image_url} alt={review.products.title} fill className="object-cover" unoptimized />
+                          </div>
                           <Link href={`/ProductoDetailPage/${review.products.id}`} target="_blank" className="font-medium text-blue-600 hover:underline max-w-[200px] truncate block flex items-center gap-1">
                             {review.products.title}
                             <ExternalLink className="w-3 h-3" />
@@ -151,7 +150,7 @@ export default function AdminReviews() {
                       {review.user_name}
                       {review.comment && (
                         <div className="text-xs font-normal text-gray-500 max-w-[250px] truncate mt-1">
-                          "{review.comment}"
+                          &ldquo;{review.comment}&rdquo;
                         </div>
                       )}
                     </td>

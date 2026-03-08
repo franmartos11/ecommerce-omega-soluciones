@@ -5,7 +5,7 @@ import { getCart, clearCart } from "@/utils/CartUtils";
 import ShippingForm, { ShippingData } from "./ShippingForm";
 import PaymentForm from "./PaymentForm";
 import ReviewOrder from "./ReviewOrder";
-import { X, ArrowLeft, Check, Loader2 } from "lucide-react";
+import { X, ArrowLeft, Check } from "lucide-react";
 
 interface CheckoutModalProps {
   open: boolean;
@@ -30,7 +30,6 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
   >("mercadopago");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [provinceRates, setProvinceRates] = useState<Record<string, number>>({});
-  const [isLoadingRates, setIsLoadingRates] = useState(false);
 
   useEffect(() => {
     if (open) {
@@ -49,7 +48,6 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
   const fetchRates = async () => {
     try {
-      setIsLoadingRates(true);
       const res = await fetch("/api/admin/shipping");
       if (res.ok) {
         const rates = await res.json();
@@ -57,8 +55,6 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
       }
     } catch (e) {
       console.error("Failed to fetch shipping rates", e);
-    } finally {
-      setIsLoadingRates(false);
     }
   };
 

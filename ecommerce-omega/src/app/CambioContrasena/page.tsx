@@ -25,8 +25,8 @@ export default function ForgotPasswordPage() {
       const continueUrl = `${window.location.origin}/reset-password`;
       await sendResetEmail(email, continueUrl);
       setSent(true);
-    } catch (error: any) {
-      const msg = error?.message || "";
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "";
 
       if (msg.includes("User not found")) {
         // Por seguridad, respondemos como si se hubiese enviado

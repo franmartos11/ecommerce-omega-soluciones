@@ -27,8 +27,8 @@ export default function ResetPasswordPage() {
     try {
       await confirmReset(password);
       router.push("/LogIn"); // o "/signin"
-    } catch (error: any) {
-      setErr(error?.message || "No se pudo restablecer la contraseña. Probá otra vez.");
+    } catch (error: unknown) {
+      setErr(error instanceof Error ? error.message : "No se pudo restablecer la contraseña. Probá otra vez.");
     } finally {
       setLoading(false);
     }
