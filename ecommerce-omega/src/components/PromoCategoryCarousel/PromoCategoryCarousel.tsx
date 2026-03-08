@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import Image from "next/image";
+import NextImage from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Product } from "@/components/ProductCardGrid/ProductCardGrid";
@@ -70,21 +70,25 @@ export default function PromoCategoryCarousel({
         {/* Left Column: Promotional Vertical Banner */}
         <div className="w-full lg:w-[300px] shrink-0 h-[350px] lg:h-[480px] rounded-xl overflow-hidden relative group shadow-sm bg-gray-100 flex items-center justify-center">
           {bannerLink ? (
-            <Link href={bannerLink} className="w-full h-full block">
-              <img
+            <Link href={bannerLink} className="w-full h-full block relative">
+              <NextImage
                 src={bannerImage}
                 alt={title}
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                unoptimized
               />
             </Link>
           ) : (
-             <img
+            <div className="relative w-full h-full">
+              <NextImage
                 src={bannerImage}
                 alt={title}
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-             />
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                unoptimized
+              />
+            </div>
           )}
         </div>
 

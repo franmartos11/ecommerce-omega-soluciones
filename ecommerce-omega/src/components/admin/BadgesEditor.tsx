@@ -22,7 +22,7 @@ export function BadgesEditor() {
       const res = await fetch("/api/admin/settings");
       if (res.ok) {
         const data = await res.json();
-        const badgeSetting = data.find((s: any) => s.key === "product_badges");
+        const badgeSetting = data.find((s: { key: string; value: unknown }) => s.key === "product_badges");
         if (badgeSetting && badgeSetting.value) {
            setBadges(Array.isArray(badgeSetting.value) ? badgeSetting.value : []);
         }
@@ -46,8 +46,9 @@ export function BadgesEditor() {
       if (!res.ok) throw new Error("Failed to save badges");
 
       setBadges(updatedBadges);
-    } catch (error: any) {
-      alert(`Hubo un error al guardar etiquetas: ${error.message}`);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Error desconocido";
+      alert(`Hubo un error al guardar etiquetas: ${msg}`);
     } finally {
       setIsSaving(false);
     }

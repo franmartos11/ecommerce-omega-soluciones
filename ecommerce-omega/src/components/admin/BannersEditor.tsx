@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Loader2, Plus, X, Image as ImageIcon, Layout, MoveUp, MoveDown, Save } from "lucide-react";
+import NextImage from "next/image";
+import { Loader2, X, Image as ImageIcon, Layout, MoveUp, MoveDown, Save } from "lucide-react";
 import { supabase } from "@/app/lib/supabase/client";
 
 export function BannersEditor() {
@@ -20,7 +21,7 @@ export function BannersEditor() {
       const res = await fetch("/api/admin/settings");
       if (res.ok) {
         const data = await res.json();
-        const heroSetting = data.find((s: any) => s.key === "hero_banners");
+        const heroSetting = data.find((s: { key: string; value: unknown }) => s.key === "hero_banners");
         if (heroSetting && heroSetting.value) {
           setHeroBanners(Array.isArray(heroSetting.value) ? heroSetting.value : []);
         }
@@ -62,8 +63,9 @@ export function BannersEditor() {
       alert("Banners guardados correctamente.");
       setHeroBanners(finalBanners);
       setFilesToUpload([]);
-    } catch (error: any) {
-      alert(`Hubo un error al guardar banners: ${error.message}`);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "Error desconocido";
+      alert(`Hubo un error al guardar banners: ${msg}`);
     } finally {
       setIsSaving(false);
     }
@@ -96,8 +98,8 @@ export function BannersEditor() {
       <div className="space-y-4">
         {heroBanners.map((url, i) => (
           <div key={`banner-${i}`} className="flex items-center gap-4 bg-gray-50 border border-gray-200 p-3 rounded-lg group">
-            <div className="w-32 h-16 bg-gray-200 rounded overflow-hidden shrink-0 relative">
-              <img src={url} alt={`Banner ${i}`} className="w-full h-full object-cover" />
+            <div className="relative w-32 h-16 bg-gray-200 rounded overflow-hidden shrink-0">
+              <NextImage src={url} alt={`Banner ${i}`} fill className="object-cover" unoptimized />
             </div>
             <div className="flex-1 truncate">
               <p className="text-sm font-medium text-gray-700 truncate">{url.split('/').pop()}</p>
@@ -133,8 +135,8 @@ export function BannersEditor() {
 
         {filesToUpload.map((file, i) => (
           <div key={`file-${i}`} className="flex items-center gap-4 bg-blue-50/50 border border-blue-200 p-3 rounded-lg">
-            <div className="w-32 h-16 bg-blue-100 rounded overflow-hidden shrink-0 relative">
-              <img src={URL.createObjectURL(file)} alt={`New Banner ${i}`} className="w-full h-full object-cover opacity-80" />
+            <div className="relative w-32 h-16 bg-blue-100 rounded overflow-hidden shrink-0">
+              <NextImage src={URL.createObjectURL(file)} alt={`New Banner ${i}`} fill className="object-cover opacity-80" unoptimized />
             </div>
             <div className="flex-1 truncate">
               <p className="text-sm font-medium text-blue-900 truncate">{file.name}</p>

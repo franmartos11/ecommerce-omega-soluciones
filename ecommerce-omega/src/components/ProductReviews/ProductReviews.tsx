@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Star, MessageCircle, AlertCircle } from "lucide-react";
 
 interface Review {
@@ -22,7 +22,7 @@ export default function ProductReviews({ productId }: { productId: string }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     try {
       const res = await fetch(`/api/products/${productId}/reviews`);
       if (res.ok) {
@@ -35,11 +35,11 @@ export default function ProductReviews({ productId }: { productId: string }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [productId]);
 
   useEffect(() => {
     fetchReviews();
-  }, [productId]);
+  }, [fetchReviews]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,7 +67,7 @@ export default function ProductReviews({ productId }: { productId: string }) {
         setIsFormOpen(false);
         fetchReviews(); // Recargar reseñas incluyendo la nueva
       }
-    } catch (err) {
+    } catch {
       setFormError("Error de conexión. Intenta nuevamente.");
     } finally {
       setIsSubmitting(false);
