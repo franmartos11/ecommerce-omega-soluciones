@@ -208,7 +208,7 @@ export default function ProfileContent({ user }: { user: UserProfile }) {
                 className="w-full mt-2 cursor-pointer py-2.5 rounded-lg text-sm font-semibold transition-transform hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100 flex items-center justify-center gap-2"
                 style={{ background: "var(--color-primary-bg)", color: "var(--color-tertiary-text)" }}
               >
-                {updatingPassword ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                {updatingPassword ? <Loader2 className="w-5 h-5 animate-spin" style={{ color: "var(--color-primary-bg)" }} /> : <Save className="w-5 h-5" />}
                 Actualizar Contraseña
               </button>
             </form>
@@ -280,7 +280,7 @@ export default function ProfileContent({ user }: { user: UserProfile }) {
                     Cancelar
                   </button>
                   <button type="submit" disabled={savingAddress} className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                    {savingAddress ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                    {savingAddress ? <Loader2 className="w-4 h-4 animate-spin" style={{ color: "var(--color-primary-bg)" }} /> : <Save className="w-4 h-4" />}
                     Guardar
                   </button>
                 </div>

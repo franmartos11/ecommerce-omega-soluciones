@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+
+export const dynamic = 'force-dynamic';
 import MercadoPagoConfig, { Preference } from "mercadopago";
 
 const client = new MercadoPagoConfig({

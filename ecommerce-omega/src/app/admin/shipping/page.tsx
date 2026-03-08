@@ -111,8 +111,9 @@ export default function ShippingAdminPage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-full min-h-[50vh]">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin" style={{ color: "var(--color-primary-bg)" }} />
+        <p className="mt-4 text-gray-500 font-medium animate-pulse">Cargando tarifas...</p>
       </div>
     );
   }

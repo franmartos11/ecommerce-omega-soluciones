@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
+export const dynamic = 'force-dynamic';
+
 // Define the path to the config file
 const CONFIG_PATH = path.join(process.cwd(), "src/ConfigJson/config.json");
 

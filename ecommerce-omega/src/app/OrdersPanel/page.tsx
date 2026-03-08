@@ -102,8 +102,9 @@ export default function OrdersPanel() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bgweb)" }}>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50/50">
         <Loader2 className="w-10 h-10 animate-spin" style={{ color: "var(--color-primary-bg)" }} />
+        <p className="mt-4 text-gray-500 font-medium animate-pulse">Cargando tu historial...</p>
       </div>
     );
   }

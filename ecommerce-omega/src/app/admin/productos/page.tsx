@@ -364,7 +364,7 @@ export default function AdminProductsPage() {
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-gray-400">
                     <div className="flex flex-col items-center justify-center">
-                      <Loader2 className="w-6 h-6 text-blue-500 animate-spin mb-3" />
+                      <Loader2 className="w-6 h-6 animate-spin mb-3" style={{ color: "var(--color-primary-bg)" }} />
                       <p className="text-sm text-gray-500 font-medium">Cargando catálogo...</p>
                     </div>
                   </td>

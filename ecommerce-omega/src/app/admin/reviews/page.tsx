@@ -82,9 +82,9 @@ export default function AdminReviews() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col justify-center items-center h-full min-h-[50vh]">
-        <Loader2 className="w-8 h-8 text-blue-600 animate-spin mb-4" />
-        <p className="text-sm text-gray-500 font-medium">Cargando reseñas...</p>
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin mb-4" style={{ color: "var(--color-primary-bg)" }} />
+        <p className="text-gray-500 font-medium animate-pulse">Cargando reseñas...</p>
       </div>
     );
   }

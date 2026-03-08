@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/app/lib/supabase/client";
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> }

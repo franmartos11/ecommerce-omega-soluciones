@@ -1,6 +1,8 @@
 // src/app/api/theme/route.ts
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 const theme = {
   bg1:     '#F97316',
   bg2:     '#C2410C',

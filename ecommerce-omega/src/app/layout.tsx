@@ -98,9 +98,9 @@ export default async function RootLayout({
           {/* Pasamos exactamente `Config` */}
           <ConfigProvider initialConfig={cfg}>
             <Suspense fallback={
-              <div className="flex flex-col items-center justify-center min-h-[60vh]">
+              <div className="flex flex-col items-center">
                 <Loader2 className="w-8 h-8 animate-spin mb-4" style={{ color: "var(--color-primary-bg)" }} />
-                <p className="text-sm text-gray-500 font-medium">Cargando...</p>
+                <p className="text-gray-500 font-medium animate-pulse">Cargando...</p>
               </div>
             }>
               {children}

@@ -2,6 +2,8 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/app/lib/supabase/client";
 
+export const dynamic = 'force-dynamic';
+
 // Record representing dynamic provinces and their respective shipping price
 export interface ShippingRates {
   [province: string]: number;

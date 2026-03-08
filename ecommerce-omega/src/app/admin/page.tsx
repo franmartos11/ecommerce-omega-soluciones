@@ -153,7 +153,7 @@ export default function AdminDashboard() {
         <div className="w-full h-80 lg:h-96">
           {loading ? (
              <div className="w-full h-full bg-white rounded-xl border border-gray-100 shadow-sm flex items-center justify-center animate-pulse">
-               <Loader2 className="w-8 h-8 animate-spin text-gray-300" />
+               <Loader2 className="w-8 h-8 animate-spin" style={{ color: "var(--color-primary-bg)" }} />
              </div>
           ) : (
             <SalesChart orders={orders} days={14} />
@@ -183,7 +183,6 @@ export default function AdminDashboard() {
             </Link>
           ))}
           </div>
-        </div>
         
           {/* Col 2: Best Sellers & Low Stock */}
           <div className="flex flex-col h-full space-y-4">
@@ -192,54 +191,55 @@ export default function AdminDashboard() {
             </div>
             {loading ? (
               <div className="w-full h-full bg-white rounded-xl border border-gray-100 shadow-sm flex items-center justify-center animate-pulse">
-                <Loader2 className="w-8 h-8 animate-spin text-gray-300" />
+                <Loader2 className="w-8 h-8 animate-spin" style={{ color: "var(--color-primary-bg)" }} />
               </div>
             ) : (
               <BestSellersList orders={orders} />
             )}
           </div>
 
-        {/* Col 3: Recent Orders */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full min-h-[400px]">
-          <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-            <h2 className="font-bold text-gray-900">Últimas Órdenes</h2>
-            <Link href="/admin/orders" className="text-xs font-medium text-blue-600 hover:underline">
-              Ver todas →
-            </Link>
-          </div>
+          {/* Col 3: Recent Orders */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full min-h-[400px]">
+            <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+              <h2 className="font-bold text-gray-900">Últimas Órdenes</h2>
+              <Link href="/admin/orders" className="text-xs font-medium text-blue-600 hover:underline">
+                Ver todas →
+              </Link>
+            </div>
 
-          {loading ? (
-            <div className="flex justify-center items-center p-12">
-              <Loader2 className="w-6 h-6 animate-spin text-gray-300" />
-            </div>
-          ) : recentOrders.length === 0 ? (
-            <p className="text-sm text-gray-400 text-center py-12">Aún no hay órdenes.</p>
-          ) : (
-            <div className="divide-y divide-gray-50">
-              {recentOrders.map((order) => {
-                const name = order.shipping
-                  ? `${order.shipping.firstName || ""} ${order.shipping.lastName || ""}`.trim()
-                  : "—";
-                const statusStyle = STATUS_STYLES[order.status] || "bg-gray-100 text-gray-600";
-                return (
-                  <div key={order.id} className="px-5 py-3.5 flex items-center gap-3 hover:bg-gray-50 transition-colors">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-900 truncate">#{order.id.slice(0, 8)}</p>
-                      <p className="text-xs text-gray-500 truncate">{name || "Sin nombre"}</p>
+            {loading ? (
+              <div className="flex justify-center items-center p-12">
+                <Loader2 className="w-6 h-6 animate-spin" style={{ color: "var(--color-primary-bg)" }} />
+              </div>
+            ) : recentOrders.length === 0 ? (
+              <p className="text-sm text-gray-400 text-center py-12">Aún no hay órdenes.</p>
+            ) : (
+              <div className="divide-y divide-gray-50">
+                {recentOrders.map((order) => {
+                  const name = order.shipping
+                    ? `${order.shipping.firstName || ""} ${order.shipping.lastName || ""}`.trim()
+                    : "—";
+                  const statusStyle = STATUS_STYLES[order.status] || "bg-gray-100 text-gray-600";
+                  return (
+                    <div key={order.id} className="px-5 py-3.5 flex items-center gap-3 hover:bg-gray-50 transition-colors">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-gray-900 truncate">#{order.id.slice(0, 8)}</p>
+                        <p className="text-xs text-gray-500 truncate">{name || "Sin nombre"}</p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-sm font-bold text-gray-900">
+                          ${toNum(order.total).toLocaleString("es-AR", { minimumFractionDigits: 2 })}
+                        </p>
+                        <span className={`inline-block mt-0.5 text-xs px-2 py-0.5 rounded-full font-medium ${statusStyle}`}>
+                          {order.status}
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-right shrink-0">
-                      <p className="text-sm font-bold text-gray-900">
-                        ${toNum(order.total).toLocaleString("es-AR", { minimumFractionDigits: 2 })}
-                      </p>
-                      <span className={`inline-block mt-0.5 text-xs px-2 py-0.5 rounded-full font-medium ${statusStyle}`}>
-                        {order.status}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

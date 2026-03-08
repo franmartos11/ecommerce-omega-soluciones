@@ -94,8 +94,9 @@ export default function AdminSettingsPage() {
 
   if (isLoading || !config) {
     return (
-      <div className="flex items-center justify-center h-full min-h-[500px]">
-        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+      <div className="flex flex-col items-center justify-center min-h-[400px]">
+        <Loader2 className="w-8 h-8 animate-spin" style={{ color: "var(--color-primary-bg)" }} />
+        <p className="mt-4 text-gray-500 font-medium animate-pulse">Cargando configuración...</p>
       </div>
     );
   }
@@ -121,14 +122,16 @@ export default function AdminSettingsPage() {
           </p>
         </div>
         
-        <button
-          onClick={handleSave}
-          disabled={isSaving}
-          className="flex items-center justify-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-70 text-white text-sm font-medium rounded-lg shadow-sm transition-colors w-full sm:w-auto"
-        >
-          {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          Guardar Cambios
-        </button>
+        <button 
+            type="submit" 
+            onClick={handleSave}
+            disabled={isSaving}
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-white font-semibold transition-all hover:opacity-90 active:scale-95 disabled:opacity-50 shadow-md hover:shadow-lg"
+            style={{ backgroundColor: "var(--color-primary-bg)" }}
+          >
+            {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+            {isSaving ? "Guardando..." : "Guardar Cambios"}
+          </button>
       </div>
 
       {message && (
