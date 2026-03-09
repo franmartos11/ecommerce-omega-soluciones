@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/app/lib/supabase/client";
+import { getSupabase } from "@/app/lib/supabase/server";
 
 export const dynamic = 'force-dynamic';
 
@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET() {
   try {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from("orders")
       .select("*")
@@ -44,6 +45,7 @@ export async function GET() {
  */
 export async function PATCH(req: Request) {
   try {
+    const supabase = getSupabase();
     const { orderId, status } = await req.json();
 
     if (!orderId || !status) {

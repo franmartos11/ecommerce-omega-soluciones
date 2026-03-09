@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/app/lib/supabase/client";
+import { getSupabase } from "@/app/lib/supabase/server";
 
 export const dynamic = 'force-dynamic';
 
@@ -8,6 +8,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const supabase = getSupabase();
     // Note: in NextJS 15 params may be a Promise
     const { id } = await params;
 

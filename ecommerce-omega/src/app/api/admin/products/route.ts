@@ -1,11 +1,12 @@
 /* eslint-disable */
 import { NextResponse } from "next/server";
-import { supabase } from "@/app/lib/supabase/client";
+import { getSupabase } from "@/app/lib/supabase/server";
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from("products")
       .select("*, product_variants(*)")
@@ -49,6 +50,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const supabase = getSupabase();
     const body = await req.json();
 
     const newProduct = {
@@ -108,6 +110,7 @@ export async function POST(req: Request) {
 
 export async function PUT(req: Request) {
   try {
+    const supabase = getSupabase();
     const body = await req.json();
     const { id } = body;
 
@@ -201,6 +204,7 @@ export async function PUT(req: Request) {
 
 export async function DELETE(req: Request) {
   try {
+    const supabase = getSupabase();
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
 

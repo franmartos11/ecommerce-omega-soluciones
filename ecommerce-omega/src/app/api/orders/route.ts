@@ -1,11 +1,12 @@
 /* eslint-disable */
 import { NextResponse } from "next/server";
-import { supabase } from "@/app/lib/supabase/client";
+import { getSupabase } from "@/app/lib/supabase/server";
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
+    const supabase = getSupabase();
     const body = await req.json();
 
     if (!body || !body.cartItems || body.cartItems.length === 0) {

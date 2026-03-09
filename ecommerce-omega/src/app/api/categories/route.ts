@@ -1,11 +1,12 @@
 /* eslint-disable */
 import { NextResponse } from "next/server";
-import { supabase } from "@/app/lib/supabase/client";
+import { getSupabase } from "@/app/lib/supabase/server";
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from("categories")
       .select("*")

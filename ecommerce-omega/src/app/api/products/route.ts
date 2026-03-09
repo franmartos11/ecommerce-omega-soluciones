@@ -1,11 +1,12 @@
 /* eslint-disable */
 import { NextResponse } from "next/server";
-import { supabase } from "@/app/lib/supabase/client";
+import { getSupabase } from "@/app/lib/supabase/server";
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request) {
   try {
+    const supabase = getSupabase();
     const { searchParams } = new URL(req.url);
     const relatedTo = searchParams.get('relatedTo');
     let data: any[] = [];

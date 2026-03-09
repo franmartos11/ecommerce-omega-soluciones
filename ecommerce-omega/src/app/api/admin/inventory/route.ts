@@ -1,11 +1,12 @@
 /* eslint-disable */
 import { NextResponse } from "next/server";
-import { supabase } from "@/app/lib/supabase/client";
+import { getSupabase } from "@/app/lib/supabase/server";
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request) {
   try {
+    const supabase = getSupabase();
     const { searchParams } = new URL(req.url);
     const filterLow = searchParams.get('low') === 'true';
 
@@ -43,6 +44,7 @@ export async function GET(req: Request) {
 
 export async function PATCH(req: Request) {
   try {
+    const supabase = getSupabase();
     const { items } = await req.json();
 
     if (!items || !Array.isArray(items)) {
