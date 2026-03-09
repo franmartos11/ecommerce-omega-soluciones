@@ -13,11 +13,14 @@ import {
   Headphones,
   LogOut,
   ChevronDown,
+  Heart,
+  Search,
 } from "lucide-react";
 import SearchBar from "./SereachBar";
 import { toast } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { getCart } from "@/utils/CartUtils";
+import { getWishlistCount } from "@/utils/WishlistUtils";
 import { supabase } from "@/app/lib/supabase/client";
 import { useAuth } from "@/app/context/AuthContext";
 
@@ -25,6 +28,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user } = useAuth();
   const [cartCount, setCartCount] = useState(0);
+  const [wishlistCount, setWishlistCount] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -42,20 +46,27 @@ export default function Navbar() {
     setCartCount(total);
   };
 
+  const refreshWishlistCount = () => setWishlistCount(getWishlistCount());
+
   useEffect(() => {
     refreshCartCount();
+    refreshWishlistCount();
 
     const onStorage = (e: StorageEvent) => {
       if (e.key === "cart") refreshCartCount();
+      if (e.key === "wishlist") refreshWishlistCount();
     };
     const onCartUpdated = () => refreshCartCount();
+    const onWishlistUpdated = () => refreshWishlistCount();
 
     window.addEventListener("storage", onStorage);
     window.addEventListener("cartUpdated", onCartUpdated as EventListener);
+    window.addEventListener("wishlistUpdated", onWishlistUpdated as EventListener);
 
     return () => {
       window.removeEventListener("storage", onStorage);
       window.removeEventListener("cartUpdated", onCartUpdated as EventListener);
+      window.removeEventListener("wishlistUpdated", onWishlistUpdated as EventListener);
     };
   }, []);
 
@@ -100,7 +111,7 @@ export default function Navbar() {
         </button>
 
         {/* Logo + SearchBar separadas (NO dentro del Link) */}
-        <div className="flex-1 flex items-center gap-6">
+        <div className="flex-1 flex items-center gap-4">
           <Link href="/" className="flex items-center" aria-label="Ir al inicio">
             {siteConfig?.Logo?.src ? (
               <Image
@@ -125,7 +136,29 @@ export default function Navbar() {
         </div>
 
         {/* acciones derecha */}
-        <div className="flex items-center gap-4 text-sm relative" style={{ color: "var(--color-secondary-text)" }}>
+        <div className="flex items-center gap-3 md:gap-4 text-sm relative" style={{ color: "var(--color-secondary-text)" }}>
+          {/* Search icon for mobile — opens menu with search */}
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="md:hidden"
+            aria-label="Buscar"
+          >
+            <Search className="w-5 h-5" />
+          </button>
+          <Link href="/wishlist" aria-label="Ir a favoritos">
+            <div className="relative flex items-center gap-1">
+              <Heart className="w-5 h-5" />
+              {wishlistCount > 0 && (
+                <span
+                  className="absolute -top-2 -right-3 text-[10px] w-4 h-4 rounded-full flex items-center justify-center"
+                  style={{ background: "#ef4444", color: "#fff" }}
+                >
+                  {wishlistCount}
+                </span>
+              )}
+            </div>
+          </Link>
+
           <Link href="/Cart" aria-label="Ir al carrito">
             <div className="relative flex items-center gap-1">
               <ShoppingCart className="w-5 h-5" />

@@ -102,7 +102,7 @@ export default function ContactCardImg() {
         className="text-3xl font-bold mb-2"
         style={{ color: "var(--color-primary-text)" }}
       >
-        Contactanos
+        Contáctanos
       </h1>
       <p className="text-sm mb-8" style={{ color: "var(--color-secondary-text)" }}>
         {textoPrincipal}

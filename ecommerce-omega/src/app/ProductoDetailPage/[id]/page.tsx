@@ -11,6 +11,16 @@ import Footer from "@/components/Footer/Footer";
 import ProductReviews from "@/components/ProductReviews/ProductReviews";
 import { motion, AnimatePresence } from "framer-motion";
 import { addToCart } from "@/utils/CartUtils";
+import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
+import ShareButtons from "@/components/ShareButtons/ShareButtons";
+
+interface Variant {
+  id: string;
+  name: string;
+  sku?: string;
+  price?: number | string;
+  stock: number;
+}
 
 interface DetailProducts extends Product {
   description: string;
@@ -22,8 +32,7 @@ interface DetailProducts extends Product {
   badgeText?: string | null;
   badgeColor?: string | null;
   galleryUrls?: string[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  variants?: any[];
+  variants?: Variant[];
 }
 
 
@@ -33,8 +42,7 @@ export default function ProductoDetailPage() {
   const [product, setProduct] = useState<DetailProducts | null>(null);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [selectedVariant, setSelectedVariant] = useState<any>(null);
+  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -210,6 +218,14 @@ export default function ProductoDetailPage() {
       <Navbar />
 
       <section className="px-6 py-10 max-w-6xl mx-auto">
+        {/* Breadcrumbs */}
+        <Breadcrumbs
+          items={[
+            { label: "Productos", href: "/" },
+            ...(product.category ? [{ label: product.category, href: `/?category=${product.category}` }] : []),
+            { label: product.title },
+          ]}
+        />
         {/* Mensajes de fallo */}
         {apiError && (
           <div className="mb-4 text-sm p-2 rounded" style={{ background: 'var(--surface, #fefce8)', color: 'var(--accent-warning, #a16207)' }}>
@@ -341,31 +357,33 @@ export default function ProductoDetailPage() {
               </div>
             )}
 
-            <div className="flex items-center gap-3">
-              <label style={{ color: "var(--color-primary-text)" }}>
-                Cantidad:
-              </label>
-              <select
-                className="w-16 border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2
-                           focus:ring-[var(--color-primary-bg)]"
-                value={quantity}
-                onChange={(e) => setQuantity(parseInt(e.target.value))}
-                style={{
-                  color: "var(--color-primary-text)",
-                  background: "var(--surface, #ffffff)",
-                  borderColor: "var(--border, #d1d5db)",
-                }}
-              >
-                {[...Array(10)].map((_, i) => (
-                  <option key={i} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ))}
-              </select>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <div className="flex items-center gap-3">
+                <label style={{ color: "var(--color-primary-text)" }}>
+                  Cantidad:
+                </label>
+                <select
+                  className="w-16 border rounded px-2 py-2 text-sm focus:outline-none focus:ring-2
+                             focus:ring-[var(--color-primary-bg)]"
+                  value={quantity}
+                  onChange={(e) => setQuantity(parseInt(e.target.value))}
+                  style={{
+                    color: "var(--color-primary-text)",
+                    background: "var(--surface, #ffffff)",
+                    borderColor: "var(--border, #d1d5db)",
+                  }}
+                >
+                  {[...Array(10)].map((_, i) => (
+                    <option key={i} value={i + 1}>
+                      {i + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
               <button
                 onClick={handleAddToCart}
-                className="cursor-pointer px-4 py-2 rounded text-sm transition-colors"
+                className="cursor-pointer w-full sm:w-auto px-6 py-3 rounded-lg text-sm font-semibold transition-colors"
                 style={{
                   background: "var(--color-primary-bg)",
                   color: "var(--color-tertiary-text)",
@@ -378,7 +396,7 @@ export default function ProductoDetailPage() {
                   (e.currentTarget.style.background = "var(--color-primary-bg)")
                 }
               >
-                Agregar
+                🛒 Agregar al carrito
               </button>
             </div>
 
@@ -416,11 +434,19 @@ export default function ProductoDetailPage() {
                 </span>
               </p>
             </div>
+
+            {/* Share buttons */}
+            <div className="pt-4 border-t border-gray-100">
+              <ShareButtons
+                url={typeof window !== "undefined" ? window.location.href : ""}
+                title={product.title}
+              />
+            </div>
           </div>
         </div>
 
         <div
-          className="mt-10 border-t pt-6 pb-[3rem]"
+          className="mt-6 border-t pt-4 pb-8"
           style={{ borderColor: "var(--border, #e5e7eb)" }}
         >
           <h2

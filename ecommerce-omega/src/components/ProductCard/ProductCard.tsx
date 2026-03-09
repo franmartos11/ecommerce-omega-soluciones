@@ -1,10 +1,13 @@
 'use client';
 
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import NextImage from "next/image";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { addToCart } from "@/utils/CartUtils";
+import { isInWishlist, toggleWishlist } from "@/utils/WishlistUtils";
+import { addRecentlyViewed } from "@/utils/RecentlyViewedUtils";
+import toast from "react-hot-toast";
 
 interface BadgeProps {
   label: string;
@@ -42,6 +45,33 @@ const ProductCard: FC<ProductCardProps> = ({
   const router = useRouter();
   const [added, setAdded] = useState(false);
   const [hoveredBtn, setHoveredBtn] = useState(false);
+  const [wishlisted, setWishlisted] = useState(false);
+
+  useEffect(() => {
+    setWishlisted(isInWishlist(id));
+    const onUpdate = () => setWishlisted(isInWishlist(id));
+    window.addEventListener("wishlistUpdated", onUpdate);
+    return () => window.removeEventListener("wishlistUpdated", onUpdate);
+  }, [id]);
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const wasAdded = toggleWishlist({
+      id,
+      title,
+      imageUrl,
+      currentPrice,
+      oldPrice,
+      category,
+      rating,
+      brand: seller,
+    });
+    toast(wasAdded ? "Agregado a favoritos ❤️" : "Eliminado de favoritos", {
+      icon: wasAdded ? "❤️" : "💔",
+      style: { borderRadius: "12px", background: "#333", color: "#fff", fontSize: "14px" },
+      duration: 1500,
+    });
+  };
 
   const hasDiscount = oldPrice > currentPrice;
   const discountPercent = hasDiscount
@@ -66,16 +96,25 @@ const ProductCard: FC<ProductCardProps> = ({
   const finalBadge = badge || autoBadge;
 
   const handleAddToCart = (e: React.MouseEvent) => {
-    e.stopPropagation(); // evita que dispare el onClick del contenedor
+    e.stopPropagation();
     addToCart({ id, title, imageUrl, price: currentPrice }, 1);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
     window.dispatchEvent(new Event("cartUpdated"));
+    toast.success("Agregado al carrito", {
+      style: { borderRadius: "12px", background: "#333", color: "#fff", fontSize: "14px" },
+      duration: 1500,
+    });
+  };
+
+  const handleProductClick = () => {
+    addRecentlyViewed({ id, title, imageUrl, currentPrice, oldPrice, category, rating, brand: seller });
+    router.push(`/ProductoDetailPage/${id}`);
   };
 
   return (
     <div
-      onClick={() => router.push(`/ProductoDetailPage/${id}`)}
+      onClick={handleProductClick}
       className="cursor-pointer relative w-full h-full max-w-xs border border-[#ECECEC] rounded-[15px] overflow-hidden p-4 flex flex-col justify-between shadow-sm transition-transform duration-200 ease-in-out hover:scale-[1.015] hover:shadow-lg"
       style={{ background: "var(--bgweb)", color: "var(--color-primary-text)" }}
     >
@@ -92,6 +131,19 @@ const ProductCard: FC<ProductCardProps> = ({
           {finalBadge.label}
         </span>
       )}
+
+      {/* Wishlist heart */}
+      <button
+        onClick={handleToggleWishlist}
+        className="absolute top-2 right-2 z-10 p-1.5 rounded-full bg-white/80 backdrop-blur-sm shadow-sm hover:scale-110 transition-transform cursor-pointer"
+        aria-label={wishlisted ? "Quitar de favoritos" : "Agregar a favoritos"}
+      >
+        <Heart
+          className="w-4 h-4 transition-colors"
+          fill={wishlisted ? "#ef4444" : "none"}
+          color={wishlisted ? "#ef4444" : "#9ca3af"}
+        />
+      </button>
 
       <div className="rounded-md p-2 relative h-40">
         <NextImage
@@ -167,7 +219,7 @@ const ProductCard: FC<ProductCardProps> = ({
       </button>
 
       {added && (
-        <p className="text-center text-sm text-text1 mt-2">¡Agregado al carrito!</p>
+        <p className="text-center text-sm text-text1 mt-2">¡Agregado!</p>
       )}
     </div>
   );

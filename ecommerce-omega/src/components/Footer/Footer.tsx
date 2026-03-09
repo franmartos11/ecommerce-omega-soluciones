@@ -5,7 +5,7 @@ import { SiFacebook, SiInstagram, SiX } from "react-icons/si";
 export default function Footer() {
   return (
     <footer className="px-6 pt-8  text-sm w-full" style={{ background: "var(--bgweb)", color:"var(--color-secondary-text)"}}>
-      <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 divide-y sm:divide-y-0 divide-gray-200/30">
         {/* Columna 1 - Marca */}
         <div>
           <h4 className="text-lg font-semibold text-text1 mb-4">Deals</h4>
@@ -70,9 +70,27 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Columna 4 - Redes */}
+        {/* Columna 4 - Legal */}
         <div>
-          <h4 className="text-lg font-semibold text-text1 mb-4">Seguinos</h4>
+          <h4 className="text-lg font-semibold text-text1 mb-4">Legal</h4>
+          <ul className="space-y-2">
+            <li>
+              <Link href="/terminos" className="hover:text-text1">
+                Términos y Condiciones
+              </Link>
+            </li>
+            <li>
+              <Link href="/privacidad" className="hover:text-text1">
+                Política de Privacidad
+              </Link>
+            </li>
+            <li>
+              <Link href="/politica-envios" className="hover:text-text1">
+                Envíos y Devoluciones
+              </Link>
+            </li>
+          </ul>
+          <h4 className="text-lg font-semibold text-text1 mb-4 mt-6">Seguinos</h4>
           <div className="flex gap-4">
             <Link href="#" className="hover:text-text1">
               <SiFacebook className="w-5 h-5" />

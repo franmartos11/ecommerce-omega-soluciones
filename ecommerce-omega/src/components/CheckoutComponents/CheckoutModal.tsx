@@ -107,6 +107,30 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
       const { id: orderId } = await orderRes.json();
 
+      // Send order confirmation email (non-blocking)
+      try {
+        const emailTo = userEmail;
+        if (emailTo) {
+          fetch("/api/email/send-order-confirmation", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              to: emailTo,
+              order: {
+                id: orderId,
+                items: cartItems.map((i) => ({ title: i.title, price: i.price, quantity: i.quantity })),
+                total: cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0) - (couponData?.amount || 0) + (shippingData?.deliveryMethod === "shipping" && shippingData.province ? provinceRates[shippingData.province] || 0 : 0),
+                shipping: shippingData,
+                paymentMethod,
+                couponDiscount: couponData?.amount,
+              },
+            }),
+          }).catch((e) => console.warn("Email send failed (non-blocking):", e));
+        }
+      } catch (e) {
+        console.warn("Email preparation failed:", e);
+      }
+
       // 2. Si el método es Mercado Pago, crear preferencia y redirigir
       if (paymentMethod === "mercadopago") {
         const prefRes = await fetch("/api/payments/mercadopago", {

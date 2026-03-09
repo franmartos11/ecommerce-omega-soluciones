@@ -95,7 +95,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ products, onFilter }) =>
       <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
         <div>
            <p className="text-sm font-semibold" style={{color:"var(--color-primary-text)"}}>Disponibilidad</p>
-           <p className="text-xs text-gray-500 mt-0.5">Mostrar solo en stock</p>
+           <p className="text-xs mt-0.5" style={{color:"var(--color-secondary-text)"}}>Mostrar solo en stock</p>
         </div>
         <label className="relative inline-flex items-center cursor-pointer">
           <input 
@@ -144,8 +144,8 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ products, onFilter }) =>
         }}
       />
       <div className="flex justify-between text-sm mb-6" style={{ color:"var(--color-secondary-text)"}}>
-        <span>Desde: <span className="font-semibold text-gray-900">${priceRange[0]}</span></span>
-        <span>Hasta: <span className="font-semibold text-gray-900">${priceRange[1]}</span></span>
+        <span>Desde: <span className="font-semibold" style={{color:"var(--color-primary-text)"}}>${priceRange[0]}</span></span>
+        <span>Hasta: <span className="font-semibold" style={{color:"var(--color-primary-text)"}}>${priceRange[1]}</span></span>
       </div>
 
       {/* BRANDS / MFG */}
@@ -162,7 +162,7 @@ const ProductFilterSidebar: FC<FilterSidebarProps> = ({ products, onFilter }) =>
                    className="rounded text-blue-600 focus:ring-blue-500 w-4 h-4 cursor-pointer"
                  />
                  <span className="flex-1 truncate">{name}</span> 
-                 <span className="text-xs text-gray-400">({count})</span>
+                 <span className="text-xs text-gray-500">({count})</span>
                </label>
              ))}
            </div>

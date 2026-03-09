@@ -189,7 +189,11 @@ export default function ProductReviews({ productId }: { productId: string }) {
       {/* Reviews List */}
       <div className="space-y-6">
         {reviews.length === 0 ? (
-          <p className="text-center opacity-60 italic py-8">¡Sé el primero en opinar sobre este producto!</p>
+          <div className="text-center py-12">
+            <Star className="w-10 h-10 mx-auto mb-3 opacity-15" style={{ color: "var(--color-secondary-text)" }} />
+            <p className="font-medium text-base mb-1" style={{ color: "var(--color-primary-text)" }}>Aún no hay reseñas</p>
+            <p className="text-sm opacity-60">¡Sé el primero en compartir tu experiencia con este producto!</p>
+          </div>
         ) : (
           reviews.map((review) => (
             <div key={review.id} className="pb-6 border-b outline-none last:border-0" style={{ borderColor: 'var(--border, #f3f4f6)' }}>

@@ -8,6 +8,10 @@ import { Loader2 } from "lucide-react";
 import type { Config } from "@/lib/config.types";                 // ✅ tipo desde lib
 import { ConfigProvider } from "./ConfigProvider/ConfigProvider"; // ✅ solo el provider
 
+import WhatsAppFloat from "@/components/WhatsAppFloat/WhatsAppFloat";
+import ScrollToTop from "@/components/ScrollToTop/ScrollToTop";
+import { Toaster } from "react-hot-toast";
+
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -107,6 +111,9 @@ export default async function RootLayout({
             </Suspense>
           </ConfigProvider>
         </AuthProvider>
+        <WhatsAppFloat />
+        <ScrollToTop />
+        <Toaster position="bottom-center" />
       </body>
     </html>
   );

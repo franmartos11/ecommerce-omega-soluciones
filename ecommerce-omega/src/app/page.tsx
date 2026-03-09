@@ -11,6 +11,8 @@ import { useConfig } from "./ConfigProvider/ConfigProvider";
 import { mapConfigProductsToUI } from "@/utils/productMapper";
 import { fetchProducts } from "@/services/productService";
 
+import RecentlyViewed from "@/components/RecentlyViewed/RecentlyViewed";
+
 /* ========= Página ========= */
 export default function Home() {
   const config = useConfig();
@@ -91,6 +93,7 @@ export default function Home() {
             );
           })}
 
+        <RecentlyViewed />
       </main>
       <Footer />
     </div>

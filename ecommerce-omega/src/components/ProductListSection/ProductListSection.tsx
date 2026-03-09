@@ -177,12 +177,16 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
   return (
     <section className="">
       {/* 📱 Toggle filtros mobile */}
-      <div className="md:hidden mb-4">
+      <div className="md:hidden mb-3">
         <button
           onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
-          className="w-full shadow-2xl shadow-gray-400 border rounded-lg py-2 px-4 text-sm font-medium text-white border-border2 bg-bg1"
+          className="w-full rounded-lg py-2.5 px-4 text-sm font-medium transition-colors"
+          style={{
+            background: "var(--color-primary-bg)",
+            color: "var(--color-tertiary-text)",
+          }}
         >
-          {mobileFiltersOpen ? "Ocultar filtros" : "Mostrar filtros"}
+          {mobileFiltersOpen ? "✕ Ocultar filtros" : "☰ Filtros"}
         </button>
       </div>
 

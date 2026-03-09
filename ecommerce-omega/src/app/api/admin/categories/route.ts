@@ -1,10 +1,19 @@
+/* eslint-disable */
 import { NextResponse } from "next/server";
-import { supabase } from "@/app/lib/supabase/client";
+import { createBrowserClient } from "@supabase/ssr";
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+function getSupabase() {
+  return createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+}
+
+export async function GET(req: Request) {
   try {
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from("categories")
       .select("*")
@@ -25,6 +34,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Nombre and slug are required" }, { status: 400 });
     }
 
+    const supabase = getSupabase();
     const { data, error } = await supabase
       .from("categories")
       .insert([{ nombre: body.nombre, slug: body.slug, icon_url: body.icon_url || null }])
@@ -48,6 +58,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "id, nombre, and slug are required" }, { status: 400 });
     }
 
+    const supabase = getSupabase();
     const { error } = await supabase
       .from("categories")
       .update({ nombre, slug, icon_url: icon_url || null })
@@ -70,6 +81,7 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: "No ID provided" }, { status: 400 });
     }
 
+    const supabase = getSupabase();
     const { error } = await supabase
       .from("categories")
       .delete()
