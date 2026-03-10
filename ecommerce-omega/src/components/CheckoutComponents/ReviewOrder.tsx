@@ -203,11 +203,13 @@ export default function ReviewOrder({
       <div className="pt-2">
         <button
           onClick={() => onConfirm(appliedCoupon ? { code: appliedCoupon.code, amount: discountAmount } : undefined)}
-          className="cursor-pointer group w-full flex items-center justify-center gap-3 py-4 rounded-xl font-bold text-lg transition-all transform hover:-translate-y-1 active:translate-y-0 active:scale-95 shadow-lg hover:shadow-xl hover:shadow-green-500/20"
+          className="cursor-pointer group w-full flex items-center justify-center gap-3 py-4 rounded-xl font-bold text-lg transition-all transform hover:-translate-y-1 active:translate-y-0 active:scale-95 shadow-lg hover:shadow-xl"
           style={{
             color: "var(--color-tertiary-text, #fff)",
-            backgroundColor: "var(--color-primary-bg, #10B981)", 
+            backgroundColor: "var(--color-primary-bg, var(--bg1))", 
           }}
+          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = "var(--color-secondary-bg)")}
+          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = "var(--color-primary-bg, var(--bg1))")}
         >
           <CheckCircle2 className="w-6 h-6" />
           Confirmar Compra

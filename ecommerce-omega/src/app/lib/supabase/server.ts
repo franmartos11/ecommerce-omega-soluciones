@@ -9,3 +9,17 @@ export function getSupabase() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 }
+
+/** 
+ * Admin-only server-side Supabase client.
+ * Uses the Service Role Key to bypass RLS. Only use in protected /api/admin routes.
+ */
+export function getSupabaseAdmin() {
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    throw new Error("Missing SUPABASE_SERVICE_ROLE_KEY. Por favor agregala en tu archivo .env.local");
+  }
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
+}

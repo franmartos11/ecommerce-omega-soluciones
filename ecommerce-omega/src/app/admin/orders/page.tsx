@@ -204,14 +204,32 @@ export default function AdminOrders() {
             Gestiona los pedidos, verifica estados y contacta a tus clientes rápidamente.
           </p>
         </div>
-        <button
-          onClick={handleExportCSV}
-          disabled={filteredOrders.length === 0}
-          className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 shadow-sm transition-colors disabled:opacity-40 shrink-0"
-        >
-          <Download className="w-4 h-4" />
-          Exportar CSV
-        </button>
+        
+        <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+          <button
+            onClick={() => {
+              setSearchTerm("");
+              setStatusFilter("pendiente");
+            }}
+            className="flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-lg text-sm font-semibold text-amber-700 hover:bg-amber-100 shadow-sm transition-colors shrink-0"
+            title="Ver transferencias pendientes de verificación"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+            </span>
+            Transf. Pendientes
+          </button>
+
+          <button
+            onClick={handleExportCSV}
+            disabled={filteredOrders.length === 0}
+            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 shadow-sm transition-colors disabled:opacity-40 shrink-0"
+          >
+            <Download className="w-4 h-4" />
+            Exportar CSV
+          </button>
+        </div>
       </div>
 
       {/* Metrics Cards */}
@@ -389,6 +407,53 @@ export default function AdminOrders() {
                       {isExpanded && (
                         <tr>
                           <td colSpan={7} className="px-6 py-6 bg-gray-50/80 border-b border-gray-200 shadow-inner">
+                            {/* Transfer Verification Panel */}
+                            {order.paymentMethod === "transfer" && (order.status === "pendiente" || order.status === "pagado" || order.status === "cancelado") && (
+                              <div className={`mx-4 mb-6 border rounded-xl p-5 shadow-sm ${
+                                order.status === "pendiente" ? "bg-amber-50 border-amber-200" :
+                                order.status === "pagado" ? "bg-green-50 border-green-200" :
+                                "bg-red-50 border-red-200"
+                              }`}>
+                                <h4 className={`font-bold flex items-center gap-2 mb-2 ${
+                                  order.status === "pendiente" ? "text-amber-900" :
+                                  order.status === "pagado" ? "text-green-900" : "text-red-900"
+                                }`}>
+                                  {order.status === "pendiente" && <span className="text-xl">⚠️ Pendiente de Vefificación</span>}
+                                  {order.status === "pagado" && <span className="text-xl">✅ Pago ya Verificado</span>}
+                                  {order.status === "cancelado" && <span className="text-xl">❌ Orden Cancelada</span>}
+                                </h4>
+                                
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                  <div>
+                                    <p className={`text-sm mb-1 ${order.status === "pendiente" ? "text-amber-800" : "text-gray-600"}`}>
+                                      Referencia del cliente:
+                                    </p>
+                                    <p className="font-mono text-lg font-bold bg-white inline-block px-3 py-1 rounded-md border shadow-sm">
+                                      {order.reference || "No hay referencia"}
+                                    </p>
+                                  </div>
+
+                                  {/* Actions */}
+                                  {order.status === "pendiente" && (
+                                    <div className="flex gap-2 shrink-0">
+                                      <button 
+                                        onClick={() => updateStatus(order.id, "pagado")}
+                                        className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-bold rounded-lg shadow-sm transition-colors"
+                                      >
+                                        Marcar Pagado
+                                      </button>
+                                      <button 
+                                        onClick={() => updateStatus(order.id, "cancelado")}
+                                        className="px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-bold rounded-lg shadow-sm transition-colors"
+                                      >
+                                        Rechazar
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 text-sm mx-4">
                                   {/* Products */}
                                   <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm col-span-1 md:col-span-2 lg:col-span-1 h-full">

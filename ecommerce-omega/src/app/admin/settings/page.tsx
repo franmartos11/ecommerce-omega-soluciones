@@ -109,6 +109,7 @@ export default function AdminSettingsPage() {
     { id: "promo", label: "Carruseles Promocionales" },
     { id: "badges", label: "Etiquetas Gbl." },
     { id: "contact", label: "Contacto y Soporte" },
+    { id: "payments", label: "Pagos y Descuentos" },
     { id: "advanced", label: "Avanzado (JSON)" },
   ];
 
@@ -374,6 +375,125 @@ export default function AdminSettingsPage() {
                   />
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* --- PAYMENTS TAB --- */}
+        {activeTab === "payments" && (
+          <div className="space-y-8 max-w-2xl text-left">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-900 border-b border-gray-100 pb-2 mb-6">Transferencia Bancaria</h2>
+              
+              <div className="space-y-6 bg-gray-50/50 p-6 rounded-xl border border-gray-100">
+                
+                {/* Descuento Section */}
+                <div>
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <div className="relative">
+                      <input 
+                        type="checkbox" 
+                        className="sr-only"
+                        checked={config.payment_config?.transfer?.discount_enabled || false}
+                        onChange={(e) => updateConfig(["payment_config", "transfer", "discount_enabled"], e.target.checked)}
+                      />
+                      <div className={`block w-10 h-6 rounded-full transition-colors ${config.payment_config?.transfer?.discount_enabled ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
+                      <div className={`absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform ${config.payment_config?.transfer?.discount_enabled ? 'translate-x-4' : ''}`}></div>
+                    </div>
+                    <span className="text-sm font-semibold text-gray-900">Habilitar Descuento por Transferencia</span>
+                  </label>
+                  
+                  {config.payment_config?.transfer?.discount_enabled && (
+                    <div className="mt-4 flex gap-4 pl-12 animate-in fade-in slide-in-from-top-2">
+                      <div className="flex-1">
+                        <label className="block text-xs font-medium text-gray-500 mb-1">Tipo de Descuento</label>
+                        <select
+                          value={config.payment_config?.transfer?.discount_type || "percentage"}
+                          onChange={(e) => {
+                             updateConfig(["payment_config", "transfer", "discount_type"], e.target.value);
+                          }}
+                          className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                        >
+                          <option value="percentage">Porcentaje (%)</option>
+                          <option value="fixed">Monto Fijo ($)</option>
+                        </select>
+                      </div>
+                      <div className="flex-1">
+                        <label className="block text-xs font-medium text-gray-500 mb-1">Valor</label>
+                        <div className="relative">
+                          {config.payment_config?.transfer?.discount_type !== "percentage" && (
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">$</span>
+                          )}
+                          <input
+                            type="number"
+                            min="0"
+                            step={config.payment_config?.transfer?.discount_type === "percentage" ? "1" : "100"}
+                            value={config.payment_config?.transfer?.discount_value || ""}
+                            onChange={(e) => updateConfig(["payment_config", "transfer", "discount_value"], parseFloat(e.target.value) || 0)}
+                            className={`w-full ${config.payment_config?.transfer?.discount_type !== "percentage" ? 'pl-7' : 'pl-3'} pr-8 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all`}
+                            placeholder="Ej: 10"
+                          />
+                          {config.payment_config?.transfer?.discount_type === "percentage" && (
+                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">%</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <hr className="border-gray-200" />
+
+                {/* Bank Data Section */}
+                <div className="space-y-4">
+                  <h3 className="text-sm font-semibold text-gray-700">Datos Bancarios del Negocio</h3>
+                  <p className="text-xs text-gray-500">Estos datos se mostrarán al cliente cuando elija pagar por transferencia.</p>
+                  
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Banco</label>
+                      <input 
+                        type="text" 
+                        value={config.payment_config?.transfer?.bank_name || ""} 
+                        onChange={(e) => updateConfig(["payment_config", "transfer", "bank_name"], e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                        placeholder="Ej: Banco Galicia"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">CBU / CVU</label>
+                      <input 
+                        type="text" 
+                        value={config.payment_config?.transfer?.cbu || ""} 
+                        onChange={(e) => updateConfig(["payment_config", "transfer", "cbu"], e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm font-mono focus:ring-2 focus:ring-blue-500 outline-none"
+                        placeholder="22 números"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Alias</label>
+                      <input 
+                        type="text" 
+                        value={config.payment_config?.transfer?.alias || ""} 
+                        onChange={(e) => updateConfig(["payment_config", "transfer", "alias"], e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm font-mono uppercase focus:ring-2 focus:ring-blue-500 outline-none"
+                        placeholder="MI.NEGOCIO.PAGOS"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Titular de la cuenta</label>
+                      <input 
+                        type="text" 
+                        value={config.payment_config?.transfer?.account_holder || ""} 
+                        onChange={(e) => updateConfig(["payment_config", "transfer", "account_holder"], e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                        placeholder="Nombre o Razón Social"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+              </div>
             </div>
           </div>
         )}

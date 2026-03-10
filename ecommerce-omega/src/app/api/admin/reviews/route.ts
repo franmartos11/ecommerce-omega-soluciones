@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { NextResponse } from "next/server";
-import { getSupabase } from "@/app/lib/supabase/server";
+import { getSupabaseAdmin } from "@/app/lib/supabase/server";
 
 export const dynamic = 'force-dynamic';
 
@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET() {
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseAdmin();
     // Usamos un .select() anidado para traer también datos del producto
     const { data, error } = await supabase
       .from("reviews")
@@ -45,7 +45,7 @@ export async function GET() {
  */
 export async function PATCH(req: Request) {
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseAdmin();
     const { reviewId, status } = await req.json();
 
     if (!reviewId || !status) {
@@ -80,7 +80,7 @@ export async function PATCH(req: Request) {
  */
 export async function DELETE(req: Request) {
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseAdmin();
     const { reviewId } = await req.json();
 
     if (!reviewId) {

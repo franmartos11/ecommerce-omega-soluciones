@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { getSupabase } from "@/app/lib/supabase/server";
+import { getSupabaseAdmin } from "@/app/lib/supabase/server";
 
 export const dynamic = 'force-dynamic';
 
 // GET all settings (Admin Context)
 export async function GET() {
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseAdmin();
     const { data, error } = await supabase
       .from("site_settings")
       .select("*")
@@ -24,7 +24,7 @@ export async function GET() {
 // PUT (Update) a setting
 export async function PUT(req: Request) {
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseAdmin();
     const body = await req.json();
     const { key, value } = body;
 

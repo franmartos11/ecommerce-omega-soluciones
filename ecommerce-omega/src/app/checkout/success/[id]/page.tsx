@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { CheckCircle, ArrowLeft, Download, RefreshCcw } from "lucide-react";
+import { CheckCircle, Clock, ArrowLeft, Download, RefreshCcw, Landmark } from "lucide-react";
 import Image from "next/image";
 
 // Típico formato de orden recibida por nuestra API
@@ -128,17 +128,30 @@ export default function OrderSuccessPage() {
         
         <div className="p-8 sm:p-12">
           
-          {/* Logo y Status */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-12 border-b border-gray-100 pb-8">
+          {/* Header: Success / Pending transfer */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10 border-b border-gray-100 pb-8">
             <div>
-              {/* Ocultamos el div animado del tilde verde en impresión para que sea un PDF más sobrio, pero podemos dejarlo visible */}
-              <div className="flex items-center gap-3 mb-2">
-                <CheckCircle className="w-8 h-8 text-green-500 print:text-gray-800" />
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                  ¡Gracias por tu compra!
-                </h1>
-              </div>
-              <p className="text-gray-500 text-sm">Tu pedido ha sido procesado exitosamente.</p>
+              {order.paymentMethod === "transfer" ? (
+                <>
+                  <div className="flex items-center gap-3 mb-2">
+                    <Clock className="w-8 h-8 text-amber-500" />
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                      ¡Pedido recibido!
+                    </h1>
+                  </div>
+                  <p className="text-gray-500 text-sm">Tu pedido fue registrado y está pendiente de verificación.</p>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center gap-3 mb-2">
+                    <CheckCircle className="w-8 h-8 text-green-500 print:text-gray-800" />
+                    <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                      ¡Gracias por tu compra!
+                    </h1>
+                  </div>
+                  <p className="text-gray-500 text-sm">Tu pedido ha sido procesado exitosamente.</p>
+                </>
+              )}
             </div>
 
             <div className="bg-gray-50 rounded-xl p-4 text-left sm:text-right border border-gray-100 print:bg-white print:border-none min-w-[200px]">
@@ -154,6 +167,25 @@ export default function OrderSuccessPage() {
               </p>
             </div>
           </div>
+
+          {/* Transfer pending notice */}
+          {order.paymentMethod === "transfer" && (
+            <div className="mb-8 p-4 rounded-xl border flex gap-3 items-start" style={{ backgroundColor: "#fefce8", borderColor: "#fde68a" }}>
+              <Landmark className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: "#d97706" }} />
+              <div>
+                <p className="font-semibold text-sm" style={{ color: "#92400e" }}>Pendiente de verificación de transferencia</p>
+                <p className="text-xs mt-1" style={{ color: "#78350f" }}>
+                  Revisaremos tu comprobante de transferencia a la brevedad y actualizaremos el estado de tu pedido. 
+                  Te contactaremos por WhatsApp o email para confirmar.
+                </p>
+                {order.reference && (
+                  <p className="text-xs mt-2 font-mono bg-amber-100 px-2 py-1 rounded" style={{ color: "#92400e" }}>
+                    Referencia ingresada: <strong>{order.reference}</strong>
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Grilla principal de info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">

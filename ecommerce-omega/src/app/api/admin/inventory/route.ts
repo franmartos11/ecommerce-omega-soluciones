@@ -1,12 +1,12 @@
 /* eslint-disable */
 import { NextResponse } from "next/server";
-import { getSupabase } from "@/app/lib/supabase/server";
+import { getSupabaseAdmin } from "@/app/lib/supabase/server";
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: Request) {
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseAdmin();
     const { searchParams } = new URL(req.url);
     const filterLow = searchParams.get('low') === 'true';
 
@@ -44,7 +44,7 @@ export async function GET(req: Request) {
 
 export async function PATCH(req: Request) {
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseAdmin();
     const { items } = await req.json();
 
     if (!items || !Array.isArray(items)) {

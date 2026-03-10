@@ -173,6 +173,25 @@ export interface PromoCategoryConfig {
   productIds?: string[]; // Array de IDs de productos para sobreescribir la categoría
 }
 
+export interface PaymentConfig {
+  transfer?: {
+    /** Activar descuento por transferencia bancaria */
+    discount_enabled?: boolean;
+    /** Tipo de descuento: 'percentage' o 'fixed' */
+    discount_type?: 'percentage' | 'fixed';
+    /** Valor del descuento (% o $) */
+    discount_value?: number;
+    /** CBU del banco */
+    cbu?: string;
+    /** Alias de transferencia */
+    alias?: string;
+    /** Nombre del banco */
+    bank_name?: string;
+    /** Titular de la cuenta */
+    account_holder?: string;
+  };
+}
+
 export type Badge = {
   label: string;
   color?: string;
@@ -239,6 +258,10 @@ export type Config = {
   };
   SEO?: { titulo?: string; descripcion?: string; ogImage?: string };
   DefaultWeb?: Record<string, unknown>;
+
+  /** 💳 Configuración de métodos de pago */
+  payment_config?: PaymentConfig;
+
   home?: {
     omegaShowcase?: OmegaShowcaseConfig;
     misionVision?: MisionVisionConfig;

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { NextResponse } from "next/server";
-import { getSupabase } from "@/app/lib/supabase/server";
+import { getSupabaseAdmin } from "@/app/lib/supabase/server";
 
 export const dynamic = 'force-dynamic';
 
@@ -13,7 +13,7 @@ const SETTING_KEY = "shipping_rates";
 
 export async function GET() {
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseAdmin();
     const { data, error } = await supabase
       .from("site_settings")
       .select("value")
@@ -48,7 +48,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseAdmin();
     // Basic super admin validation if required in your app. Leaving open for now if handled by middleware.
     
     const newRates: ShippingRates = await req.json();

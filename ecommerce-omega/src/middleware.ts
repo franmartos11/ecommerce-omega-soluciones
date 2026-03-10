@@ -4,8 +4,8 @@ import { NextResponse, type NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Only protect /admin routes
-  if (!pathname.startsWith("/admin")) {
+  // Only protect /admin and /api/admin routes
+  if (!pathname.startsWith("/admin") && !pathname.startsWith("/api/admin")) {
     return NextResponse.next();
   }
 
@@ -38,12 +38,20 @@ export async function middleware(request: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  // No session → redirect to home
-  if (!session) {
+  // Helper to return either a redirect (for pages) or a 401 JSON (for APIs)
+  const respondUnauthorized = () => {
+    if (pathname.startsWith("/api/admin")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/";
     redirectUrl.searchParams.set("unauthorized", "true");
     return NextResponse.redirect(redirectUrl);
+  };
+
+  // No session → unauthorized
+  if (!session) {
+    return respondUnauthorized();
   }
 
   // Check role in public.users table
@@ -54,15 +62,12 @@ export async function middleware(request: NextRequest) {
     .single();
 
   if (error || !userProfile || userProfile.role !== "admin") {
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = "/";
-    redirectUrl.searchParams.set("unauthorized", "true");
-    return NextResponse.redirect(redirectUrl);
+    return respondUnauthorized();
   }
 
   return response;
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*"],
+  matcher: ["/admin", "/admin/:path*", "/api/admin/:path*"],
 };
