@@ -149,7 +149,12 @@ export default function ProfileContent({ user }: { user: UserProfile }) {
     });
   };
 
-  const inputClass = "w-full border rounded-lg py-2.5 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-opacity-20 transition-all";
+  const inputClass = "w-full border rounded-md py-2.5 px-3 text-sm outline-none transition focus:ring-2 focus:ring-opacity-30";
+  const inputStyle = {
+    borderColor: "var(--border, #e5e7eb)",
+    color: "var(--color-primary-text)",
+    background: "var(--surface, #ffffff)",
+  };
 
   return (
     <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
@@ -158,13 +163,15 @@ export default function ProfileContent({ user }: { user: UserProfile }) {
       <div className="flex border-b border-gray-200">
         <button
           onClick={() => setActiveSubTab("security")}
-          className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-medium transition duration-200 ${activeSubTab === "security" ? "border-b-2 border-primary text-primary" : "text-gray-500 hover:bg-gray-50"}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-medium transition duration-200 ${activeSubTab === "security" ? "border-b-2" : "text-gray-500 hover:bg-gray-50"}`}
+          style={activeSubTab === "security" ? { borderColor: "var(--color-primary-bg)", color: "var(--color-primary-bg)" } : {}}
         >
           <Lock className="w-4 h-4" /> Seguridad
         </button>
         <button
           onClick={() => setActiveSubTab("addresses")}
-          className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-medium transition duration-200 ${activeSubTab === "addresses" ? "border-b-2 border-primary text-primary" : "text-gray-500 hover:bg-gray-50"}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-4 text-sm font-medium transition duration-200 ${activeSubTab === "addresses" ? "border-b-2" : "text-gray-500 hover:bg-gray-50"}`}
+          style={activeSubTab === "addresses" ? { borderColor: "var(--color-primary-bg)", color: "var(--color-primary-bg)" } : {}}
         >
           <MapPin className="w-4 h-4" /> Direcciones guardadas
         </button>
@@ -180,33 +187,35 @@ export default function ProfileContent({ user }: { user: UserProfile }) {
 
             <form onSubmit={handlePasswordUpdate} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">Nueva Contraseña</label>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--color-secondary-text)" }}>Nueva Contraseña</label>
                 <input
                   type="password"
                   required
                   value={newPassword}
                   onChange={e => setNewPassword(e.target.value)}
                   className={inputClass}
-                  style={{ borderColor: "var(--border, #e5e7eb)", background: "var(--bgweb)" }}
+                  style={inputStyle}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">Confirmar Contraseña</label>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: "var(--color-secondary-text)" }}>Confirmar Contraseña</label>
                 <input
                   type="password"
                   required
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
                   className={inputClass}
-                  style={{ borderColor: "var(--border, #e5e7eb)", background: "var(--bgweb)" }}
+                  style={inputStyle}
                 />
               </div>
               
               <button
                 type="submit"
                 disabled={updatingPassword || !newPassword || !confirmPassword}
-                className="w-full mt-2 cursor-pointer py-2.5 rounded-lg text-sm font-semibold transition-transform hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100 flex items-center justify-center gap-2"
+                className="w-full mt-4 cursor-pointer py-2.5 rounded-md text-sm font-semibold transition-colors disabled:opacity-60 disabled:hover:scale-100 flex items-center justify-center gap-2"
                 style={{ background: "var(--color-primary-bg)", color: "var(--color-tertiary-text)" }}
+                onMouseEnter={e => !updatingPassword && newPassword && confirmPassword && (e.currentTarget.style.background = "var(--color-secondary-bg)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "var(--color-primary-bg)")}
               >
                 {updatingPassword ? <Loader2 className="w-5 h-5 animate-spin" style={{ color: "var(--color-primary-bg)" }} /> : <Save className="w-5 h-5" />}
                 Actualizar Contraseña
@@ -228,7 +237,8 @@ export default function ProfileContent({ user }: { user: UserProfile }) {
               {!showAddressForm && (
                 <button
                   onClick={() => { resetForm(); setEditingId(null); setShowAddressForm(true); }}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-sm font-medium transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  style={{ background: "var(--color-secondary-bg)", color: "var(--color-primary-bg)" }}
                 >
                   <Plus className="w-4 h-4" /> Nueva Dirección
                 </button>
@@ -237,41 +247,41 @@ export default function ProfileContent({ user }: { user: UserProfile }) {
 
             {/* FORMULARIO */}
             {showAddressForm ? (
-              <form onSubmit={handleAddressSubmit} className="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-6">
+              <form onSubmit={handleAddressSubmit} className="p-6 rounded-xl border mb-6 shadow-sm" style={{ background: "var(--surface, #ffffff)", borderColor: "var(--border, #e5e7eb)" }}>
                 <h4 className="font-bold mb-4">{editingId ? "Editar Dirección" : "Añadir Nueva Dirección"}</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Nombre</label>
-                    <input required type="text" value={formData.first_name} onChange={e => setFormData({...formData, first_name: e.target.value})} className={inputClass} />
+                    <label className="block text-xs font-semibold mb-1" style={{ color: "var(--color-secondary-text)" }}>Nombre</label>
+                    <input required type="text" value={formData.first_name} onChange={e => setFormData({...formData, first_name: e.target.value})} className={inputClass} style={inputStyle} />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Apellido</label>
-                    <input required type="text" value={formData.last_name} onChange={e => setFormData({...formData, last_name: e.target.value})} className={inputClass} />
+                    <label className="block text-xs font-semibold mb-1" style={{ color: "var(--color-secondary-text)" }}>Apellido</label>
+                    <input required type="text" value={formData.last_name} onChange={e => setFormData({...formData, last_name: e.target.value})} className={inputClass} style={inputStyle} />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Calle y Altura</label>
-                    <input required type="text" value={formData.address_line} onChange={e => setFormData({...formData, address_line: e.target.value})} className={inputClass} />
+                    <label className="block text-xs font-semibold mb-1" style={{ color: "var(--color-secondary-text)" }}>Calle y Altura</label>
+                    <input required type="text" value={formData.address_line} onChange={e => setFormData({...formData, address_line: e.target.value})} className={inputClass} style={inputStyle} />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Ciudad</label>
-                    <input required type="text" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className={inputClass} />
+                    <label className="block text-xs font-semibold mb-1" style={{ color: "var(--color-secondary-text)" }}>Ciudad</label>
+                    <input required type="text" value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} className={inputClass} style={inputStyle} />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Provincia</label>
-                    <input required type="text" value={formData.province} onChange={e => setFormData({...formData, province: e.target.value})} className={inputClass} />
+                    <label className="block text-xs font-semibold mb-1" style={{ color: "var(--color-secondary-text)" }}>Provincia</label>
+                    <input required type="text" value={formData.province} onChange={e => setFormData({...formData, province: e.target.value})} className={inputClass} style={inputStyle} />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Código Postal</label>
-                    <input required type="text" value={formData.postal_code} onChange={e => setFormData({...formData, postal_code: e.target.value})} className={inputClass} />
+                    <label className="block text-xs font-semibold mb-1" style={{ color: "var(--color-secondary-text)" }}>Código Postal</label>
+                    <input required type="text" value={formData.postal_code} onChange={e => setFormData({...formData, postal_code: e.target.value})} className={inputClass} style={inputStyle} />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Teléfono</label>
-                    <input required type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className={inputClass} />
+                    <label className="block text-xs font-semibold mb-1" style={{ color: "var(--color-secondary-text)" }}>Teléfono</label>
+                    <input required type="tel" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} className={inputClass} style={inputStyle} />
                   </div>
                 </div>
                 
                 <label className="flex items-center gap-2 mt-4 text-sm font-medium text-gray-700 cursor-pointer">
-                  <input type="checkbox" checked={formData.is_default} onChange={e => setFormData({...formData, is_default: e.target.checked})} className="rounded text-blue-600 focus:ring-blue-500" />
+                  <input type="checkbox" checked={formData.is_default} onChange={e => setFormData({...formData, is_default: e.target.checked})} className="rounded focus:ring-0" style={{ color: "var(--color-primary-bg)" }} />
                   Convertir en dirección por defecto
                 </label>
 
@@ -279,8 +289,10 @@ export default function ProfileContent({ user }: { user: UserProfile }) {
                   <button type="button" onClick={() => setShowAddressForm(false)} className="px-4 py-2 border rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors">
                     Cancelar
                   </button>
-                  <button type="submit" disabled={savingAddress} className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                    {savingAddress ? <Loader2 className="w-4 h-4 animate-spin" style={{ color: "var(--color-primary-bg)" }} /> : <Save className="w-4 h-4" />}
+                  <button type="submit" disabled={savingAddress} className="flex items-center gap-2 px-6 py-2 rounded-md border text-sm font-medium transition-colors cursor-pointer" style={{ background: "var(--color-primary-bg)", color: "var(--color-tertiary-text)", borderColor: "transparent" }}
+                    onMouseEnter={e => !savingAddress && ((e.currentTarget as HTMLElement).style.background = "var(--color-secondary-bg)")}
+                    onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = "var(--color-primary-bg)")}>
+                    {savingAddress ? <Loader2 className="w-4 h-4 animate-spin" style={{ color: "var(--color-tertiary-text)" }} /> : <Save className="w-4 h-4" />}
                     Guardar
                   </button>
                 </div>
@@ -298,9 +310,9 @@ export default function ProfileContent({ user }: { user: UserProfile }) {
                 ) : (
                   <div className="grid gap-4 md:grid-cols-2">
                     {addresses.map(addr => (
-                      <div key={addr.id} className={`relative p-5 rounded-xl border transition-all hover:shadow-md ${addr.is_default ? 'border-primary ring-1 ring-primary/20 bg-blue-50/20' : 'border-gray-200 bg-white'}`}>
+                      <div key={addr.id} className={`relative p-5 rounded-xl border transition-all hover:shadow-md ${addr.is_default ? 'ring-1' : 'border-gray-200 bg-white'}`} style={addr.is_default ? { borderColor: "var(--color-primary-bg)", background: "var(--color-secondary-bg)" } : {}}>
                         {addr.is_default && (
-                          <span className="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded bg-blue-100 text-blue-700">Por defecto</span>
+                          <span className="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded" style={{ background: "var(--color-primary-bg)", color: "var(--color-tertiary-text)" }}>Por defecto</span>
                         )}
                         <h4 className="font-bold text-gray-900">{addr.first_name} {addr.last_name}</h4>
                         <p className="text-sm text-gray-600 mt-1 leading-relaxed">
@@ -310,7 +322,7 @@ export default function ProfileContent({ user }: { user: UserProfile }) {
                         </p>
                         
                         <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
-                          <button onClick={() => startEditing(addr)} className="text-sm font-medium text-gray-600 hover:text-blue-600 flex items-center gap-1 transition-colors">
+                          <button onClick={() => startEditing(addr)} className="text-sm font-medium flex items-center gap-1 transition-colors" style={{ color: "var(--color-primary-bg)" }}>
                             <Edit2 className="w-3.5 h-3.5" /> Editar
                           </button>
                           <span className="text-gray-300">|</span>

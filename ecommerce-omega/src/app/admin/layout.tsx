@@ -1,13 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Settings, Globe, ShoppingBag, LayoutDashboard, Tag, MessageSquare, Menu, PackageOpen, Truck } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { isAdmin, loading } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    if (!loading && !isAdmin) {
+      router.replace("/?unauthorized=true");
+    }
+  }, [loading, isAdmin, router]);
+
+  // Show spinner while auth is being determined
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-gray-50">
+        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // Not admin: show nothing (redirect is in progress)
+  if (!isAdmin) {
+    return null;
+  }
 
   const isDashboard = pathname === "/admin";
   const isSettings = pathname?.startsWith("/admin/settings");

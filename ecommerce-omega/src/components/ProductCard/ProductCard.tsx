@@ -120,7 +120,7 @@ const ProductCard: FC<ProductCardProps> = ({
     >
       {finalBadge && (
         <span
-          className={`absolute top-0 left-0 px-3 py-1 text-xs font-semibold rounded-tl-[15px] ${finalBadge.color} ${finalBadge.textColor}`}
+          className={`absolute top-0 left-0 z-10 px-3 py-1 text-xs font-semibold rounded-tl-[15px] ${finalBadge.color} ${finalBadge.textColor}`}
           style={{
             borderBottomRightRadius: 0,
             borderTopRightRadius: 0,

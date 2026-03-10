@@ -94,10 +94,10 @@ export default function OrdersPanel() {
   };
 
   const StatusIcon = ({ status }: { status: Order["status"] }) => {
-    if (status === "pendiente") return <Clock className="w-5 h-5 text-yellow-600" />;
-    if (status === "pagado") return <CheckCircle className="w-5 h-5 text-blue-600" />;
-    if (status === "enviado") return <Truck className="w-5 h-5 text-purple-600" />;
-    return <CheckCircle className="w-5 h-5 text-green-600" />;
+    if (status === "pendiente") return <Clock className="w-5 h-5" style={{ color: "var(--color-primary-bg)" }} />;
+    if (status === "pagado") return <CheckCircle className="w-5 h-5" style={{ color: "var(--color-primary-bg)" }} />;
+    if (status === "enviado") return <Truck className="w-5 h-5" style={{ color: "var(--color-primary-bg)" }} />;
+    return <CheckCircle className="w-5 h-5" style={{ color: "var(--color-primary-bg)" }} />;
   };
 
   if (authLoading) {
@@ -211,7 +211,7 @@ export default function OrdersPanel() {
                         }}
                       >
                         <div className="flex items-center gap-4 mb-4 sm:mb-0">
-                          <div className="p-3 rounded-full bg-gray-50 border border-gray-100 group-hover:bg-blue-50 transition-colors">
+                          <div className="p-3 rounded-full border border-gray-100 transition-colors" style={{ background: "var(--color-secondary-bg)" }}>
                             <StatusIcon status={order.status} />
                           </div>
                           <div>
@@ -233,7 +233,7 @@ export default function OrdersPanel() {
                               ${order.total.toFixed(2)}
                             </p>
                           </div>
-                          <div className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-gray-50 group-hover:bg-blue-100 group-hover:text-blue-600 transition-colors" style={{ color: "var(--color-secondary-text)" }}>
+                          <div className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full transition-colors" style={{ background: "var(--color-secondary-bg)", color: "var(--color-primary-bg)" }}>
                             <ChevronRight className="w-4 h-4" />
                           </div>
                         </div>

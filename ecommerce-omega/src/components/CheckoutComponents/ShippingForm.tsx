@@ -53,7 +53,7 @@ export default function ShippingForm({ onNext, provinceRates }: Props) {
           <label
             className={`cursor-pointer flex items-center justify-center py-3 border-2 rounded-xl transition-all ${
               deliveryMethod === "shipping"
-                ? "border-[var(--color-primary-bg)] bg-[var(--color-primary-bg)] bg-opacity-10 text-[var(--color-primary-bg)] font-bold"
+                ? "border-[var(--color-primary-bg)] bg-[var(--color-primary-bg)] text-[var(--color-tertiary-text,white)] font-bold"
                 : "border-gray-200 text-gray-500 hover:border-gray-300"
             }`}
           >
@@ -68,7 +68,7 @@ export default function ShippingForm({ onNext, provinceRates }: Props) {
           <label
             className={`cursor-pointer flex items-center justify-center py-3 border-2 rounded-xl transition-all ${
               deliveryMethod === "pickup"
-                ? "border-[var(--color-primary-bg)] bg-[var(--color-primary-bg)] bg-opacity-10 text-[var(--color-primary-bg)] font-bold"
+                ? "border-[var(--color-primary-bg)] bg-[var(--color-primary-bg)] text-[var(--color-tertiary-text,white)] font-bold"
                 : "border-gray-200 text-gray-500 hover:border-gray-300"
             }`}
           >
