@@ -99,11 +99,11 @@ export default function AdminMarketing() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto pb-20 px-4 sm:px-0 pt-4">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
             <Ticket className="w-8 h-8 text-blue-600" />
             Marketing y Promociones
           </h1>

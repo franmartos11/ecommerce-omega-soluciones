@@ -114,10 +114,12 @@ export default function AdminSettingsPage() {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto pb-20">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Configuración de la Tienda</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
+            Configuración de la Tienda
+          </h1>
           <p className="text-sm text-gray-500 mt-1">
             Administra los colores, información de contacto y detalles generales.
           </p>

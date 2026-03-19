@@ -196,11 +196,13 @@ export default function AdminOrders() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto pb-20 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-4">
       {/* Header section */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 pt-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Ventas y Órdenes</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
+            Ventas y Órdenes
+          </h1>
           <p className="text-sm text-gray-500 mt-1">
             Gestiona los pedidos, verifica estados y contacta a tus clientes rápidamente.
           </p>

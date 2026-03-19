@@ -448,19 +448,21 @@ export default function ShippingAdminPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto pb-12">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-4">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-2 text-sm text-gray-500 mb-4 hover:text-gray-900 transition-colors w-fit">
-          <ArrowLeft className="w-4 h-4" />
-          <Link href="/admin">Volver al Dashboard</Link>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <div className="flex items-center gap-2 text-sm text-gray-500 mb-2 hover:text-gray-900 transition-colors w-fit">
+            <ArrowLeft className="w-4 h-4" />
+            <Link href="/admin">Volver al Dashboard</Link>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold flex items-center gap-3 tracking-tight text-gray-900">
+            Envíos
+          </h1>
+          <p className="text-gray-500 text-sm mt-1">
+            Gestioná las órdenes pendientes de despacho y configurá los precios de envío por provincia.
+          </p>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-          Envíos
-        </h1>
-        <p className="text-gray-500 mt-2">
-          Gestioná las órdenes pendientes de despacho y configurá los precios de envío por provincia.
-        </p>
       </div>
 
       {/* Orders to ship */}
