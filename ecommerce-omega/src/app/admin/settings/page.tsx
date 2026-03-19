@@ -129,8 +129,7 @@ export default function AdminSettingsPage() {
             type="submit" 
             onClick={handleSave}
             disabled={isSaving}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-white font-semibold transition-all hover:opacity-90 active:scale-95 disabled:opacity-50 shadow-md hover:shadow-lg"
-            style={{ backgroundColor: "var(--color-primary-bg)" }}
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-theme-primary-text bg-theme-primary hover:bg-theme-secondary font-semibold transition-all hover:opacity-90 active:scale-95 disabled:opacity-50 shadow-md hover:shadow-lg"
           >
             {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             {isSaving ? "Guardando..." : "Guardar Cambios"}
@@ -166,7 +165,7 @@ export default function AdminSettingsPage() {
                 }}
                 className={`whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium flex items-center transition-colors ${
                   activeTab === tab.id
-                    ? "bg-blue-50 text-blue-700"
+                    ? "bg-gray-50 text-theme-secondary"
                     : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                 }`}
               >
@@ -191,7 +190,7 @@ export default function AdminSettingsPage() {
                   type="text" 
                   value={config.sitio?.nombre || ""} 
                   onChange={(e) => updateConfig(["sitio", "nombre"], e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-theme-primary focus:border-theme-primary outline-none transition-all"
                 />
               </div>
               <div>
@@ -200,7 +199,7 @@ export default function AdminSettingsPage() {
                   type="text" 
                   value={config.sitio?.dominio || ""} 
                   onChange={(e) => updateConfig(["sitio", "dominio"], e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-theme-primary focus:border-theme-primary outline-none transition-all"
                   placeholder="https://www.midominio.com"
                 />
               </div>
@@ -214,7 +213,7 @@ export default function AdminSettingsPage() {
                   type="text" 
                   value={config.SEO?.titulo || ""} 
                   onChange={(e) => updateConfig(["SEO", "titulo"], e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-theme-primary outline-none transition-all"
                 />
               </div>
               <div>
@@ -223,7 +222,7 @@ export default function AdminSettingsPage() {
                   value={config.SEO?.descripcion || ""} 
                   onChange={(e) => updateConfig(["SEO", "descripcion"], e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all resize-none"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-theme-primary outline-none transition-all resize-none"
                 />
               </div>
             </div>
@@ -308,9 +307,9 @@ export default function AdminSettingsPage() {
               </div>
             </div>
             
-            <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-              <p className="text-sm text-blue-800">
+            <div className="bg-gray-50 border border-blue-100 p-4 rounded-xl flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-theme-primary mt-0.5 flex-shrink-0" />
+              <p className="text-sm text-theme-secondary">
                 Al guardar, si abres tu tienda en otra pestaña, verás que Hot-Reload aplicará los colores instantáneamente sin necesidad de reiniciar el servidor local.
               </p>
             </div>
@@ -351,7 +350,7 @@ export default function AdminSettingsPage() {
                      updateConfig(["Soporte", "tel"], e.target.value);
                      updateConfig(["NumTelefonoSoporte"], e.target.value);
                   }}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-theme-primary outline-none transition-all"
                   placeholder="+54 9 351 000 0000"
                 />
               </div>
@@ -362,7 +361,7 @@ export default function AdminSettingsPage() {
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   value={(config.Soporte as any)?.email || ""} 
                   onChange={(e) => updateConfig(["Soporte", "email"], e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-theme-primary outline-none transition-all"
                   placeholder="hola@midominio.com"
                 />
               </div>
@@ -377,7 +376,7 @@ export default function AdminSettingsPage() {
                     type="text" 
                     value={config.Redes?.[red] || ""} 
                     onChange={(e) => updateConfig(["Redes", red], e.target.value)}
-                    className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                    className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-theme-primary outline-none transition-all"
                     placeholder={`https://www.${red.toLowerCase()}.com/tu-usuario`}
                   />
                 </div>
@@ -404,7 +403,7 @@ export default function AdminSettingsPage() {
                         checked={config.payment_config?.transfer?.discount_enabled || false}
                         onChange={(e) => updateConfig(["payment_config", "transfer", "discount_enabled"], e.target.checked)}
                       />
-                      <div className={`block w-10 h-6 rounded-full transition-colors ${config.payment_config?.transfer?.discount_enabled ? 'bg-blue-600' : 'bg-gray-300'}`}></div>
+                      <div className={`block w-10 h-6 rounded-full transition-colors ${config.payment_config?.transfer?.discount_enabled ? 'bg-theme-primary' : 'bg-gray-300'}`}></div>
                       <div className={`absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform ${config.payment_config?.transfer?.discount_enabled ? 'translate-x-4' : ''}`}></div>
                     </div>
                     <span className="text-sm font-semibold text-gray-900">Habilitar Descuento por Transferencia</span>
@@ -419,7 +418,7 @@ export default function AdminSettingsPage() {
                           onChange={(e) => {
                              updateConfig(["payment_config", "transfer", "discount_type"], e.target.value);
                           }}
-                          className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                          className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-theme-primary outline-none transition-all"
                         >
                           <option value="percentage">Porcentaje (%)</option>
                           <option value="fixed">Monto Fijo ($)</option>
@@ -437,7 +436,7 @@ export default function AdminSettingsPage() {
                             step={config.payment_config?.transfer?.discount_type === "percentage" ? "1" : "100"}
                             value={config.payment_config?.transfer?.discount_value || ""}
                             onChange={(e) => updateConfig(["payment_config", "transfer", "discount_value"], parseFloat(e.target.value) || 0)}
-                            className={`w-full ${config.payment_config?.transfer?.discount_type !== "percentage" ? 'pl-7' : 'pl-3'} pr-8 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all`}
+                            className={`w-full ${config.payment_config?.transfer?.discount_type !== "percentage" ? 'pl-7' : 'pl-3'} pr-8 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-theme-primary outline-none transition-all`}
                             placeholder="Ej: 10"
                           />
                           {config.payment_config?.transfer?.discount_type === "percentage" && (
@@ -463,7 +462,7 @@ export default function AdminSettingsPage() {
                         type="text" 
                         value={config.payment_config?.transfer?.bank_name || ""} 
                         onChange={(e) => updateConfig(["payment_config", "transfer", "bank_name"], e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-theme-primary outline-none"
                         placeholder="Ej: Banco Galicia"
                       />
                     </div>
@@ -473,7 +472,7 @@ export default function AdminSettingsPage() {
                         type="text" 
                         value={config.payment_config?.transfer?.cbu || ""} 
                         onChange={(e) => updateConfig(["payment_config", "transfer", "cbu"], e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm font-mono focus:ring-2 focus:ring-blue-500 outline-none"
+                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm font-mono focus:ring-2 focus:ring-theme-primary outline-none"
                         placeholder="22 números"
                       />
                     </div>
@@ -483,7 +482,7 @@ export default function AdminSettingsPage() {
                         type="text" 
                         value={config.payment_config?.transfer?.alias || ""} 
                         onChange={(e) => updateConfig(["payment_config", "transfer", "alias"], e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm font-mono uppercase focus:ring-2 focus:ring-blue-500 outline-none"
+                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm font-mono uppercase focus:ring-2 focus:ring-theme-primary outline-none"
                         placeholder="MI.NEGOCIO.PAGOS"
                       />
                     </div>
@@ -493,7 +492,7 @@ export default function AdminSettingsPage() {
                         type="text" 
                         value={config.payment_config?.transfer?.account_holder || ""} 
                         onChange={(e) => updateConfig(["payment_config", "transfer", "account_holder"], e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                        className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-theme-primary outline-none"
                         placeholder="Nombre o Razón Social"
                       />
                     </div>

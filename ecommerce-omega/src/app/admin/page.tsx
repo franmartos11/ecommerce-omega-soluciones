@@ -17,7 +17,7 @@ type Order = {
 
 const STATUS_STYLES: Record<string, string> = {
   pendiente: "bg-yellow-100 text-yellow-800",
-  pagado: "bg-blue-100 text-blue-800",
+  pagado: "bg-gray-100 text-theme-secondary",
   enviado: "bg-purple-100 text-purple-800",
   completado: "bg-green-100 text-green-800",
   cancelado: "bg-red-100 text-red-800",
@@ -62,8 +62,8 @@ export default function AdminDashboard() {
       label: "Ingresos Totales",
       value: `$${totalRevenue.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
       sub: `${orders.length} órdenes en total`,
-      icon: <TrendingUp className="w-6 h-6 text-blue-600" />,
-      bg: "bg-blue-50",
+      icon: <TrendingUp className="w-6 h-6 text-theme-primary" />,
+      bg: "bg-gray-50",
     },
     {
       label: "Pedidos Pendientes",
@@ -78,9 +78,9 @@ export default function AdminDashboard() {
     {
       title: "Ventas y Órdenes",
       description: "Gestiona los pedidos, estados y cobros.",
-      icon: <ShoppingBag className="w-6 h-6 text-blue-600" />,
+      icon: <ShoppingBag className="w-6 h-6 text-theme-primary" />,
       href: "/admin/orders",
-      bgColor: "bg-blue-50",
+      bgColor: "bg-gray-50",
     },
     {
       title: "Productos",
@@ -172,13 +172,13 @@ export default function AdminDashboard() {
             <Link
               key={i}
               href={card.href}
-              className="group bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex items-center gap-4 hover:shadow-md hover:border-blue-200 transition-all"
+              className="group bg-white rounded-xl shadow-sm border border-gray-200 p-5 flex items-center gap-4 hover:shadow-md hover:border-theme-primary-border transition-all"
             >
               <div className={`w-10 h-10 rounded-lg ${card.bgColor} flex items-center justify-center shrink-0`}>
                 {card.icon}
               </div>
               <div className="flex-1 min-w-0">
-                <h2 className="text-sm font-bold text-gray-900 group-hover:text-blue-700 transition-colors flex items-center gap-1">
+                <h2 className="text-sm font-bold text-gray-900 group-hover:text-theme-secondary transition-colors flex items-center gap-1">
                   {card.title}
                   <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                 </h2>
@@ -206,7 +206,7 @@ export default function AdminDashboard() {
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col h-full min-h-[400px]">
             <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
               <h2 className="font-bold text-gray-900">Últimas Órdenes</h2>
-              <Link href="/admin/orders" className="text-xs font-medium text-blue-600 hover:underline">
+              <Link href="/admin/orders" className="text-xs font-medium text-theme-primary hover:underline">
                 Ver todas →
               </Link>
             </div>

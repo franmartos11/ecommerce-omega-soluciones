@@ -330,7 +330,7 @@ export default function AdminProductsPage() {
         
         <button
           onClick={() => handleOpenModal()}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium shadow-sm transition-colors"
+          className="flex items-center gap-2 bg-theme-primary hover:bg-theme-secondary text-white px-4 py-2.5 rounded-lg text-sm font-medium shadow-sm transition-colors"
         >
           <Plus className="w-5 h-5" />
           Añadir Producto
@@ -344,7 +344,7 @@ export default function AdminProductsPage() {
           <input
             type="text"
             placeholder="Buscar por nombre..."
-            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -433,7 +433,7 @@ export default function AdminProductsPage() {
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => handleOpenModal(product)}
-                          className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                          className="p-1.5 text-gray-400 hover:text-theme-primary hover:bg-gray-50 rounded transition-colors"
                           title="Editar"
                         >
                           <Edit2 className="w-4 h-4" />
@@ -482,7 +482,7 @@ export default function AdminProductsPage() {
                     <input
                       type="text"
                       required
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-shadow"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition-shadow"
                       placeholder="Ej. Termo Stanley"
                       value={formData.title}
                       onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -492,7 +492,7 @@ export default function AdminProductsPage() {
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Categoría</label>
                     <select
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-shadow bg-white"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition-shadow bg-white"
                       value={formData.category}
                       onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                     >
@@ -514,7 +514,7 @@ export default function AdminProductsPage() {
                       type="number"
                       step="0.01"
                       required
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary"
                       placeholder="0.00"
                       value={formData.price}
                       onChange={(e) => setFormData({ ...formData, price: e.target.value })}
@@ -525,7 +525,7 @@ export default function AdminProductsPage() {
                     <input
                       type="number"
                       step="0.01"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary"
                       placeholder="Opcional"
                       value={formData.oldPrice}
                       onChange={(e) => setFormData({ ...formData, oldPrice: e.target.value })}
@@ -536,7 +536,7 @@ export default function AdminProductsPage() {
                     <input
                       type="number"
                       required
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary"
                       placeholder="0"
                       value={formData.stock}
                       onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
@@ -546,7 +546,7 @@ export default function AdminProductsPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-1">SKU</label>
                     <input
                       type="text"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary font-mono"
                       placeholder="Ej. OMEGA-123"
                       value={formData.sku}
                       onChange={(e) => setFormData({ ...formData, sku: e.target.value.toUpperCase() })}
@@ -560,7 +560,7 @@ export default function AdminProductsPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Color Principal</label>
                     <input
                       type="text"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary"
                       placeholder="Ej. Negro, Plata"
                       value={formData.color}
                       onChange={(e) => setFormData({ ...formData, color: e.target.value })}
@@ -570,7 +570,7 @@ export default function AdminProductsPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Fabricante (Mfg)</label>
                     <input
                       type="text"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary"
                       placeholder="Ej. China"
                       value={formData.mfg}
                       onChange={(e) => setFormData({ ...formData, mfg: e.target.value })}
@@ -580,7 +580,7 @@ export default function AdminProductsPage() {
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Vida / Garantía</label>
                     <input
                       type="text"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary"
                       placeholder="Ej. 1 Año"
                       value={formData.life}
                       onChange={(e) => setFormData({ ...formData, life: e.target.value })}
@@ -593,7 +593,7 @@ export default function AdminProductsPage() {
                       step="0.1"
                       min="1"
                       max="5"
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary"
                       value={formData.rating}
                       onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
                     />
@@ -604,7 +604,7 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Etiquetas</label>
                   <input
                     type="text"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary"
                     placeholder="tecnologia, oferta, nuevo"
                     value={formData.tags}
                     onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
@@ -628,7 +628,7 @@ export default function AdminProductsPage() {
                             }}
                             className={`px-2 py-1 text-xs rounded-md border transition-colors ${
                               isSelected 
-                                ? "bg-blue-100 text-blue-700 border-blue-200" 
+                                ? "bg-gray-100 text-theme-secondary border-theme-primary-border" 
                                 : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
                             }`}
                           >
@@ -646,7 +646,7 @@ export default function AdminProductsPage() {
                    <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-1">Etiqueta Promocional</label>
                       <select
-                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary bg-white"
                         value={formData.badgeText || ""}
                         onChange={(e) => {
                           const val = e.target.value;
@@ -680,7 +680,7 @@ export default function AdminProductsPage() {
                     <button
                       type="button"
                       onClick={() => setFormData((prev) => ({ ...prev, variants: [...prev.variants, { id: "", name: "", sku: "", price: "", stock: "0" }] }))}
-                      className="text-sm text-blue-600 font-medium hover:text-blue-700 flex items-center gap-1 bg-blue-50 px-3 py-1.5 rounded-md"
+                      className="text-sm text-theme-primary font-medium hover:text-theme-secondary flex items-center gap-1 bg-gray-50 px-3 py-1.5 rounded-md"
                     >
                       <Plus className="w-4 h-4" /> Añadir Variante
                     </button>
@@ -741,7 +741,7 @@ export default function AdminProductsPage() {
                   ) : (
                     <div 
                       onClick={() => fileInputRef.current?.click()}
-                      className="w-full max-w-sm border-2 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center text-gray-500 hover:bg-gray-50 hover:border-blue-400 hover:text-blue-500 transition-colors cursor-pointer"
+                      className="w-full max-w-sm border-2 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center text-gray-500 hover:bg-gray-50 hover:border-blue-400 hover:text-theme-primary transition-colors cursor-pointer"
                     >
                       <Upload className="w-8 h-8 mb-2" />
                       <p className="text-sm font-medium">Subir Imagen</p>
@@ -761,7 +761,7 @@ export default function AdminProductsPage() {
                     <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">O usar URL:</span>
                     <input
                       type="url"
-                      className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-shadow"
+                      className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition-shadow"
                       placeholder="https://.../imagen.jpg"
                       value={formData.imageUrl}
                       onChange={(e) => {
@@ -798,7 +798,7 @@ export default function AdminProductsPage() {
                     
                     {/* New Files */}
                     {galleryFiles.map((file, i) => (
-                      <div key={`file-${i}`} className="relative rounded-lg overflow-hidden border-2 border-blue-200 aspect-square group">
+                      <div key={`file-${i}`} className="relative rounded-lg overflow-hidden border-2 border-theme-primary-border aspect-square group">
                         <img src={URL.createObjectURL(file)} alt="New Gallery" className="w-full h-full object-cover opacity-80" />
                         <button
                           type="button"
@@ -812,7 +812,7 @@ export default function AdminProductsPage() {
 
                     <div 
                       onClick={() => galleryInputRef.current?.click()}
-                      className="border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 hover:border-blue-500 hover:text-blue-500 cursor-pointer aspect-square transition-colors"
+                      className="border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-gray-400 hover:bg-gray-50 hover:border-theme-primary hover:text-theme-primary cursor-pointer aspect-square transition-colors"
                     >
                       <Plus className="w-6 h-6 mb-1" />
                       <span className="text-[10px] font-medium uppercase tracking-wider text-center px-1">Añadir</span>
@@ -834,7 +834,7 @@ export default function AdminProductsPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Descripción</label>
                   <textarea
                     rows={3}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-shadow resize-none"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition-shadow resize-none"
                     placeholder="Breve descripción del producto..."
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -845,7 +845,7 @@ export default function AdminProductsPage() {
                   <input
                     type="checkbox"
                     id="activeToggle"
-                    className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                    className="w-4 h-4 text-theme-primary rounded border-gray-300 focus:ring-theme-primary"
                     checked={formData.active}
                     onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
                   />
@@ -869,7 +869,7 @@ export default function AdminProductsPage() {
                 type="submit"
                 form="productForm"
                 disabled={isSubmitting}
-                className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[100px]"
+                className="px-4 py-2 text-sm font-semibold text-theme-primary-text bg-theme-primary rounded-lg hover:bg-theme-secondary transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[100px]"
               >
                 {isSubmitting ? (
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>

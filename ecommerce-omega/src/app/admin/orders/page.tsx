@@ -139,7 +139,7 @@ export default function AdminOrders() {
   const getStatusColor = (status: string) => {
     switch(status) {
       case "pendiente": return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "pagado": return "bg-blue-100 text-blue-800 border-blue-200";
+      case "pagado": return "bg-gray-100 text-theme-secondary border-theme-primary-border";
       case "enviado": return "bg-purple-100 text-purple-800 border-purple-200";
       case "completado": return "bg-green-100 text-green-800 border-green-200";
       default: return "bg-gray-100 text-gray-800 border-gray-200";
@@ -190,7 +190,7 @@ export default function AdminOrders() {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-full">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-theme-primary"></div>
       </div>
     );
   }
@@ -247,8 +247,8 @@ export default function AdminOrders() {
           </div>
         </div>
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
-          <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center shrink-0">
-            <ShoppingCart className="w-6 h-6 text-blue-600" />
+          <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center shrink-0">
+            <ShoppingCart className="w-6 h-6 text-theme-primary" />
           </div>
           <div>
             <p className="text-sm font-medium text-gray-500">Órdenes (Filtro)</p>
@@ -277,7 +277,7 @@ export default function AdminOrders() {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="pl-10 pr-8 py-2 w-full sm:w-40 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none appearance-none bg-white font-medium text-gray-700"
+              className="pl-10 pr-8 py-2 w-full sm:w-40 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-theme-primary outline-none appearance-none bg-white font-medium text-gray-700"
             >
               <option value="todos">Todos los Estados</option>
               <option value="pendiente">Pendiente</option>
@@ -299,7 +299,7 @@ export default function AdminOrders() {
             <select
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              className="pl-10 pr-8 py-2 w-full sm:w-44 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none appearance-none bg-white font-medium text-gray-700"
+              className="pl-10 pr-8 py-2 w-full sm:w-44 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-theme-primary outline-none appearance-none bg-white font-medium text-gray-700"
             >
               <option value="todas">Todas las Fechas</option>
               <option value="hoy">Hoy</option>
@@ -320,7 +320,7 @@ export default function AdminOrders() {
               placeholder="Buscar ID, Cliente, DNI, Ciudad..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-theme-primary outline-none transition-all"
             />
           </div>
         </div>
@@ -389,7 +389,7 @@ export default function AdminOrders() {
                           <div className="flex flex-col items-end gap-1">
                             <button 
                               onClick={() => setExpandedOrderId(isExpanded ? null : order.id)}
-                              className="text-blue-600 hover:text-blue-800 font-medium text-xs flex items-center gap-1"
+                              className="text-theme-primary hover:text-theme-secondary font-medium text-xs flex items-center gap-1"
                             >
                               Detalles
                               {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -455,7 +455,7 @@ export default function AdminOrders() {
                                           href={order.receipt_url}
                                           target="_blank"
                                           rel="noopener noreferrer"
-                                          className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-blue-600 hover:bg-blue-50 transition-colors shadow-sm"
+                                          className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-theme-primary hover:bg-gray-50 transition-colors shadow-sm"
                                         >
                                           Ver comprobante (PDF)
                                         </a>
@@ -495,7 +495,7 @@ export default function AdminOrders() {
                                       {order.items?.map((item: OrderItem, idx: number) => (
                                         <li key={idx} className="flex justify-between items-start py-2 border-b border-gray-50 last:border-0 text-gray-600">
                                           <div className="flex items-start gap-3">
-                                            <span className="font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded text-xs mt-0.5 whitespace-nowrap">{item.quantity}x</span>
+                                            <span className="font-semibold text-theme-secondary bg-gray-50 px-2 py-0.5 rounded text-xs mt-0.5 whitespace-nowrap">{item.quantity}x</span>
                                             <div>
                                               <span className="line-clamp-2 text-gray-800 font-medium">{item.title}</span>
                                               {item.color && <span className="text-xs text-gray-500 block mt-1">Color: {item.color}</span>}
@@ -547,8 +547,8 @@ export default function AdminOrders() {
                                       
                                       {order.reference && (
                                         <div className="mt-4 pt-3 border-t border-gray-100">
-                                          <p className="text-xs font-bold text-blue-800 uppercase tracking-wider mb-1">Referencia Transferencia</p>
-                                          <p className="font-mono bg-blue-50 text-blue-900 p-2 rounded border border-blue-100 text-xs break-all">
+                                          <p className="text-xs font-bold text-theme-secondary uppercase tracking-wider mb-1">Referencia Transferencia</p>
+                                          <p className="font-mono bg-gray-50 text-blue-900 p-2 rounded border border-blue-100 text-xs break-all">
                                             {order.reference}
                                           </p>
                                         </div>

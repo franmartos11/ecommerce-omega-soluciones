@@ -200,7 +200,7 @@ export default function AdminCategoriesPage() {
         
         <button
           onClick={() => handleOpenModal()}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium shadow-sm transition-colors"
+          className="flex items-center gap-2 bg-theme-primary hover:bg-theme-secondary text-white px-4 py-2.5 rounded-lg text-sm font-medium shadow-sm transition-colors"
         >
           <Plus className="w-5 h-5" />
           Nueva Categoría
@@ -214,7 +214,7 @@ export default function AdminCategoriesPage() {
           <input
             type="text"
             placeholder="Buscar por nombre..."
-            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -276,7 +276,7 @@ export default function AdminCategoriesPage() {
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => handleOpenModal(cat)}
-                          className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                          className="p-1.5 text-gray-400 hover:text-theme-primary hover:bg-gray-50 rounded transition-colors"
                           title="Editar"
                         >
                           <Edit2 className="w-4 h-4" />
@@ -323,7 +323,7 @@ export default function AdminCategoriesPage() {
                   <input
                     type="text"
                     required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-shadow"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition-shadow"
                     placeholder="Ej. Gaming"
                     value={formData.nombre}
                     onChange={handleNameChange}
@@ -336,7 +336,7 @@ export default function AdminCategoriesPage() {
                   <input
                     type="text"
                     required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-shadow font-mono"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition-shadow font-mono"
                     placeholder="ej-gaming"
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
@@ -366,7 +366,7 @@ export default function AdminCategoriesPage() {
                   ) : (
                     <div 
                       onClick={() => fileInputRef.current?.click()}
-                      className="w-full border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center text-gray-500 hover:bg-gray-50 hover:border-blue-400 hover:text-blue-500 transition-colors cursor-pointer"
+                      className="w-full border-2 border-dashed border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center text-gray-500 hover:bg-gray-50 hover:border-blue-400 hover:text-theme-primary transition-colors cursor-pointer"
                     >
                       <Upload className="w-6 h-6 mb-2" />
                       <p className="text-sm font-medium">Subir Ícono</p>
@@ -385,7 +385,7 @@ export default function AdminCategoriesPage() {
                     <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">O URL:</span>
                     <input
                       type="url"
-                      className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-shadow"
+                      className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-theme-primary focus:ring-1 focus:ring-theme-primary transition-shadow"
                       placeholder="https://.../icono.png"
                       value={formData.icon_url}
                       onChange={(e) => {
@@ -417,7 +417,7 @@ export default function AdminCategoriesPage() {
                 type="submit"
                 form="categoryForm"
                 disabled={isSubmitting}
-                className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[100px]"
+                className="px-4 py-2 text-sm font-semibold text-theme-primary-text bg-theme-primary rounded-lg hover:bg-theme-secondary transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[100px]"
               >
                 {isSubmitting ? (
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>

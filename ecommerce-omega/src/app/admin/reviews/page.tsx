@@ -94,7 +94,7 @@ export default function AdminReviews() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-            <MessageCircle className="w-6 h-6 text-blue-600" />
+            <MessageCircle className="w-6 h-6 text-theme-primary" />
             Moderación de Reseñas
           </h1>
           <p className="text-sm text-gray-500 mt-1">
@@ -137,7 +137,7 @@ export default function AdminReviews() {
                           <div className="relative w-10 h-10 rounded-md overflow-hidden border border-gray-200">
                             <NextImage src={review.products.image_url} alt={review.products.title} fill className="object-cover" unoptimized />
                           </div>
-                          <Link href={`/ProductoDetailPage/${review.products.id}`} target="_blank" className="font-medium text-blue-600 hover:underline max-w-[200px] truncate block flex items-center gap-1">
+                          <Link href={`/ProductoDetailPage/${review.products.id}`} target="_blank" className="font-medium text-theme-primary hover:underline max-w-[200px] truncate block flex items-center gap-1">
                             {review.products.title}
                             <ExternalLink className="w-3 h-3" />
                           </Link>

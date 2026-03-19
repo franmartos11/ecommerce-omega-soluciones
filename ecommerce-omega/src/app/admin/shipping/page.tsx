@@ -81,7 +81,7 @@ function OrdersToShip() {
 
   const pmLabel = (o: Order) => {
     const pm = (o.paymentMethod || o.payment_method || "").toLowerCase();
-    if (pm === "transfer") return { label: "Transferencia", color: "bg-blue-100 text-blue-800" };
+    if (pm === "transfer") return { label: "Transferencia", color: "bg-gray-100 text-theme-secondary" };
     if (pm.includes("mercado")) return { label: "MercadoPago", color: "bg-sky-100 text-sky-800" };
     return { label: pm || "—", color: "bg-gray-100 text-gray-700" };
   };
@@ -213,7 +213,7 @@ function OrdersToShip() {
                   <div className="flex items-center gap-2 shrink-0">
                     <button
                       onClick={() => setExpandedId(isExpanded ? null : order.id)}
-                      className="text-xs text-blue-600 hover:underline font-medium px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 transition"
+                      className="text-xs text-theme-primary hover:underline font-medium px-3 py-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
                     >
                       {isExpanded ? "Ocultar" : "Ver detalles"}
                     </button>
@@ -247,7 +247,7 @@ function OrdersToShip() {
                           {(order.items || []).map((item, idx) => (
                             <li key={idx} className="flex justify-between text-sm text-gray-700">
                               <span>
-                                <span className="font-semibold text-blue-700">{item.quantity}x</span>{" "}
+                                <span className="font-semibold text-theme-secondary">{item.quantity}x</span>{" "}
                                 {item.title}
                                 {item.color && <span className="text-xs text-gray-400 ml-1">({item.color})</span>}
                               </span>
@@ -292,7 +292,7 @@ function OrdersToShip() {
                           {order.reference && (
                             <div className="mt-2 pt-2 border-t border-gray-100">
                               <span className="text-gray-400 text-xs uppercase tracking-wide block mb-1">Ref. Transferencia</span>
-                              <span className="font-mono text-xs bg-blue-50 text-blue-900 px-2 py-1 rounded border border-blue-100 break-all block">
+                              <span className="font-mono text-xs bg-gray-50 text-blue-900 px-2 py-1 rounded border border-blue-100 break-all block">
                                 {order.reference}
                               </span>
                             </div>
@@ -313,7 +313,7 @@ function OrdersToShip() {
                                   href={order.receipt_url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-xs text-blue-600 font-medium underline"
+                                  className="text-xs text-theme-primary font-medium underline"
                                 >
                                   Ver comprobante
                                 </a>
@@ -485,7 +485,7 @@ export default function ShippingAdminPage() {
               <button
                 onClick={handleSaveAll}
                 disabled={saving}
-                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-700 transition disabled:opacity-50"
+                className="flex items-center gap-2 bg-theme-primary text-theme-primary-text px-4 py-2 rounded-lg font-medium text-sm hover:bg-theme-secondary transition disabled:opacity-50"
               >
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Guardar Cambios
@@ -520,7 +520,7 @@ export default function ShippingAdminPage() {
                             step="0.01"
                             value={price}
                             onChange={(e) => handlePriceChange(province, e.target.value)}
-                            className="w-32 pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm font-medium"
+                            className="w-32 pl-7 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-theme-primary focus:border-theme-primary outline-none transition text-sm font-medium"
                           />
                         </div>
                         <button
@@ -557,7 +557,7 @@ export default function ShippingAdminPage() {
                   placeholder="Ej: Neuquén..."
                   value={newZoneName}
                   onChange={(e) => setNewZoneName(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                  className="w-full border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-2 focus:ring-theme-primary focus:border-theme-primary outline-none transition"
                 />
               </div>
 
@@ -575,7 +575,7 @@ export default function ShippingAdminPage() {
                     placeholder="0.00"
                     value={newZonePrice}
                     onChange={(e) => setNewZonePrice(e.target.value)}
-                    className="w-full border border-gray-300 rounded-md py-2 pl-7 pr-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                    className="w-full border border-gray-300 rounded-md py-2 pl-7 pr-3 text-sm focus:ring-2 focus:ring-theme-primary focus:border-theme-primary outline-none transition"
                   />
                 </div>
               </div>

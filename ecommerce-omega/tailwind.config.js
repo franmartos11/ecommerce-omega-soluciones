@@ -14,6 +14,10 @@ module.exports = {
           text2:   'var(--color-text2)',
           border:  'var(--color-border)',
           border2: 'var(--color-border2)',
+          'theme-primary': 'var(--color-primary-bg)',
+          'theme-secondary': 'var(--color-secondary-bg)',
+          'theme-primary-text': 'var(--color-primary-text)',
+          'theme-secondary-text': 'var(--color-secondary-text)'
         },
       },
     },

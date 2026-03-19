@@ -104,14 +104,14 @@ export default function AdminMarketing() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-            <Ticket className="w-8 h-8 text-blue-600" />
+            <Ticket className="w-8 h-8 text-theme-primary" />
             Marketing y Promociones
           </h1>
           <p className="text-sm text-gray-500 mt-1">Crea cupones de descuento y campañas.</p>
         </div>
         <button
           onClick={() => setIsFormOpen(!isFormOpen)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-blue-700 transition"
+          className="bg-theme-primary text-theme-primary-text px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-theme-secondary transition"
         >
           {isFormOpen ? "Cancelar" : <><Plus className="w-4 h-4" /> Nuevo Cupón</>}
         </button>
@@ -130,7 +130,7 @@ export default function AdminMarketing() {
                 type="text" 
                 value={code} 
                 onChange={(e) => setCode(e.target.value.toUpperCase().replace(/\s/g, ''))}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 uppercase font-bold text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 uppercase font-bold text-gray-900 focus:ring-2 focus:ring-theme-primary outline-none"
                 placeholder="PROMO2026"
               />
             </div>
@@ -140,7 +140,7 @@ export default function AdminMarketing() {
               <select 
                 value={type} 
                 onChange={(e) => setType(e.target.value as "percentage" | "fixed")}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white text-gray-900 focus:ring-2 focus:ring-theme-primary outline-none"
               >
                 <option value="percentage">Porcentaje (%)</option>
                 <option value="fixed">Monto Fijo ($)</option>
@@ -158,7 +158,7 @@ export default function AdminMarketing() {
                 step={type === "percentage" ? "1" : "0.01"}
                 value={value} 
                 onChange={(e) => setValue(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-theme-primary outline-none"
                 placeholder={type === "percentage" ? "Ej: 15" : "Ej: 1500"}
               />
             </div>
@@ -170,7 +170,7 @@ export default function AdminMarketing() {
                 min="1"
                 value={maxUses} 
                 onChange={(e) => setMaxUses(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-theme-primary outline-none"
                 placeholder="Dejar en blanco para usos ilimitados"
               />
             </div>
@@ -181,7 +181,7 @@ export default function AdminMarketing() {
                 type="datetime-local" 
                 value={expiresAt} 
                 onChange={(e) => setExpiresAt(e.target.value)}
-                className="w-full md:w-1/2 border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full md:w-1/2 border border-gray-300 rounded-lg px-3 py-2 text-gray-900 focus:ring-2 focus:ring-theme-primary outline-none"
               />
             </div>
 

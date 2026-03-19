@@ -105,7 +105,7 @@ export default function AdminInventory() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-            <PackageSearch className="w-8 h-8 text-blue-600" />
+            <PackageSearch className="w-8 h-8 text-theme-primary" />
             Control de Inventario
           </h1>
           <p className="text-sm text-gray-500 mt-1">Ajuste rápido de unidades disponibles. Cambiá y guardá.</p>
@@ -120,7 +120,7 @@ export default function AdminInventory() {
           <button
             onClick={handleSaveBulk}
             disabled={pendingChangesCount === 0 || saving}
-            className="w-full sm:w-auto bg-blue-600 text-white px-5 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+            className="w-full sm:w-auto bg-theme-primary text-theme-primary-text px-5 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 hover:bg-theme-secondary transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
           >
             {saving ? <RefreshCcw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             {saving ? "Guardando..." : "Guardar Cambios"}
@@ -135,7 +135,7 @@ export default function AdminInventory() {
           <input
             type="text"
             placeholder="Buscar por nombre o SKU..."
-            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-theme-primary focus:border-transparent transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -171,7 +171,7 @@ export default function AdminInventory() {
                   const isLowStock = currentValue === 0 || (!isModified && item.stock <= 5);
 
                   return (
-                    <tr key={item.id} className={`hover:bg-gray-50 transition-colors ${isModified ? 'bg-blue-50/30' : ''}`}>
+                    <tr key={item.id} className={`hover:bg-gray-50 transition-colors ${isModified ? 'bg-gray-50/30' : ''}`}>
                       <td className="px-6 py-3">
                         <div className="flex items-center gap-3">
                           {item.imageUrl ? (
@@ -198,12 +198,12 @@ export default function AdminInventory() {
                       </td>
                       <td className="px-6 py-3 text-right">
                          <div className="flex items-center justify-end gap-2">
-                           {isModified && <span className="text-[10px] text-blue-600 font-bold uppercase tracking-wider animate-in fade-in slide-in-from-right-2">Modificado</span>}
+                           {isModified && <span className="text-[10px] text-theme-primary font-bold uppercase tracking-wider animate-in fade-in slide-in-from-right-2">Modificado</span>}
                            <input 
                              type="number"
                              min="0"
-                             className={`w-24 px-3 py-1.5 border rounded-lg text-right font-bold text-base outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
-                               isModified ? 'border-blue-400 bg-blue-50/50 text-blue-900' : 'border-gray-300 text-gray-900'
+                             className={`w-24 px-3 py-1.5 border rounded-lg text-right font-bold text-base outline-none focus:ring-2 focus:ring-theme-primary transition-all ${
+                               isModified ? 'border-blue-400 bg-gray-50/50 text-blue-900' : 'border-gray-300 text-gray-900'
                              }`}
                              value={currentValue}
                              onChange={(e) => handleStockChange(item.id, e.target.value)}

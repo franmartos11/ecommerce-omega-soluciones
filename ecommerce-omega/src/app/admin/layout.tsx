@@ -22,7 +22,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-gray-50">
-        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-theme-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -72,7 +72,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               href={link.href}
               onClick={() => setMobileOpen(false)}
               className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${
-                link.active ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                link.active ? "bg-gray-50 text-theme-secondary" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
               }`}
             >
               {link.icon}
@@ -131,7 +131,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Menu className="w-6 h-6" />
           </button>
           <div className="font-bold text-lg">Omega Admin</div>
-          <Link href="/" className="text-sm text-blue-600 font-medium">Volver</Link>
+          <Link href="/" className="text-sm text-theme-primary font-medium">Volver</Link>
         </header>
 
         {/* Page Content */}
