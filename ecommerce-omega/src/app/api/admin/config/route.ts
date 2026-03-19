@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSupabaseAdmin } from "@/app/lib/supabase/server";
+import defaultConfig from "@/ConfigJson/config.json";
 
 export const dynamic = 'force-dynamic';
 
@@ -19,8 +20,11 @@ export async function GET() {
       console.error("[GET /api/admin/config] Supabase error:", error);
     }
     
-    // Fallback if no rows exist yet
-    const json = data?.value || {};
+    // Fallback if no rows exist yet or if empty object
+    let json = data?.value;
+    if (!json || Object.keys(json).length === 0) {
+      json = defaultConfig;
+    }
 
     return NextResponse.json(json, {
       status: 200,
