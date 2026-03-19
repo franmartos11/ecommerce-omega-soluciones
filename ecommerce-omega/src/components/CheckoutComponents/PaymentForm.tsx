@@ -1,28 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { CreditCard, Store, Landmark, ArrowRight, Copy, Check, Tag } from "lucide-react";
+import { CreditCard, Store, Landmark, ArrowRight, Copy, Check, Tag, Upload, X, ImageIcon } from "lucide-react";
+import { supabase } from "@/app/lib/supabase/client";
 
 export type PaymentData = {
   method: "local" | "transfer" | "mercadopago";
   transferReference?: string;
 };
 interface Props {
-  onNext: (method: PaymentData["method"]) => void;
+  onNext: (method: PaymentData["method"], reference?: string, receiptUrl?: string) => void;
+  subtotal: number;
+  shippingCost: number;
 }
 
-interface TransferConfig {
-  discount_enabled?: boolean;
-  discount_type?: "percentage" | "fixed";
-  discount_value?: number;
-  cbu?: string;
-  alias?: string;
-  bank_name?: string;
-  account_holder?: string;
-}
 
-export default function PaymentForm({ onNext }: Props) {
+
+import { useConfig } from "@/app/ConfigProvider/ConfigProvider";
+
+export default function PaymentForm({ onNext, subtotal, shippingCost }: Props) {
   const {
     register,
     handleSubmit,
@@ -33,25 +30,60 @@ export default function PaymentForm({ onNext }: Props) {
 
   const selectedMethod = watch("method");
   const [mounted, setMounted] = useState(false);
-  const [transferConfig, setTransferConfig] = useState<TransferConfig | null>(null);
+  const config = useConfig();
+  const transferConfig = config.payment_config?.transfer || null;
   const [copied, setCopied] = useState<"cbu" | "alias" | null>(null);
+
+  // Receipt image upload state
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
+  const [receiptPreview, setReceiptPreview] = useState<string | null>(null);
+  const [receiptUrl, setReceiptUrl] = useState<string | null>(null);
+  const [uploadingReceipt, setUploadingReceipt] = useState(false);
+  const receiptInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => setMounted(true), []);
 
-  // Load transfer config from site settings
-  useEffect(() => {
-    fetch("/api/admin/config")
-      .then((r) => r.json())
-      .then((cfg) => {
-        if (cfg?.payment_config?.transfer) {
-          setTransferConfig(cfg.payment_config.transfer);
-        }
-      })
-      .catch(() => {});
-  }, []);
+  const onSubmit = async (data: PaymentData) => {
+    let finalReceiptUrl = receiptUrl;
 
-  const onSubmit = (data: PaymentData) => {
-    onNext(data.method);
+    // Upload file if not yet uploaded
+    if (receiptFile && !receiptUrl) {
+      setUploadingReceipt(true);
+      try {
+        const ext = receiptFile.name.split('.').pop();
+        const fileName = `receipt_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+        const { error } = await supabase.storage.from('receipts').upload(fileName, receiptFile);
+        if (error) throw error;
+        const { data: urlData } = supabase.storage.from('receipts').getPublicUrl(fileName);
+        finalReceiptUrl = urlData.publicUrl;
+        setReceiptUrl(finalReceiptUrl);
+      } catch (err) {
+        console.error('Error uploading receipt:', err);
+      } finally {
+        setUploadingReceipt(false);
+      }
+    }
+
+    onNext(data.method, data.transferReference, finalReceiptUrl ?? undefined);
+  };
+
+  const handleReceiptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setReceiptFile(file);
+    setReceiptUrl(null);
+    if (file.type.startsWith('image/')) {
+      setReceiptPreview(URL.createObjectURL(file));
+    } else {
+      setReceiptPreview(null);
+    }
+  };
+
+  const clearReceipt = () => {
+    setReceiptFile(null);
+    setReceiptPreview(null);
+    setReceiptUrl(null);
+    if (receiptInputRef.current) receiptInputRef.current.value = '';
   };
 
   const handleCopy = (text: string, field: "cbu" | "alias") => {
@@ -87,10 +119,18 @@ export default function PaymentForm({ onNext }: Props) {
     transferConfig.discount_value &&
     transferConfig.discount_value > 0;
 
+  const discountVal = transferConfig?.discount_value || 0;
+  
   const discountLabel =
     transferConfig?.discount_type === "percentage"
-      ? `${transferConfig.discount_value}% de descuento`
-      : `$${transferConfig?.discount_value?.toLocaleString("es-AR")} de descuento`;
+      ? `${discountVal}% de descuento`
+      : `$${discountVal.toLocaleString("es-AR")} de descuento`;
+
+  const discountAmount = hasDiscount 
+    ? (transferConfig.discount_type === "percentage" ? subtotal * (discountVal / 100) : discountVal)
+    : 0;
+
+  const totalToPay = Math.max(0, subtotal - discountAmount) + shippingCost;
 
   if (!mounted) return null;
 
@@ -277,6 +317,11 @@ export default function PaymentForm({ onNext }: Props) {
                 Datos para transferir
               </h4>
 
+              <div className="bg-white border-2 border-dashed rounded-lg p-3 text-center mb-2" style={{ borderColor: "var(--color-primary-bg)" }}>
+                <span className="block text-xs text-gray-400 font-medium uppercase tracking-wide mb-1">Monto a transferir</span>
+                <span className="text-2xl font-black" style={{ color: "var(--color-primary-text)" }}>${totalToPay.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+              </div>
+
               <div className="space-y-2 text-sm" style={{ color: "var(--color-secondary-text)" }}>
                 {transferConfig?.bank_name && (
                   <div className="flex justify-between">
@@ -288,7 +333,7 @@ export default function PaymentForm({ onNext }: Props) {
                 )}
                 {transferConfig?.account_holder && (
                   <div className="flex justify-between">
-                    <span className="text-gray-400 font-medium">Titular</span>
+                    <span className="text-gray-400 font-medium">Titular / Razón Social</span>
                     <span className="font-semibold" style={{ color: "var(--color-primary-text)" }}>
                       {transferConfig.account_holder}
                     </span>
@@ -387,13 +432,61 @@ export default function PaymentForm({ onNext }: Props) {
               Ingresá el número de comprobante de tu transferencia para que podamos verificarla rápidamente.
             </p>
           </div>
+
+          {/* Receipt image upload */}
+          <div>
+            <label className="block text-sm font-semibold ml-1 mb-2" style={{ color: "var(--color-secondary-text)" }}>
+              Foto / Captura del comprobante <span className="text-gray-400 font-normal">(opcional)</span>
+            </label>
+
+            {receiptFile ? (
+              <div className="relative border-2 border-dashed rounded-xl p-3 flex items-center gap-3" style={{ borderColor: "var(--color-primary-bg)" }}>
+                {receiptPreview ? (
+                  <img src={receiptPreview} alt="Comprobante" className="h-20 w-20 object-cover rounded-lg border border-gray-200 flex-shrink-0" />
+                ) : (
+                  <div className="h-20 w-20 flex items-center justify-center bg-gray-100 rounded-lg flex-shrink-0">
+                    <ImageIcon className="w-8 h-8 text-gray-400" />
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-700 truncate">{receiptFile.name}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{(receiptFile.size / 1024).toFixed(0)} KB</p>
+                  <p className="text-xs font-semibold mt-1" style={{ color: "var(--color-primary-bg)" }}>✓ Listo para enviar</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={clearReceipt}
+                  className="absolute top-2 right-2 p-1 bg-gray-100 hover:bg-red-100 text-gray-500 hover:text-red-500 rounded-full transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <div
+                onClick={() => receiptInputRef.current?.click()}
+                className="border-2 border-dashed border-gray-200 rounded-xl p-5 flex flex-col items-center justify-center text-gray-400 hover:border-blue-300 hover:bg-gray-50 hover:text-gray-600 cursor-pointer transition-colors"
+              >
+                <Upload className="w-7 h-7 mb-2" />
+                <p className="text-sm font-medium">Adjuntar comprobante</p>
+                <p className="text-xs mt-0.5">JPG, PNG, WEBP o PDF</p>
+              </div>
+            )}
+
+            <input
+              ref={receiptInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,application/pdf"
+              onChange={handleReceiptChange}
+              className="hidden"
+            />
+          </div>
         </div>
       </div>
 
       <div className="pt-4 border-t border-gray-100 mt-6 relative z-10">
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || uploadingReceipt}
           className="cursor-pointer group w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-lg transition-all shadow-md hover:shadow-xl transform hover:-translate-y-1 active:translate-y-0 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
           style={{
             color: "var(--color-tertiary-text, #fff)",
@@ -406,7 +499,7 @@ export default function PaymentForm({ onNext }: Props) {
             ((e.currentTarget as HTMLElement).style.background = "var(--color-primary-bg, var(--bg1))")
           }
         >
-          Ir al resumen
+          {uploadingReceipt ? "Subiendo comprobante..." : "Ir al resumen"}
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </button>
       </div>

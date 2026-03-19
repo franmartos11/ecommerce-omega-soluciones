@@ -35,6 +35,10 @@ export default function AdminProductsPage() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
+  const existingTags = Array.from(
+    new Set(products.flatMap((p) => p.tags || []))
+  ).filter(Boolean).sort();
+
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -595,7 +599,7 @@ export default function AdminProductsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Etiquetas (separadas por coma)</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">Etiquetas</label>
                   <input
                     type="text"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
@@ -603,6 +607,36 @@ export default function AdminProductsPage() {
                     value={formData.tags}
                     onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                   />
+                  {existingTags.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {existingTags.map(tag => {
+                        const currentTags = formData.tags.split(",").map(t => t.trim()).filter(Boolean);
+                        const isSelected = currentTags.includes(tag);
+                        return (
+                          <button
+                            key={tag}
+                            type="button"
+                            onClick={() => {
+                              if (isSelected) {
+                                setFormData({ ...formData, tags: currentTags.filter(t => t !== tag).join(", ") });
+                              } else {
+                                const newTags = currentTags.length > 0 ? [...currentTags, tag] : [tag];
+                                setFormData({ ...formData, tags: newTags.join(", ") });
+                              }
+                            }}
+                            className={`px-2 py-1 text-xs rounded-md border transition-colors ${
+                              isSelected 
+                                ? "bg-blue-100 text-blue-700 border-blue-200" 
+                                : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
+                            }`}
+                          >
+                            {tag} {isSelected && "×"}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                  <p className="text-xs text-gray-400 mt-1.5">Escribe nuevas separadas por coma, o haz clic en las existentes para añadir/quitar.</p>
                 </div>
 
                 {/* Row 4: Badge Overrides */}

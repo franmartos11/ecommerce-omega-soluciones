@@ -15,6 +15,7 @@ import {
   ChevronDown,
   Heart,
   Search,
+  Settings,
 } from "lucide-react";
 import SearchBar from "./SereachBar";
 import { toast } from "react-hot-toast";
@@ -26,7 +27,7 @@ import { useAuth } from "@/app/context/AuthContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [cartCount, setCartCount] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -191,6 +192,15 @@ export default function Navbar() {
                     className="absolute top-full right-0 mt-2 border rounded shadow-md z-[9999] w-44 py-2"
                     style={{ background: "var(--bgweb)" }}
                   >
+                    {isAdmin && (
+                      <Link
+                        href="/admin"
+                        className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 font-bold"
+                        style={{ color: "var(--color-primary-text)" }}
+                      >
+                        Panel de Control
+                      </Link>
+                    )}
                     <Link
                       href="/OrdersPanel"
                       className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
@@ -305,6 +315,17 @@ export default function Navbar() {
               </Link>
             ) : (
               <div className="grid gap-2">
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    className="flex items-center gap-2 text-sm font-bold"
+                    style={{ color: "var(--color-primary-text)" }}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <Settings className="w-5 h-5" />
+                    <span>Panel de Control</span>
+                  </Link>
+                )}
                 <Link
                   href="/OrdersPanel"
                   className="flex items-center gap-2 text-sm font-medium"

@@ -9,8 +9,6 @@
  ✓ Compiled successfully
    Linting and checking validity of types ...
 
-Failed to compile.
-
 ./src/app/Cart/page.tsx
 134:27  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
 
@@ -58,9 +56,6 @@ Failed to compile.
 ./src/components/CategoryFilter/CategoryFilter.tsx
 33:13  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
 
-./src/components/CheckoutComponents/PaymentForm.tsx
-17:11  Error: 'TransferConfig' is defined but never used.  @typescript-eslint/no-unused-vars
-
 ./src/components/ComponentsSobreNosotrosOmega/Contact/ContactDefaultWeb.tsx
 32:9  Warning: The 'contactanos' conditional could make the dependencies of useMemo Hook (at line 95) change on every render. To fix this, wrap the initialization of 'contactanos' in its own useMemo() Hook.  react-hooks/exhaustive-deps
 119:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
@@ -106,3 +101,86 @@ Failed to compile.
 161:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
 
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+(node:55030) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+   Generating static pages (0/6) ...
+   Generating static pages (1/6) 
+   Generating static pages (2/6) 
+   Generating static pages (4/6) 
+ ✓ Generating static pages (6/6)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ƒ /                                    19.1 kB         249 kB
+├ ƒ /_not-found                            225 B         101 kB
+├ ƒ /admin                                112 kB         228 kB
+├ ƒ /admin/categorias                    4.69 kB         166 kB
+├ ƒ /admin/inventory                     3.31 kB         110 kB
+├ ƒ /admin/marketing                     3.86 kB         105 kB
+├ ƒ /admin/orders                        7.31 kB         108 kB
+├ ƒ /admin/productos                     7.31 kB         163 kB
+├ ƒ /admin/reviews                       2.77 kB         112 kB
+├ ƒ /admin/settings                      11.8 kB         173 kB
+├ ƒ /admin/shipping                      3.59 kB         107 kB
+├ ƒ /api/admin/categories                  225 B         101 kB
+├ ƒ /api/admin/config                      225 B         101 kB
+├ ƒ /api/admin/coupons                     225 B         101 kB
+├ ƒ /api/admin/inventory                   225 B         101 kB
+├ ƒ /api/admin/orders                      225 B         101 kB
+├ ƒ /api/admin/products                    225 B         101 kB
+├ ƒ /api/admin/reviews                     225 B         101 kB
+├ ƒ /api/admin/settings                    225 B         101 kB
+├ ƒ /api/admin/shipping                    225 B         101 kB
+├ ƒ /api/auth/recovery/start               225 B         101 kB
+├ ƒ /api/auth/recovery/verify              225 B         101 kB
+├ ƒ /api/categories                        225 B         101 kB
+├ ƒ /api/checkout/validate-coupon          225 B         101 kB
+├ ƒ /api/email/send-order-confirmation     225 B         101 kB
+├ ƒ /api/orders                            225 B         101 kB
+├ ƒ /api/orders/[id]                       225 B         101 kB
+├ ƒ /api/payments/confirm                  225 B         101 kB
+├ ƒ /api/payments/mercadopago              225 B         101 kB
+├ ƒ /api/products                          225 B         101 kB
+├ ƒ /api/products/[id]                     225 B         101 kB
+├ ƒ /api/products/[id]/reviews             225 B         101 kB
+├ ƒ /api/settings                          225 B         101 kB
+├ ƒ /api/shipping                          225 B         101 kB
+├ ƒ /api/theme                             225 B         101 kB
+├ ƒ /api/user/orders                       225 B         101 kB
+├ ƒ /auth/callback                         225 B         101 kB
+├ ƒ /CambioContrasena                    1.79 kB         161 kB
+├ ƒ /Cart                                19.5 kB         246 kB
+├ ƒ /checkout/success/[id]               3.92 kB         111 kB
+├ ƒ /Contacto                            3.63 kB         230 kB
+├ ƒ /Contrasena                          1.67 kB         157 kB
+├ ƒ /DefaultWeb                          46.1 kB         279 kB
+├ ƒ /DefaultWeb/FeatureSection             225 B         101 kB
+├ ƒ /LogIn                               4.35 kB         205 kB
+├ ƒ /Nosotros                            9.52 kB         236 kB
+├ ƒ /OrdersPanel                         7.65 kB         234 kB
+├ ƒ /payment-failure                     1.76 kB         228 kB
+├ ƒ /payment-pending                     1.76 kB         228 kB
+├ ƒ /payment-success                     2.13 kB         229 kB
+├ ƒ /politica-envios                     3.75 kB         230 kB
+├ ƒ /privacidad                          3.57 kB         230 kB
+├ ƒ /ProductoDetailPage/[id]             6.26 kB         236 kB
+├ ƒ /Registro                            4.64 kB         205 kB
+├ ƒ /resetpassword                       1.02 kB         102 kB
+├ ○ /robots.txt                            225 B         101 kB
+├ ƒ /sitemap.xml                           225 B         101 kB
+├ ƒ /SobreNosotros                       15.9 kB         248 kB
+├ ƒ /terminos                             3.6 kB         230 kB
+└ ƒ /wishlist                            3.12 kB         230 kB
++ First Load JS shared by all             101 kB
+  ├ chunks/1684-8939b891262b5368.js      45.6 kB
+  ├ chunks/4bd1b696-97605e12224f783a.js  53.3 kB
+  └ other shared chunks (total)          1.92 kB
+
+
+ƒ Middleware                             79.8 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

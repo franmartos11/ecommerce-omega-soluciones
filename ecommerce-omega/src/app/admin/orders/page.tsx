@@ -19,6 +19,7 @@ type Order = {
   paymentMethod?: string;
   payment_method?: string;
   reference?: string;
+  receipt_url?: string;
   shipping?: {
     firstName?: string;
     lastName?: string;
@@ -432,6 +433,33 @@ export default function AdminOrders() {
                                       {order.reference || "No hay referencia"}
                                     </p>
                                   </div>
+
+                                  {/* Receipt image */}
+                                  {order.receipt_url && (
+                                    <div className="mt-3">
+                                      <p className={`text-sm mb-2 font-medium ${order.status === "pendiente" ? "text-amber-800" : "text-gray-600"}`}>
+                                        Comprobante adjunto:
+                                      </p>
+                                      {order.receipt_url.match(/\.(jpg|jpeg|png|webp|gif)$/i) || order.receipt_url.includes('supabase') ? (
+                                        <a href={order.receipt_url} target="_blank" rel="noopener noreferrer">
+                                          <img
+                                            src={order.receipt_url}
+                                            alt="Comprobante de transferencia"
+                                            className="max-h-48 rounded-xl border-2 border-white shadow-md object-contain bg-white cursor-pointer hover:opacity-90 transition-opacity"
+                                          />
+                                        </a>
+                                      ) : (
+                                        <a
+                                          href={order.receipt_url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-blue-600 hover:bg-blue-50 transition-colors shadow-sm"
+                                        >
+                                          Ver comprobante (PDF)
+                                        </a>
+                                      )}
+                                    </div>
+                                  )}
 
                                   {/* Actions */}
                                   {order.status === "pendiente" && (

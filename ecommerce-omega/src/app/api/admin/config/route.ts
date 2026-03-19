@@ -32,9 +32,9 @@ export async function GET() {
 }
 
 /**
- * POST - Receives a full JSON payload and overwrites the config.json file.
+ * PUT - Receives a full JSON payload, overwrites the config.json file, and returns it.
  */
-export async function POST(request: Request) {
+export async function PUT(request: Request) {
   try {
     const body = await request.json();
 
@@ -55,13 +55,18 @@ export async function POST(request: Request) {
     // Overwrite the file synchronously to ensure it completes before sending the response
     fs.writeFileSync(CONFIG_PATH, jsonString, "utf-8");
 
-    // Tell Next.js we successfully saved it
-    return NextResponse.json({ success: true, message: "Configuration updated successfully." });
+    // Return the updated config so the frontend can set it in state
+    return NextResponse.json(body, {
+      status: 200,
+      headers: { "Cache-Control": "no-store, max-age=0" }
+    });
   } catch (error) {
-    console.error("[POST /api/admin/config] Error writing config file:", error);
+    console.error("[PUT /api/admin/config] Error writing config file:", error);
     return NextResponse.json(
       { error: "Failed to save the configuration." },
       { status: 500 }
     );
   }
 }
+
+export const POST = PUT;

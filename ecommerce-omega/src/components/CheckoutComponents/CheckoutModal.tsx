@@ -28,6 +28,8 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
   const [paymentMethod, setPaymentMethod] = useState<
     "mercadopago" | "local" | "transfer"
   >("mercadopago");
+  const [transferReference, setTransferReference] = useState<string | undefined>();
+  const [receiptUrl, setReceiptUrl] = useState<string | undefined>();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [provinceRates, setProvinceRates] = useState<Record<string, number>>({});
 
@@ -48,7 +50,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
   const fetchRates = async () => {
     try {
-      const res = await fetch("/api/admin/shipping");
+      const res = await fetch("/api/shipping");
       if (res.ok) {
         const rates = await res.json();
         setProvinceRates(rates);
@@ -63,8 +65,10 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
     setStep(2);
   };
 
-  const handlePayment = (method: "mercadopago" | "local" | "transfer") => {
+  const handlePayment = (method: "mercadopago" | "local" | "transfer", reference?: string, receiptUrl?: string) => {
     setPaymentMethod(method);
+    setTransferReference(reference);
+    setReceiptUrl(receiptUrl);
     setStep(3);
   };
 
@@ -91,7 +95,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
       const orderRes = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ shippingData, paymentMethod, cartItems, userEmail, coupon: couponData, shippingCost }),
+        body: JSON.stringify({ shippingData, paymentMethod, reference: transferReference, receiptUrl, cartItems, userEmail, coupon: couponData, shippingCost }),
       });
 
       if (!orderRes.ok) {
@@ -282,7 +286,17 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
           <div className="pb-4">
             {step === 1 && <ShippingForm onNext={handleShipping} provinceRates={provinceRates} />}
-            {step === 2 && <PaymentForm onNext={handlePayment} />}
+            {step === 2 && (
+              <PaymentForm 
+                onNext={handlePayment} 
+                subtotal={cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)}
+                shippingCost={
+                  shippingData?.deliveryMethod === "shipping" && shippingData.province
+                    ? provinceRates[shippingData.province] || 0
+                    : 0
+                }
+              />
+            )}
             {step === 3 && shippingData && (
               <ReviewOrder
                 shipping={shippingData}

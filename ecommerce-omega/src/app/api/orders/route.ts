@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { NextResponse } from "next/server";
-import { getSupabase } from "@/app/lib/supabase/server";
+import { getSupabase, getSupabaseAdmin } from "@/app/lib/supabase/server";
 import fs from "fs";
 import path from "path";
 
@@ -59,7 +59,7 @@ function getTransferDiscount(subtotal: number): number {
 
 export async function POST(req: Request) {
   try {
-    const supabase = getSupabase();
+    const supabase = getSupabaseAdmin(); // Revert to admin client to bypass RLS for inserting orders
     const body = await req.json();
 
     if (!body || !body.cartItems || body.cartItems.length === 0) {
@@ -165,15 +165,34 @@ export async function POST(req: Request) {
       shipping: body.shippingData,
       user_email: body.shippingData?.email || "",
       reference: body.reference || null,
+      receipt_url: body.receiptUrl || null,
       updated_at: new Date().toISOString(),
     };
 
     // Guardar en Supabase -> tabla "orders"
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from("orders")
       .insert([orderData])
       .select()
       .single();
+
+    // If the insert failed because receipt_url column doesn't exist yet (migration pending),
+    // retry without it so the order still saves.
+    if (error && (
+      error.code === "42703" ||
+      error.code === "PGRST204" ||
+      (error.message && (error.message.includes("receipt_url") || error.message.includes("column")))
+    )) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { receipt_url: _r, ...orderDataWithoutReceipt } = orderData as typeof orderData & { receipt_url: string | null };
+      const retry = await supabase
+        .from("orders")
+        .insert([orderDataWithoutReceipt])
+        .select()
+        .single();
+      data = retry.data;
+      error = retry.error;
+    }
 
     if (error) {
       console.error("[POST /api/orders] Error insertando en Supabase:", error);
@@ -184,7 +203,7 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error("[POST /api/orders] Error procesando la orden:", error);
     return NextResponse.json(
-      { error: "Ha ocurrido un error al procesar la orden." },
+      { error: "Ha ocurrido un error al procesar la orden.", details: error?.message || String(error) },
       { status: 500 }
     );
   }
