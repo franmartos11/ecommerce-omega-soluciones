@@ -1,8 +1,8 @@
 // src/lib/config.server.ts
 import "server-only";
 import { Config, BannerItem } from "./config.types";
-// ⬇️ IMPORT ESTÁTICO del JSON dentro de src/
-import rawConfig from "@/ConfigJson/config.json"; // <- poné el JSON en src/config/config.json
+import rawConfig from "@/ConfigJson/config.json";
+import { getSupabaseAdmin } from "@/app/lib/supabase/server";
 
 const DEFAULT_CONFIG: Config = {
   version: "0.0.0",
@@ -74,7 +74,6 @@ export function normalizeConfig(input: Config): Config {
   return cfg;
 }
 
-import { getSupabaseAdmin } from "@/app/lib/supabase/server";
 
 /**
  * Devuelve el config. Prioriza:
