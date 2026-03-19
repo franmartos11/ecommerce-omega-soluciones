@@ -144,33 +144,38 @@ export default function AdminSettingsPage() {
         </div>
       )}
 
-      {/* Tabs Menu */}
-      <div className="flex overflow-x-auto border-b border-gray-200 mb-8 scrollbar-hide">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => {
-              if (activeTab === "advanced" && !jsonError) {
-                 try { setConfig(JSON.parse(rawJson)); } catch {} 
-              }
-              if (tab.id === "advanced") {
-                 setRawJson(JSON.stringify(config, null, 2));
-              }
-              setActiveTab(tab.id);
-            }}
-            className={`whitespace-nowrap py-3 px-5 text-sm font-medium border-b-2 transition-colors duration-200 ${
-              activeTab === tab.id
-                ? "border-blue-600 text-blue-600"
-                : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+      {/* Layout Wrapper */}
+      <div className="flex flex-col md:flex-row gap-8">
+        
+        {/* Sidebar Menu */}
+        <aside className="w-full md:w-64 shrink-0 md:sticky md:top-8 md:self-start">
+          <nav className="flex md:flex-col overflow-x-auto md:overflow-visible pb-2 md:pb-0 gap-1 scrollbar-hide border-b md:border-b-0 border-gray-200 mb-6 md:mb-0">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  if (activeTab === "advanced" && !jsonError) {
+                     try { setConfig(JSON.parse(rawJson)); } catch {} 
+                  }
+                  if (tab.id === "advanced") {
+                     setRawJson(JSON.stringify(config, null, 2));
+                  }
+                  setActiveTab(tab.id);
+                }}
+                className={`whitespace-nowrap px-3 py-2 rounded-md text-sm font-medium flex items-center transition-colors ${
+                  activeTab === tab.id
+                    ? "bg-blue-50 text-blue-700"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </nav>
+        </aside>
 
-      {/* Tab Contents */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        {/* Tab Contents */}
+        <div className="flex-1 min-w-0 bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8">
         
         {/* --- GENERAL TAB --- */}
         {activeTab === "general" && (
@@ -533,6 +538,7 @@ export default function AdminSettingsPage() {
             />
           </div>
         )}
+      </div>
       </div>
     </div>
   );
