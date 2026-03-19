@@ -110,7 +110,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error("[GET /api/products] Error fetching products:", error);
     return NextResponse.json(
-      { error: "Error al obtener los productos." },
+      { error: "Error al obtener los productos.", details: error instanceof Error ? error.message : String(error), env_url: !!process.env.NEXT_PUBLIC_SUPABASE_URL, env_key: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY },
       { status: 500 }
     );
   }
