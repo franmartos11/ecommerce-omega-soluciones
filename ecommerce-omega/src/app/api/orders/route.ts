@@ -41,12 +41,12 @@ function normalizeCartItem(item: any) {
 }
 
 // Read transfer discount from site config (server-side only, can't be tampered)
-function getTransferDiscount(subtotal: number): number {
+import { getConfig } from "@/lib/config.server";
+
+async function getTransferDiscount(subtotal: number): Promise<number> {
   try {
-    const configPath = path.join(process.cwd(), "src/ConfigJson/config.json");
-    const raw = fs.readFileSync(configPath, "utf-8");
-    const cfg = JSON.parse(raw);
-    const transfer = cfg?.payment_config?.transfer;
+    const cfg = await getConfig();
+    const transfer = (cfg as any)?.payment_config?.transfer;
     if (!transfer?.discount_enabled || !transfer.discount_value) return 0;
     if (transfer.discount_type === "percentage") {
       return subtotal * (transfer.discount_value / 100);
@@ -147,7 +147,7 @@ export async function POST(req: Request) {
     // Apply transfer discount from site config (server-side, tamper-proof)
     let transferDiscountAmount = 0;
     if (body.paymentMethod === "transfer") {
-      transferDiscountAmount = getTransferDiscount(subtotal);
+      transferDiscountAmount = await getTransferDiscount(subtotal);
       if (transferDiscountAmount > 0 && body.shippingData) {
         body.shippingData.transfer_discount = transferDiscountAmount;
       }

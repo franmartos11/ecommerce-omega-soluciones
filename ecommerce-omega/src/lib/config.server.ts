@@ -74,18 +74,42 @@ export function normalizeConfig(input: Config): Config {
   return cfg;
 }
 
+import { getSupabaseAdmin } from "@/app/lib/supabase/server";
+
 /**
  * Devuelve el config. Prioriza:
- * 1) CONFIG_URL (remote override opcional)
- * 2) Import estático empaquetado en build (src/config/config.json)
- * 3) DEFAULT_CONFIG (fallback)
+ * 1) DB Supabase tabla `site_config`
+ * 2) CONFIG_URL (remote override opcional)
+ * 3) Import estático empaquetado en build (src/config/config.json)
+ * 4) DEFAULT_CONFIG (fallback)
  */
 export async function getConfig(): Promise<Config> {
-  // 1) Remoto por ENV (si querés sobreescribir sin redeploy)
+  // 1) Intentamos leer desde la base de datos (Supabase) via Admin (para evitar RLS)
+  try {
+    const supabase = getSupabaseAdmin();
+    // Use maybeSingle to not error if the row doesn't exist
+    const { data } = await supabase
+      .from("site_config")
+      .select("value")
+      .eq("key", "main")
+      .maybeSingle();
+      
+    if (data && data.value && Object.keys(data.value).length > 0) {
+      return normalizeConfig(data.value as Config);
+    }
+  } catch (e) {
+    if ((e as Error).message?.includes("SUPABASE_SERVICE_ROLE_KEY")) {
+      console.warn("[config] SUPABASE_SERVICE_ROLE_KEY no está configurada, pasando al estático...");
+    } else {
+      console.warn("[config] Error usando Supabase para config:", e);
+    }
+  }
+
+  // 2) Remoto por ENV (si querés sobreescribir sin redeploy)
   const remote = process.env.CONFIG_URL;
   if (remote) {
     try {
-      const res = await fetch(remote, { cache: "no-store" });
+      const res = await fetch(remote, { cache: "no-store", next: { revalidate: 0 } });
       if (res.ok) {
         const cfg = (await res.json()) as Config;
         return normalizeConfig(cfg);
@@ -96,7 +120,7 @@ export async function getConfig(): Promise<Config> {
     }
   }
 
-  // 2) Import estático (el más robusto en Vercel)
+  // 3) Import estático (el más robusto en Vercel si la DB falla)
   try {
     const cfg = rawConfig as Config;
     return normalizeConfig(cfg);
@@ -104,6 +128,6 @@ export async function getConfig(): Promise<Config> {
     console.warn("[config] Error usando import estático, usando DEFAULT_CONFIG:", e);
   }
 
-  // 3) Fallback
+  // 4) Fallback
   return DEFAULT_CONFIG;
 }
