@@ -1,6 +1,7 @@
 'use client'
 import { FC, useState, useMemo } from "react";
 import ProductCard, { ProductCardProps } from "../ProductCard/ProductCard";
+import { ProductGridSkeleton } from "../Skeletons/ProductSkeleton";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -15,11 +16,12 @@ export interface Product extends ProductCardProps {
 
 interface ProductCardGridProps {
   products: Product[];
+  loading?: boolean;
 }
 
 const ITEMS_PER_PAGE = 16;
 
-const ProductCardGrid: FC<ProductCardGridProps> = ({ products }) => {
+const ProductCardGrid: FC<ProductCardGridProps> = ({ products, loading = false }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(products.length / ITEMS_PER_PAGE);
@@ -46,19 +48,28 @@ const ProductCardGrid: FC<ProductCardGridProps> = ({ products }) => {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
-        {visibleProducts.map((product) => (
-          <motion.div
-            key={product.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="flex w-full h-full"
-          >
-            <ProductCard {...product} />
-          </motion.div>
-        ))}
-      </div>
+      {loading ? (
+        <ProductGridSkeleton count={8} />
+      ) : products.length === 0 ? (
+        <div className="flex flex-col items-center justify-center p-12 text-center text-gray-500">
+          <p className="text-lg font-medium">No se encontraron productos</p>
+          <p className="text-sm">Intentá con otros filtros o términos de búsqueda</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+          {visibleProducts.map((product) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="flex w-full h-full"
+            >
+              <ProductCard {...product} />
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       {/* Pagination */}
       {totalPages > 1 && (

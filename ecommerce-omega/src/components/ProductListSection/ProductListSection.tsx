@@ -35,11 +35,13 @@ interface ProductListSectionProps {
   title?: string;
   products: Product[];
   showFilter?: boolean;
+  loading?: boolean;
 }
 
 const ProductListSection: React.FC<ProductListSectionProps> = ({
   products,
   showFilter = true,
+  loading = false,
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -260,7 +262,7 @@ const ProductListSection: React.FC<ProductListSectionProps> = ({
 
         <main className="flex-1 min-w-0">
           <CarouselBanner />
-          <ProductCardGrid products={productosFiltrados} />
+          <ProductCardGrid products={productosFiltrados} loading={loading} />
         </main>
       </div>
     </section>
